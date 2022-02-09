@@ -1,5 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import appData from '../DataSource/appData';
+import { UrlHomeRoute } from '../Services/UrlService';
 
 const MiddleHeader = () => {
     const getLogo=appData.MiddleHeader;
@@ -7,9 +9,9 @@ const MiddleHeader = () => {
     <div class="header-middle-content mt-5">
     <div class="header-m-flex d-flexx">
         <div class="logo">
-            <a href="index.html">
+            <Link to={UrlHomeRoute()}>
                 <img src={getLogo[0].logo} alt="logo" />
-            </a>
+            </Link>
         </div>
         <div class="search-box">
             <form>

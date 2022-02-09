@@ -14,7 +14,7 @@ const Banner = () => {
     pauseOnHover:false
   }
   return (
-    <section class="banner-area" id="common-pading-page">
+    <section class="banner-area" >
       <Slider options={options} data={getSlider} Template={BannerTemplate} />
  </section>
   );
