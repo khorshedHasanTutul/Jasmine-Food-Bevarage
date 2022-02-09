@@ -246,7 +246,7 @@ var appData={
     categoryProducts: [
         {
           Id: "8edcd73d-f733-4552-a870-0002a314f1edc",
-          Nm: "Cumin powder",
+          Nm: "Cumin",
           GN: "LEVOTHYROXINE SODIUM",
           St: "10g",
           Ct: "Tab",
@@ -268,7 +268,7 @@ var appData={
         },
         {
           Id: "7486379c-bcbb-417f-9907-000d13ab55ccc",
-          Nm: "CISPLATIN HEXAL ",
+          Nm: "CISPLATIN ",
           GN: "DURCHSTECHFLASCHE IM ONCOSAFE ",
           St: "10 mg",
           Ct: "Injection",
@@ -290,7 +290,7 @@ var appData={
         },
         {
           Id: "14496621-fa26-416e-9e62-000f7aae20fdc",
-          Nm: "ACTIKID MAGIC BEANS",
+          Nm: "ACTIKID ",
           GN: "VITAMIN C",
           St: ".",
           Ct: "Tab",
@@ -356,7 +356,7 @@ var appData={
         },
         {
           Id: "02defa41-158b-4d2d-90bd-0024c0d8b226c",
-          Nm: "HIMALAYA ANTI-WRINKLE",
+          Nm: "HIMALAYA ",
           GN: "BEAUTY CREAM",
           St: "50 GM",
           Ct: "CREAM (TOILETIES)",
@@ -400,7 +400,7 @@ var appData={
         },
         {
           Id: "bfad512d-3cb1-4f67-b65c-0028485da9dfc",
-          Nm: "ONRIVA PLUS BEXICAP",
+          Nm: "ONRIVA ",
           GN: "Glycopyrronium,Glicopironio",
           St: "50 GM",
           Ct: "Cap",
@@ -444,7 +444,7 @@ var appData={
         },
         {
           Id: "7c159a2d-ed4a-483f-96a9-003111c84f06c",
-          Nm: "IGLOO STRAWBERRY CHEESECAKE",
+          Nm: "IGLOO ",
           GN: "ICE CREAM",
           St: ".",
           Ct: "Toiletries",
@@ -467,7 +467,7 @@ var appData={
         {
           Id: "8edcd73d-f733-4552-a870-0002a314f1ed",
           Nm: "ELTROXIN",
-          GN: "LEVOTHYROXINE SODIUM",
+          GN: "LEVOTHYROXINE",
           St: "50 MCG",
           Ct: "Tab",
           Sp: "GSK BANGLADESH LTD",
@@ -488,7 +488,7 @@ var appData={
         },
         {
           Id: "7486379c-bcbb-417f-9907-000d13ab55cc",
-          Nm: "CISPLATIN HEXAL ",
+          Nm: "CISPLATIN ",
           GN: "DURCHSTECHFLASCHE IM ONCOSAFE ",
           St: "10 mg",
           Ct: "Injection",
@@ -510,7 +510,7 @@ var appData={
         },
         {
           Id: "14496621-fa26-416e-9e62-000f7aae20fd",
-          Nm: "ACTIKID MAGIC BEANS",
+          Nm: "ACTIKID ",
           GN: "VITAMIN C",
           St: ".",
           Ct: "Tab",
@@ -576,7 +576,7 @@ var appData={
         },
         {
           Id: "02defa41-158b-4d2d-90bd-0024c0d8b226",
-          Nm: "beauty Cream",
+          Nm: "beauty",
           GN: "BEAUTY CREAM",
           St: "50 GM",
           Ct: "CREAM (TOILETIES)",
@@ -620,7 +620,7 @@ var appData={
         },
         {
           Id: "bfad512d-3cb1-4f67-b65c-0028485da9df",
-          Nm: "ONRIVA PLUS BEXICAP",
+          Nm: "ONRIVA BEXICAP",
           GN: "Glycopyrronium,Glicopironio",
           St: "50 GM",
           Ct: "Cap",
@@ -664,7 +664,7 @@ var appData={
         },
         {
           Id: "7c159a2d-ed4a-483f-96a9-003111c84f06",
-          Nm: "IGLOO STRAWBERRY CHEESECAKE",
+          Nm: "IGLOO ",
           GN: "ICE CREAM",
           St: ".",
           Ct: "Toiletries",
