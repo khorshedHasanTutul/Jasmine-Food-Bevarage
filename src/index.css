@@ -706,6 +706,9 @@ p {
 /************ product  Area*************/
 /************************************/
 .product-top-area{
+  /* edited by tutul start  */
+  cursor: pointer;
+  /* end  */
   position: relative;
 }
 
@@ -1525,6 +1528,9 @@ margin-top: 35px;
  color: #fff;
    position: relative;
    transition: 0.6s;
+   /* edited by tutul start  */
+   cursor: pointer;
+   /* end  */
 }
 
 .footer-widget-single h2 {
