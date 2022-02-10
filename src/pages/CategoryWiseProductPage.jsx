@@ -1,10 +1,10 @@
 import React from 'react';
-import CategoryWiseProductHeader from '../components/CategoryWiseProduct/CategoryWiseProductHeader';
+import CategoryWiseProductParent from '../components/CategoryWiseProduct/CategoryWiseProductParent';
 
-const CategoryWiseProductPageParent = () => {
+const CategoryWiseProductPage = () => {
   return (
-      <CategoryWiseProductHeader />
+      <CategoryWiseProductParent />
   );
 };
 
-export default CategoryWiseProductPageParent;
+export default CategoryWiseProductPage;

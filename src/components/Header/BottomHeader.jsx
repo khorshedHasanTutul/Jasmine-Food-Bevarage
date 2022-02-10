@@ -1,5 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import appData from '../DataSource/appData';
+import { urlCategoryRoute, urlSubCategoryRoute } from '../Services/UrlService';
 import BottomLinks from './BottomLinks/BottomLinks';
 
 const BottomHeader = () => {
@@ -22,13 +24,13 @@ const BottomHeader = () => {
                      getBottomHeaderItems[1].dropDownCategoryItem.map((item,index)=>(
                         <li>
                         <div class="inner-flex d-flex al-center js-center">
-                            <a href="categories-spices.html">{item.categoryName} </a>
+                            <Link to={urlCategoryRoute()+item.categoryId}>{item.categoryName} </Link>
                             <i class="fa fa-angle-right sub-menu-arrow-right" aria-hidden="true"></i>
                         </div>
                     <ul class="child-dropdown child-dropdown-inner">
                         {
                             item.subCategory.map(item2=>(
-                                <li><a href>{item2.subCategoryName}</a></li>
+                                <li><Link to={urlSubCategoryRoute()+item.categoryId+'/'+item2.subCategoryId}>{item2.subCategoryName}</Link></li>
                             ))
                         }
                     </ul>

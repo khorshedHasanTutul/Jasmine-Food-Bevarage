@@ -32,7 +32,10 @@ const CategoryProductByHome = () => {
           1200: {
               perPage: 5,
           }
-    }
+    },
+    autoScroll: {
+        speed: 1,
+      }
     }
     const getCategory=appData.BottomHeader;
     const findOnlyVisibleProduct=getCategory[1].dropDownCategoryItem.filter(item=>item.visible===true);
