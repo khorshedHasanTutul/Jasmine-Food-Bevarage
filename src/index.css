@@ -950,7 +950,9 @@ p {
 }
 
 .cart-box-inner-view {
-  display: none;
+  /* edited by tutul  start*/
+  /* display: none; */
+  /* end  */
   max-width: 408px;
 }
 .no_margin {
@@ -2331,7 +2333,9 @@ textarea:focus{
 }
 
  .tabcontent {
-   display: none;
+   /* edited by tutul start   */
+   /* display: none; */
+   /* end  */
    padding: 2rem;
    animation: fadeEffect 1s;
  }

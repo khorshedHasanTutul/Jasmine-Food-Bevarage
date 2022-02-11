@@ -685,6 +685,14 @@ var appData={
           offer_image:"/contents/assets/images/product/sp1.jpg"
         }
       ],
+      Footer:[
+          {
+              Address:"Jasmine Food & Beverage 37/B Dilu Road,New Eskaton, Dhaka",
+              Mobile:"880258155933",
+              Email:"info@jasmin.com",
+              Image:"/contents/assets/images/logo-01.png"
+          }
+      ]
 
 }
 export default appData;

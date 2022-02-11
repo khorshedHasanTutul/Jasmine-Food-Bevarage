@@ -1,6 +1,36 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import Slider from '../../utilities/slider/Slider'
+import appData from '../DataSource/appData'
+import ProDetailsSliderSingleItem from './ProDetailsSliderSingleItem'
+import ProductDescription from './ProductDescription'
+import ProductReview from './ProductReview'
 
 const ProductDetailsBody = () => {
+    const ref = useRef(null)
+    const [isActive, setisActive] = useState(false)
+    const toggleHandler=()=>{
+        setisActive(prevState => !prevState)
+    }
+    useEffect(() => {
+        if(!isActive){
+            ref.current.classList.add('active')
+        }
+        else{
+            ref.current.classList.remove('active')
+        }
+    }, [isActive])
+    
+    const options={
+        rewind: true,
+        type: 'loop',
+        autoplay: true,
+        rewindSpeed: 500,
+        speed: 500,
+        pauseOnHover:true,
+        perPage:4,
+        width:'100%'
+    }
+    const data=appData.categoryProducts.filter(item=>item.category_id===2)
   return (
     <section class="product-details-area">
     <div class="container">
@@ -20,43 +50,7 @@ const ProductDetailsBody = () => {
                             <div class="product-gallery-hover">
                                 <div class="splide product-gallery-splide">
                                     <div class="splide__track">
-                                          <ul class="splide__list">
-                                              <li class="splide__slide product_gallery_splide__slide">
-                                                  <div class="product_gallery_splide__slide ">
-                                                      <a href="#">
-                                                          <img src="/contents/assets/images/product/p1.jpg" alt="sp1.jpg" />
-                                                      </a>
-                                                  </div>   
-                                              </li>
-                                              <li class="splide__slide product_gallery_splide__slide">
-                                                <div class="product_gallery_splide__slide ">
-                                                    <a href="#">
-                                                        <img src="/contents/assets/images/product/p2.jpg" alt="sp1.jpg" />
-                                                    </a>
-                                                </div>   
-                                              </li>
-                                              <li class="splide__slide product_gallery_splide__slide">
-                                                <div class="product_gallery_splide__slide ">
-                                                    <a href="#">
-                                                        <img src="/contents/assets/images/product/p3.jpg" alt="sp1.jpg" />
-                                                    </a>
-                                                </div>   
-                                               </li>
-                                               <li class="splide__slide product_gallery_splide__slide">
-                                                <div class="product_gallery_splide__slide ">
-                                                    <a href="#">
-                                                        <img src="/contents/assets/images/product/p4.jpg" alt="sp1.jpg" />
-                                                    </a>
-                                                </div>   
-                                                </li>
-                                                <li class="splide__slide product_gallery_splide__slide">
-                                                    <div class="product_gallery_splide__slide ">
-                                                        <a href="#">
-                                                            <img src="/contents/assets/images/product/p5.jpg" alt="sp1.jpg" />
-                                                        </a>
-                                                    </div>   
-                                                </li>
-                                          </ul>
+                                          <Slider Template={ProDetailsSliderSingleItem} options={options} data={data}/>
                                     </div>
                                  </div>
                              </div>
@@ -111,83 +105,19 @@ const ProductDetailsBody = () => {
                         <div id="niiceeTab" class="page-content">
                             {/* <!-- Tab links --> */}
                             <nav class="niiceeTabBtn">
-                                <button id="defaultOpen" class="tablinks" onclick="tabOpener(event, 'Tab1')">Product Details</button>
-                                <button class="tablinks" onclick="tabOpener(event, 'Tab2')">review</button>
+                                <button id="defaultOpen" ref={ref} class="tablinks" onClick={toggleHandler}>Product Details</button>
+                                <button class="tablinks"  onClick={toggleHandler}>review</button>
                             </nav>
 
                             <div class="tabbed niiceeTabContent">
-                                <div id="Tab1" class="tabcontent tab-content detalis-page-tab-content">
-                                    {/* <!-- product desc review information --> */}
-                                    <div class="product-d-tab-content">
-                                        <p>Kasundi is a protein-rich, spicy relish made from mustard seeds. A condiment  and a taste-enhancer. Kasundi brings out the best taste in whatever it is paired up with: seasonal green fruits, snacks such as “shingara” & “pakora”. A recent use of this condiment is in the preparation of “Shorshe Ilish”- famous traditional recipe in the Bengali cuisine & even as salad dressings. A dash of Radhuni Kasundi with any food will leave your taste buds tingling with joy.</p>
-                                    </div>
-                                    {/* <!-- product desc review information --> */}
-                                </div>
+                                {
+                                    (!isActive)&& <ProductDescription />
+                                }
+                                {
+                                    (isActive) &&  <ProductReview />
+                                }
       
-                                <div  id="Tab2" class="tabcontent tab-content detalis-page-tab-content">
-                                    {/* <!-- product desc review information --> */}
-                                    <div class="product-comments-block-tab">
-                                        <div class="new_comment_container">
-                                            <div class="post-cmt-input">
-                                                <input placeholder="Post Your Review Here" type="text"/>
-                                            </div>
-                                            <div class="post-cmt-btn">
-                                                <button type="submit">Post</button>
-                                            </div>
-                                        </div>
-                                        <p></p>
-                                        <div class="comment_container">
-                                            {/* <!-- single comment item --> */}
-                                            <div class="cmt-item">
-                                                <div class="cmt-row">
-                                                    <div class="col ctr_img">
-                                                        <div class="img_container">
-                                                            <div class="img_round"><img src="/contents/assets/images/cmt.png" /></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col commnet-dettail_container">
-                                                        <div class="commnet-dettail">
-                                                            <div>
-                                                                <a><strong>Md. Sabbir Rahman</strong></a>
-                                                                <div></div>
-                                                            </div>
-                                                            <div class="commnet-content">Trusted Online Shopping Site in Bangladesh</div>
-                                                        </div>
-                                                        <div class="comment_event">
-                                                            <a class="comment_time col"><em>21, Apr-2021</em></a><a class="btn_like"> Like </a><a class="btn_unlike"> Unlike </a><a class="btn_reply"> Reply </a>
-                                                        </div>
-                                                        <div class="comment_reply_container"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {/* <!-- single comment item --> */}
-                                            <div class="cmt-item">
-                                                <div class="cmt-row">
-                                                    <div class="col ctr_img">
-                                                        <div class="img_container">
-                                                            <div class="img_round"><img src="/contents/assets/images/notfount.png" /></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col commnet-dettail_container">
-                                                        <div class="commnet-dettail">
-                                                            <div>
-                                                                <a><strong>Md. Sabbir Rahman</strong></a>
-                                                                <div></div>
-                                                            </div>
-                                                            <div class="commnet-content">A class medicine store in Bangladesh........ Best wishes for LazzPharma</div>
-                                                        </div>
-                                                        <div class="comment_event">
-                                                            <a class="comment_time col"><em>21, Apr-2021</em></a><a class="btn_like"> Like </a><a class="btn_unlike"> Unlike </a><a class="btn_reply"> Reply </a>
-                                                        </div>
-                                                        <div class="comment_reply_container"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>
-                                    {/* <!-- product desc review information --> */}
-                                </div>
+                               
                             </div>
                         </div>
                     </div>

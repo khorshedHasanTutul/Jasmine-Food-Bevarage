@@ -1,4 +1,6 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+import { UrlContactRoute } from '../Services/UrlService'
 
 const FooterUsefulLinks = () => {
   return (
@@ -7,7 +9,7 @@ const FooterUsefulLinks = () => {
                 <ul>
                   <li>
                     <i class="fa fa-angle-double-right"></i>
-                    <a href>Contact Us</a>
+                    <Link to={UrlContactRoute()}>Contact Us</Link>
                   </li>
                   <li>
                     <i class="fa fa-angle-double-right"></i>

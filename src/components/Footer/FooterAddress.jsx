@@ -1,6 +1,9 @@
 import React from 'react'
-
+import { Link } from 'react-router-dom';
+import appData from "../DataSource/appData"
+import { UrlHomeRoute } from '../Services/UrlService';
 const FooterAddress = () => {
+  const getFooterAddress=appData.Footer[0];
   return (
     (
         <div class="footer-widget-single f-widget-1">
@@ -9,19 +12,19 @@ const FooterAddress = () => {
           <li>
             Address:{" "}
             <span>
-              Jasmine Food & Beverage 37/B Dilu Road,New Eskaton, Dhaka
+             {getFooterAddress.Address}
             </span>
           </li>
           <li>
-            Mobile: <a href="tel:+880258155933">+880258155933,</a>
+            Mobile: <a href={'tel:'+getFooterAddress.Mobile}>+{getFooterAddress.Mobile},</a>
           </li>
           <li>
-            Email: <a href="mailto:info@jasmin.com">info@jasmin.com</a>
+            Email: <a href={'mailto:'+getFooterAddress.Email}>{getFooterAddress.Email}</a>
           </li>
         </ul>
-        <a href="index.html">
-          <img src="/contents/assets/images/logo-01.png" alt="img" />
-        </a>
+        <Link to={UrlHomeRoute()}>
+          <img src={getFooterAddress.Image} alt="img" />
+        </Link>
       </div>
     )
   )
