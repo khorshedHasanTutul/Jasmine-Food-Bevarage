@@ -1,6 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Slider from '../../utilities/slider/Slider';
 import appData from '../DataSource/appData';
+import { UrlOfferRoute } from '../Services/UrlService';
 import OfferSingleItem from './OfferSingleItem';
 
 const Offer = () => {
@@ -43,7 +45,7 @@ const Offer = () => {
          </div> */}
          <Slider options={options} Template={OfferSingleItem} data={getOfferProducts}/>
          <div class="common-btn">
-             <a href="#">See All Offers</a>
+             <Link to={UrlOfferRoute()}>See All Offers</Link>
          </div>
      </div>
     </div>

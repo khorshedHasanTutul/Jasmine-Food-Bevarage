@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { UrlContactRoute } from '../Services/UrlService'
+import { UrlContactRoute, urlReturnPolicyRoute } from '../Services/UrlService'
 
 const FooterUsefulLinks = () => {
   return (
@@ -13,7 +13,7 @@ const FooterUsefulLinks = () => {
                   </li>
                   <li>
                     <i class="fa fa-angle-double-right"></i>
-                    <a href>Return Policy</a>
+                    <Link to={urlReturnPolicyRoute()}>Return Policy</Link>
                   </li>
                   <li>
                     <i class="fa fa-angle-double-right"></i>

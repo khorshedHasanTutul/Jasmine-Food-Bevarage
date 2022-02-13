@@ -4,7 +4,7 @@ import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import ShoppingCart from "./components/Cart/ShoppingCart";
 import { Route, Switch } from "react-router-dom";
-import { UrlCarrerRoute, urlCategoryRoute, UrlContactRoute, UrlHomeRoute, UrlOfferRoute,urlProductDetails,UrlReviewRoute, urlSubCategoryRoute } from "./components/Services/UrlService";
+import { UrlCarrerRoute, urlCategoryRoute, UrlContactRoute, UrlHomeRoute, UrlOfferRoute,urlProductDetails,urlReturnPolicyRoute,UrlReviewRoute, urlSubCategoryRoute } from "./components/Services/UrlService";
 import SpecialOffer from "./pages/SpecialOffer";
 import ReviewPage from "./pages/ReviewPage";
 import CarrerPage from "./pages/CarrerPage";
@@ -12,6 +12,7 @@ import ContactPage from "./pages/ContactPage";
 import CategoryWiseProductPage from "./pages/CategoryWiseProductPage";
 import SubCategoryWiseProPage from "./pages/SubCategoryWiseProPage";
 import ProductDetailsPage from "./pages/ProductDetailsPage";
+import ReturnPolicyPage from "./pages/ReturnPolicyPage";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path={urlCategoryRoute()+':id'}><CategoryWiseProductPage /></Route>
         <Route path={urlSubCategoryRoute()+':id/:subid'}><SubCategoryWiseProPage/></Route>
         <Route path={urlProductDetails()+':id'}><ProductDetailsPage /></Route>
+        <Route path={urlReturnPolicyRoute()}><ReturnPolicyPage /></Route>
       </Switch>
       </main>
       <ShoppingCart />

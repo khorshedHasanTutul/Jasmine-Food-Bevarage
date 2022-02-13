@@ -1,22 +1,34 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import Slider from '../../utilities/slider/Slider'
 import appData from '../DataSource/appData'
 import ProDetailsSliderSingleItem from './ProDetailsSliderSingleItem'
 import ProductDescription from './ProductDescription'
 import ProductReview from './ProductReview'
+import RelatedProducts from './RelatedProducts'
 
 const ProductDetailsBody = () => {
+    const {id}=useParams();
     const ref = useRef(null)
     const [isActive, setisActive] = useState(false)
+    const getDataById=appData.categoryProducts.find(item=>item.Id===id)
+    const getCategory=appData.BottomHeader[1].dropDownCategoryItem.find(item=>item.categoryId===getDataById.category_id)
+    const [productImage,setProductImage]=useState(getDataById.image)
     const toggleHandler=()=>{
         setisActive(prevState => !prevState)
+    }
+    const imageChangedHandler=(image)=>{
+        setProductImage(image)
+
     }
     useEffect(() => {
         if(!isActive){
             ref.current.classList.add('active')
+            ref.current.nextElementSibling.classList.remove('active')
         }
         else{
             ref.current.classList.remove('active')
+            ref.current.nextElementSibling.classList.add('active')
         }
     }, [isActive])
     
@@ -26,11 +38,11 @@ const ProductDetailsBody = () => {
         autoplay: true,
         rewindSpeed: 500,
         speed: 500,
-        pauseOnHover:true,
+        pauseOnHover:false,
         perPage:4,
         width:'100%'
     }
-    const data=appData.categoryProducts.filter(item=>item.category_id===2)
+    const data=appData.categoryProducts.filter(item=>item.category_id===getDataById.category_id)
   return (
     <section class="product-details-area">
     <div class="container">
@@ -42,15 +54,15 @@ const ProductDetailsBody = () => {
                     <div class="inner-product-details-flex">
                         <div class="product-d-left-img">
                             <div class="det-img-padding">
-                                <img src="/contents/assets/images/product/p1.jpg" alt="img" />
+                                <img src={productImage} alt="img" />
                                 <div class="product-dec-overlay">
-                                    <img src="/contents/assets/images/product/p1.jpg" alt="" />
+                                    <img src={productImage} alt="img" />
                                 </div>
                             </div>
                             <div class="product-gallery-hover">
                                 <div class="splide product-gallery-splide">
                                     <div class="splide__track">
-                                          <Slider Template={ProDetailsSliderSingleItem} options={options} data={data}/>
+                                          <Slider Template={ProDetailsSliderSingleItem} options={options} data={data} imageChangedHandler={imageChangedHandler}/>
                                     </div>
                                  </div>
                              </div>
@@ -58,23 +70,23 @@ const ProductDetailsBody = () => {
                         <div class="product-desc-right-content">
                             <div class="catagory-overly-main-bg">
                                 <div class="catagory-product-overly">
-                                    <h4>Britney Spears Electric Fantasy Eau De Toilette Spray 100ml</h4>
-                                    <p>Kasundi is a protein-rich, spicy relish made from mustard seeds. A condiment  and a taste-enhancer. Kasundi brings out the best taste in whatever it is paired up with: seasonal green fruits, snacks such as “shingara” & “pakora”.</p>
+                                    <h4>{getDataById.Nm}</h4>
+                                    <p>{getDataById.productInfo}</p>
                                 </div>
                                 <div class="avablle-in-product">
                                     <h3>Available In</h3>
-                                    <span>265 ml</span>
+                                    <span>{getDataById.St}</span>
                                 </div>
                                 {/* <!-- <div class="product-review-main">
                                     <a href="#">No Review</a>
                                 </div> --> */}
                                 <div class="basket-add">
-                                    <span class="item__price item__price--now">৳1556.00</span>
-                                    <span class="price product-price"><del class="cross_price">৳ 300</del></span>
+                                    <span class="item__price item__price--now">৳{getDataById.MRP}</span>
+                                    <span class="price product-price"><del class="cross_price">৳{getDataById.MRP}</del></span>
                                 </div>
                                 <div class="pd-brand-ctg">
                                     <ul>
-                                        <li>Category :<a href="#"> Spices</a></li>
+                                        <li>Category :<a href="#">{getCategory.categoryName}</a></li>
                                         <li>Brand :<a href="#"> Radhuni</a></li>
                                     </ul>
                                 </div>
@@ -124,98 +136,7 @@ const ProductDetailsBody = () => {
                     {/* <!-- product desc review information --> */}
                 </div>
                 {/* <!-- product-details-right --> */}
-                <div class="product-details-right">
-                    {/* <!-- RELATED PRODUCTS --> */}
-                    <div class="related-product-main">
-                        <h4>RELATED PRODUCTS</h4>
-                        {/* <!-- single item --> */}
-                        <div class="recent-pro-del-flex">
-                            <a href="#">
-                                <div class="product-del-s-img">
-                                    <img src="/contents/assets/images/product/p1.jpg" alt="img" />
-                                </div>
-                                <div class="product-del-s-content">
-                                    <div class="product-del-s-title">
-                                        <h4>A companion for extra sleeping</h4>
-                                    </div>
-                                    <div class="product-del-s-blog-desc">
-                                        <div class="basket-add">
-                                            <span class="item__price item__price--now">৳1556.00</span>
-                                        </div>
-                                    </div>
-                                </div>
-                             </a>
-                        </div>
-                        <div class="recent-pro-del-flex">
-                            <a href="#">
-                                <div class="product-del-s-img">
-                                    <img src="/contents/assets/images/product/p2.jpg" alt="img" />
-                                </div>
-                                <div class="product-del-s-content">
-                                    <div class="product-del-s-title">
-                                        <h4>A companion for extra sleeping</h4>
-                                    </div>
-                                    <div class="product-del-s-blog-desc">
-                                        <div class="basket-add">
-                                            <span class="item__price item__price--now">৳1556.00</span>
-                                        </div>
-                                    </div>
-                                </div>
-                             </a>
-                        </div>
-                        <div class="recent-pro-del-flex">
-                            <a href="#">
-                                <div class="product-del-s-img">
-                                    <img src="/contents/assets/images/product/p3.jpg" alt="img" />
-                                </div>
-                                <div class="product-del-s-content">
-                                    <div class="product-del-s-title">
-                                        <h4>A companion for extra sleeping</h4>
-                                    </div>
-                                    <div class="product-del-s-blog-desc">
-                                        <div class="basket-add">
-                                            <span class="item__price item__price--now">৳1556.00</span>
-                                        </div>
-                                    </div>
-                                </div>
-                             </a>
-                        </div>
-                        <div class="recent-pro-del-flex">
-                            <a href="#">
-                                <div class="product-del-s-img">
-                                    <img src="/contents/assets/images/product/p4.jpg" alt="img" />
-                                </div>
-                                <div class="product-del-s-content">
-                                    <div class="product-del-s-title">
-                                        <h4>A companion for extra sleeping</h4>
-                                    </div>
-                                    <div class="product-del-s-blog-desc">
-                                        <div class="basket-add">
-                                            <span class="item__price item__price--now">৳1556.00</span>
-                                        </div>
-                                    </div>
-                                </div>
-                             </a>
-                        </div>
-                        <div class="recent-pro-del-flex">
-                            <a href="#">
-                                <div class="product-del-s-img">
-                                    <img src="/contents/assets/images/product/p6.jpg" alt="img" />
-                                </div>
-                                <div class="product-del-s-content">
-                                    <div class="product-del-s-title">
-                                        <h4>A companion for extra sleeping</h4>
-                                    </div>
-                                    <div class="product-del-s-blog-desc">
-                                        <div class="basket-add">
-                                            <span class="item__price item__price--now">৳1556.00</span>
-                                        </div>
-                                    </div>
-                                </div>
-                             </a>
-                        </div>
-                    </div>
-                </div>
+               <RelatedProducts productItem={getDataById} imageChangedHandler={imageChangedHandler}/>
             </div>
         </div>
     </div>
