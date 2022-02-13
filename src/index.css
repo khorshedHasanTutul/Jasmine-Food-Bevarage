@@ -860,6 +860,9 @@ p {
 .inner-product-main-flex > a {
  margin: 5px;
  display: block;
+ /* edited by tutul start */
+ position: relative;
+ /* end  */
 }
 
 /**************************************/

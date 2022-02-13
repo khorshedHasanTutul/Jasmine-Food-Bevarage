@@ -1,11 +1,12 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-const ProDetailsSliderSingleItem = () => {
+const ProDetailsSliderSingleItem = ({item,imageChangedHandler}) => {
 
   return (
-    <a href="#">
-      <img src="/contents/assets/images/product/p1.jpg" alt="sp1.jpg" />
-    </a>
+    <Link to="#" onClick={imageChangedHandler.bind(null,item.image)}>
+      <img src={item.image} alt="sp1.jpg" />
+    </Link>
   );
 };
 

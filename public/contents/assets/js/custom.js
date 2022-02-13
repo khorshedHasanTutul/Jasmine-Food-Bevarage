@@ -1,5 +1,8 @@
 "use strict";
 
+import { AutoScroll } from "@splidejs/splide-extension-auto-scroll";
+
+
 
 //add remove js
 var $cart = document.querySelector(".cart-box");
