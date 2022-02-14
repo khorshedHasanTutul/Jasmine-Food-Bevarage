@@ -1,10 +1,18 @@
-import React from 'react';
+import React ,{useState} from 'react';
 import { Link } from 'react-router-dom';
 import appData from '../DataSource/appData';
+import SearchProduct from '../SearchPortal/SearchProduct';
 import { UrlHomeRoute } from '../Services/UrlService';
 
 const MiddleHeader = () => {
     const getLogo=appData.MiddleHeader;
+    const  [searchValue,setSearchValuye]=useState('')
+    const textChangeHandler=({target})=>{
+        setSearchValuye(target.value)
+    }
+    const closeSearchHandler=()=>{
+        setSearchValuye('')
+    }
   return (
     <div class="header-middle-content mt-5">
     <div class="header-m-flex d-flexx">
@@ -16,10 +24,13 @@ const MiddleHeader = () => {
         <div class="search-box">
             <form>
                 <div class="inner-search-box">
-                    <input type="search" name="" id="search" placeholder="I'am Looking for.." />
+                    <input type="search" name="" id="search" placeholder="I'am Looking for.." value={searchValue} onChange={textChangeHandler}/>
                     <button type="submit">
                         <i class="fa fa-search" aria-hidden="true"></i>
                     </button>
+                    {
+                        (searchValue)&& <SearchProduct searchValue={searchValue} closeSearchHandler={closeSearchHandler}/>
+                    }
                 </div>
             </form>
         </div>
