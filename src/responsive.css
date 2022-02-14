@@ -21,10 +21,16 @@
 	.chosse-your-fvt-btn ul li a{
         padding: 10px 33px;
     }
+    .shiping-system > li > img {
+        width: 127px;
+    }
 }
 @media all and (max-width:1140px){
 	.add-to-cart > span {
-        font-size: 13px;
+        font-size: 12px;
+    }
+    .qty-holder2 > aside {
+        font-size: 10px;
     }
     .address-info-from {
         flex: 0 0 100%;
@@ -35,6 +41,15 @@
     }
     .language-switch label {
         margin-right: 10px;
+    }
+    .footer-widget-single {
+        flex: 0 0 20%;
+    }
+    .drop-cv-left > h3 {
+        width: 83%;
+    }
+    .product-desc-right-content {
+        flex: 0 0 54%;
     }
 }
 
@@ -281,6 +296,15 @@
         font-size: 45px;
         width: 100%;
     }
+    .shiping-system > li > img {
+        width: 201px;
+    }
+    .our-promise-single-main {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+    .related-product-main > h4 {
+        padding: 13px;
+    }
   
 
 }
@@ -328,6 +352,9 @@
     .notifaction-main-flex {
         grid-template-columns: 1fr;
     }
+    .product-desc-right-content {
+        flex: 0 0 59%;
+    }
 
 }
 
@@ -373,7 +400,7 @@
         padding-left: 15px;
     }
     .add-to-cart > span {
-        font-size: 15px;
+        font-size: 14px;
     }
     .add-to-cart {
         padding: 6px 6px;
@@ -520,6 +547,25 @@
     }
     .drop-cv-left > .fa.fa-braille {
         padding-top: 30px;
+    }
+    .about.about-us-2.about-us-3 {
+        padding-left: 0px;
+    }
+    .about > p {
+        width: 100%;
+    }
+    .about-us-banner {
+        max-width: 90%;
+        margin-bottom: 20px;
+    }
+    .address-info-from > form {
+        padding: 15px;
+    }
+    .contact-info > ul > li > i {
+        font-size: 30px;
+    }
+    .qty-holder2 > aside {
+        font-size: 14px;
     }
 
 }
