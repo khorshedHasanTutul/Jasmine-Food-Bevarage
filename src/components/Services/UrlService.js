@@ -15,7 +15,9 @@ export const urlSubCategoryRoute=()=>"/subcategory/";
 //Product Details Route 
 export const urlProductDetails=()=>"/product/details/";
 //Bottom Page Routes
-export const urlReturnPolicyRoute=()=>"/return/policy"
+export const urlReturnPolicyRoute=()=>"/return/policy";
+//checkout Route
+export const urlCheckoutRoute=()=>"/checkout";
 
 export{
     UrlHomeRoute,UrlOfferRoute,UrlAboutRoute,UrlReviewRoute,UrlCarrerRoute,UrlContactRoute

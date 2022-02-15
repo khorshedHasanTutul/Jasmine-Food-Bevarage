@@ -2941,7 +2941,9 @@ textarea:focus{
 }
 
 .checkout-main-tab-information-main .tabcontent {
- display: none;
+  /* edited by tutul  */
+ /* display: none; */
+ /* end  */
  padding: 0;
  animation: fadeEffect 1s;
 }
