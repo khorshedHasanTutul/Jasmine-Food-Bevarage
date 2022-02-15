@@ -43,7 +43,7 @@ const CategoryProductByHome = () => {
     (item) => item.visible === true
   );
   return (
-    <section class="product-main-area section-padding">
+    <section class="product-main-area">
       <div class="container">
         {/* <!-- common heading --> */}
         {findOnlyVisibleProduct.map((item) => {
