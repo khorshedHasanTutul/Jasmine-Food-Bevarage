@@ -5,7 +5,8 @@ import cartContext from "../../Store/cart-context";
 
 const SingleItemProduct = ({ item }) => {
   const getCartContext = useContext(cartContext);
-  const storeCartHandler = (item) => {
+  const storeCartHandler = (item,e) => {
+    e.preventDefault()
     getCartContext.storeCartItems(item);
   };
   return (
@@ -45,7 +46,7 @@ const SingleItemProduct = ({ item }) => {
         </div>
         <div
           class="add-to-cart d-flex al-center j-center"
-          onClick={storeCartHandler.bind(null, item)}
+          onClick={storeCartHandler.bind(this, item)}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

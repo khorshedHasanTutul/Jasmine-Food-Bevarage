@@ -1,6 +1,24 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
+import { Link } from 'react-router-dom';
+import { Fragment } from 'react/cjs/react.production.min';
+import CheckoutPage from '../../pages/CheckoutPage';
+import { urlCheckoutRoute } from '../Services/UrlService';
+import cartContext from '../Store/cart-context'
 
 const ContentCart = ({openCart}) => {
+    const getCartContext=useContext(cartContext)
+    const getCartContextModel=getCartContext.getCartModel;
+    const clearCartHandler=()=>{
+        getCartContext.clearCart()
+        openCart();
+    }
+    const orderNowHandler=()=>{
+        openCart();
+    }
+    const cartItemRemoverHandler=(item)=>{
+        // getCartContext.singleItemRemover(item)
+
+    }
   return (
     <div class="cart-box-view">
     <div class="cart-box-inner-view">
@@ -8,7 +26,7 @@ const ContentCart = ({openCart}) => {
             <div class="card-select-item">
                 <img src="/contents/assets/images/add-cart.png" alt="img" />
                 <strong class="car-box-title SearchFont">
-                    <span>0.00</span>
+                    <span>{getCartContextModel.TotalItems}</span>
                     <span>Item</span>
                 </strong>
             </div>
@@ -21,77 +39,74 @@ const ContentCart = ({openCart}) => {
                 <span class="happy-shopping">Happy Shopping!! </span>
                 <table class="cart-table">
                     <tbody>
-                        <tr class="close">
-                            <td class="card-title-heading">
-                                <a href="#">
-                                    <span class="SearchProductName SearchFont">OG CARE BLOOD GLUCOSE METTER (ORGIN ITALY)</span>
-                                </a>
-                                <br />
-                                <del class="SearchDelPrice SearchDelPriceDel1">৳ 2, 450.00</del>
-                                <strong class="SearchPrice SearchDelPriceDel2">৳ 2, 200.05</strong>
-                            </td>
-                            <td class="card-plus-minuse">
-                                <div class="attributes input-group bootstrap-touchspin">
-                                    <div class="qty-holder">
-                                        <a href="#" class="qty-dec-btn" title="Dec">-</a>
-                                        <input type="text" name="product_qty" id="product_qty" class="qty-input" value="1" />
-                                        <a href="#" class="qty-inc-btn" title="Inc">+</a>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="amount-for-popup">
-                                <span class="SearchFont SearchDelPrice">
-                                    <aside>৳ </aside>
-                                    <del class="add-postion">2, 450.00</del>
+                        {
+                            getCartContextModel.Items.map(item=>(
+                                <tr class="close">
+                                <td class="card-title-heading">
+                                    <a href="#">
+                                        <span class="SearchProductName SearchFont">{item.Nm}</span>
+                                    </a>
                                     <br />
-                                    <span class="SearchFont SearchPrice">2, 200.05</span>
-                                </span>
-                            </td>
-                            <td onclick="this.parentElement.style.display='none';" class="amount-inner-crose">
-                                <a href="#"><i class="fa fa-times text-danger"></i></a>
-                            </td>
-                        </tr>
-                        <tr class="close">
-                            <td class="card-title-heading">
-                                <a href="#">
-                                    <span class="SearchProductName SearchFont">OG CARE BLOOD GLUCOSE METTER (ORGIN ITALY)</span>
-                                </a>
-                                <br />
-                                <del class="SearchDelPrice SearchDelPriceDel1">৳ 2, 450.00</del>
-                                <strong class="SearchPrice SearchDelPriceDel2">৳ 2, 200.05</strong>
-                            </td>
-                            <td class="card-plus-minuse">
-                                <div class="attributes input-group bootstrap-touchspin">
-                                    <div class="qty-holder">
-                                        <a href="#" class="qty-dec-btn" title="Dec">-</a>
-                                        <input type="text" name="product_qty" id="product_qty" class="qty-input" value="1" />
-                                        <a href="#" class="qty-inc-btn" title="Inc">+</a>
+                                    {
+                                         (item.Ds===0)&&  <strong class="SearchPrice SearchDelPriceDel2">৳{item.MRP}</strong>
+                                    }
+                                    {
+                                        (item.Ds>0)&&
+                                        <Fragment>
+                                            <del class="SearchDelPrice SearchDelPriceDel1">৳{(item.MRP-((item.MRP)*item.Ds)/100).toFixed(2)}</del>
+                                             <strong class="SearchPrice SearchDelPriceDel2">৳{item.MRP}</strong>
+                                        </Fragment> 
+                                    }
+                                    
+                                   
+                                </td>
+                                <td class="card-plus-minuse">
+                                    <div class="attributes input-group bootstrap-touchspin">
+                                        <div class="qty-holder">
+                                            <a href="#" class="qty-dec-btn" title="Dec">-</a>
+                                            <input type="text" name="product_qty" id="product_qty" class="qty-input" value="1" />
+                                            <a href="#" class="qty-inc-btn" title="Inc">+</a>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td class="amount-for-popup">
-                                <span class="SearchFont SearchDelPrice">
-                                    <aside>৳ </aside>
-                                    <del class="add-postion">2, 450.00</del>
-                                    <br />
-                                    <span class="SearchFont SearchPrice">2, 200.05</span>
-                                </span>
-                            </td>
-                            <td onclick="this.parentElement.style.display='none';" class="amount-inner-crose">
-                                <a href="#"><i class="fa fa-times text-danger"></i></a>
-                            </td>
-                        </tr>
+                                </td>
+                                <td class="amount-for-popup">
+                                    <span class="SearchFont SearchDelPrice">
+                                        <aside>৳ </aside>
+                                        {
+                                            (item.Ds===0)&& <span class="SearchFont SearchPrice">{item.MRP}</span>
+                                        }
+                                        {
+                                            (item.Ds>0)&&
+                                            <Fragment>
+                                                <del class="add-postion">{(item.MRP-((item.MRP)*item.Ds)/100).toFixed(2)}</del>
+                                                <br />
+                                                <span class="SearchFont SearchPrice">{item.MRP}</span>
+                                            </Fragment>
+                                        }
+                                        
+                                    </span>
+                                </td>
+                                <td class="amount-inner-crose" onClick={cartItemRemoverHandler.bind(null,item)}>
+                                    <a href><i class="fa fa-times text-danger"></i></a>
+                                </td>
+                            </tr>
+                            ))
+                        }
+                       
                     </tbody>
                 </table>
             </div>
         </div>
         <div class="cart-footer">
             <div class="card-footer-inner">
-                <button class="cart-cmn-btn">Order Now</button>
-                <span class="cart-cmn-btn cart-cmn-btn2">৳ <span>6, 550.05</span></span>
+                <Link to={urlCheckoutRoute()}>
+                <button class="cart-cmn-btn" onClick={orderNowHandler}>Order Now</button>
+                </Link>
+                
+                <span class="cart-cmn-btn cart-cmn-btn2">৳ <span>{getCartContextModel.TotalAmmount.toFixed(2)}</span></span>
             </div>
 
-            <a class="block-btn-card">
+            <a class="block-btn-card" onClick={clearCartHandler}>
                 <button class="cart-cmn-btn">Clear Cart</button>
             </a>
         </div>
