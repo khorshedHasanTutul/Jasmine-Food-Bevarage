@@ -1,6 +1,7 @@
 import React from "react";
 import BacktoTop from "./BacktoTop";
 import FooterAddress from "./FooterAddress";
+import FooterPayment from "./FooterPayment";
 import FooterSocialLinks from "./FooterSocialLinks";
 import FooterUsefulLinks from "./FooterUsefulLinks";
 
@@ -19,6 +20,7 @@ const Footer = () => {
               {/* <!-- single item --> */}
               <FooterUsefulLinks />
               {/* <!-- single item --> */}
+              <FooterPayment />
               
               {/* <!-- single item --> */}
               <FooterSocialLinks />

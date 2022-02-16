@@ -6,7 +6,7 @@ import cartContext from "../../Store/cart-context";
 const SingleItemProduct = ({ item }) => {
   const getCartContext = useContext(cartContext);
   const storeCartHandler = (item,e) => {
-    e.preventDefault()
+    e.preventDefault();
     getCartContext.storeCartItems(item);
   };
   return (

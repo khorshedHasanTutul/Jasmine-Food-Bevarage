@@ -1,6 +1,77 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import appData from '../DataSource/appData';
 
 const ContactBodyTemplate = () => {
+    const getFooterAddress=appData.Footer;
+
+    //clicked state
+    const[clicked,setClicked]=useState(false)
+
+    //name validation
+    const[name,setName]=useState('')
+    const[nameIsTouched,setNameIsTouched]=useState(false)
+    const[nameIsValid,setNameIsValid]=useState(false)
+
+    //emailValidation
+    const[email,setEmail]=useState('')
+    const[emailIsTouched,setEmailIsTouched]=useState(false)
+    const[emailIsValid,setEmailIsValid]=useState(false)
+
+    //Mobilevalidation
+    const[mobile,setMobile]=useState('')
+    const[mobileIsTouched,setMobileIsTouched]=useState(false)
+    const[mobileIsValid,setMobileIsValid]=useState(false)
+
+    //messageValidation
+    const[message,setMessage]=useState('')
+    const[messageIsTouched,setMessageIsTouched]=useState(false)
+    const[messageIsValid,setMessageIsValid]=useState(false)
+    
+    //UseEffectDependancyList
+    const useEffectDepenDancyList=[
+        clicked,name.length,nameIsTouched,
+        email.length,emailIsTouched,mobile.length,mobileIsTouched,
+        message.length,messageIsTouched
+    ]
+
+    const nameChangeHandler=({target})=>{
+        setName(target.value)
+    }
+    const nameIsTouchedHandler=()=>{
+        setNameIsTouched(true)
+    }
+    const emailChangeHandler=({target})=>{
+        setEmail(target.value)
+    }
+    const emailIsTouchedHandler=()=>{
+        setEmailIsTouched(true)
+    }
+    const mobileChangeHandler=({target})=>{
+        setMobile(target.value)
+    }
+    const mobileIsTouchedHandler=()=>{
+        setMobileIsTouched(true)
+    }
+    const messageChangeHandler=({target})=>{
+        setMessage(target.value)
+    }
+    const messageIsTouchedHandler=()=>{
+        setMessageIsTouched(true)
+    }
+    const submitHandler=(e)=>{
+        e.preventDefault();
+        setClicked(true)
+    }
+
+    useEffect(()=>{
+        if(clicked){
+            (((nameIsTouched && name.length===0)||(!nameIsTouched && name.length===0))?setNameIsValid(true):setNameIsValid(false));
+            (((emailIsTouched && email.length===0)||(!emailIsTouched && email.length===0))?setEmailIsValid(true):setEmailIsValid(false));
+            (((mobileIsTouched && mobile.length===0)||(!mobileIsTouched && mobile.length===0))?setMobileIsValid(true):setMobileIsValid(false));
+            (((messageIsTouched && message.length===0)||(!messageIsTouched && message.length===0))?setMessageIsValid(true):setMessageIsValid(false));
+        }
+    },useEffectDepenDancyList)
+
   return (
     <section class="contact-us-area">
     <div class="container">
@@ -11,16 +82,16 @@ const ContactBodyTemplate = () => {
                 <ul>
                     <li>
                         <i class="fa fa-home" aria-hidden="true"></i>
-                        <span>Jasmine Food & Beverage 37/B Dilu Road,New Eskaton, Dhaka</span>
+                        <span>{getFooterAddress[0].Address}</span>
                     </li>
                     <li>
                         <i class="fa fa-volume-control-phone" aria-hidden="true"></i>
 
-                        <a href="tel:+880258155933​">+880258155933​</a>
+                        <a href={'tel:+'+getFooterAddress[0].Mobile}>+{getFooterAddress[0].Mobile}​</a>
                     </li>
                     <li>
                         <i class="fa fa-envelope-o" aria-hidden="true"></i>
-                        <a href="mailto:iqrasysinfo@gmail.com​">info@jasmin.com</a>
+                        <a href={'mailto:'+getFooterAddress[0].Email}>{getFooterAddress[0].Email}</a>
                     </li>
                 </ul>
             </div>
@@ -31,23 +102,68 @@ const ContactBodyTemplate = () => {
                         <div class="reqest-inner-content-flex">
                             <div class="custom-input">
                                 <label for="name">Full Name</label>
-                                <input type="text" id="name" class="auto_bind" data-binding="name" placeholder="E.g  Hasibul Mursalin" required="" />
+                                <input type="text" id="name" class="auto_bind" data-binding="name" placeholder="E.g  Hasibul Mursalin" 
+                                onChange={nameChangeHandler}
+                                onBlur={nameIsTouchedHandler}
+                                value={name}
+                                required="" />
+                                {
+                                (nameIsValid)&&<div class="alert alert-error">Name is required.</div>
+                                }
+                                {
+                                (nameIsTouched && name.length===0 && !nameIsValid)&&<div class="alert alert-error">Name is required.</div>
+                                }
                             </div>
+                            
                             <div class="custom-input">
                                 <label for="email">Email Address</label>
-                                <input type="text" id="email" class="auto_bind" data-binding="email" placeholder="E.g Iqrasysinfo@gmail.com" required="" />
+                                <input type="text" id="email" class="auto_bind" data-binding="email" placeholder="E.g Iqrasysinfo@gmail.com" required=""
+                                onChange={emailChangeHandler}
+                                onBlur={emailIsTouchedHandler}
+                                value={email}
+                                />
+                                {
+                                (emailIsValid)&&<div class="alert alert-error">Email is required.</div>
+                                }
+                                {
+                                (emailIsTouched && email.length===0 && !emailIsValid)&&<div class="alert alert-error">Email is required.</div>
+                                }
+                               
                             </div>
                         </div>
                         <div class="custom-input">
                             <label for="mobile">Phone Number</label>
-                            <input type="text" id="mobile" class="auto_bind" data-binding="mobile" placeholder="E.g 01778772327" required="" />
+                            <input type="text" id="mobile" class="auto_bind" data-binding="mobile"
+                             placeholder="E.g 01778772327"
+                            required="" 
+                            onChange={mobileChangeHandler}
+                            onBlur={mobileIsTouchedHandler}
+                            value={mobile}
+                            />
+                            {
+                            (mobileIsValid)&&<div class="alert alert-error">Mobile is required.</div>
+                            }
+                            {
+                            (mobileIsTouched && mobile.length===0 && !mobileIsValid)&&<div class="alert alert-error">Mobile is required.</div>
+                            }
                         </div>
                         <div class="custom-input">
                             <label for="textarea">Message</label>
-                            <textarea name="" id="textarea" class="auto_bind" data-binding="textarea" placeholder="Enter Your Message" required=""></textarea>
+                            <textarea name="" id="textarea" class="auto_bind" data-binding="textarea" placeholder="Enter Your Message" 
+                            required=""
+                            onChange={messageChangeHandler}
+                            onBlur={messageIsTouchedHandler}
+                            value={message}
+                            ></textarea>
+                            {
+                            (messageIsValid)&&<div class="alert alert-error">Message is required.</div>
+                            }
+                            {
+                            (messageIsTouched && message.length===0 && !messageIsValid)&&<div class="alert alert-error">Message is required.</div>
+                            }
                         </div>
                         <div class="custom-submit">
-                            <button type="submit">Submit</button>
+                            <button type="submit" onClick={submitHandler}>Submit</button>
                         </div>
                     </form>
                 </div>

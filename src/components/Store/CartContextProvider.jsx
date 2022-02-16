@@ -29,20 +29,24 @@ const initialState = () => {
 const reducer = (state, action) => {
 
   if (action.type === "Store_Cart_Item") {
-    let remainingCartModel = state.CartModel;
-    remainingCartModel.Items.push(action.item);
-    remainingCartModel.TotalItems+=1;
+    let cartItemsArray=state.CartModel.Items;
+    let cartTotalItem=state.CartModel.TotalItems;
+    let cartTotalAmmount=state.CartModel.TotalAmmount;
+    cartTotalItem+=1;
     if(action.item.Ds>0){
         let productPrice=(action.item.MRP-((action.item.MRP)*action.item.Ds)/100);
-        remainingCartModel.TotalAmmount += productPrice;
+        cartTotalAmmount += productPrice;
     }
     else{
-        remainingCartModel.TotalAmmount += action.item.MRP;
+        cartTotalAmmount += action.item.MRP;
     } 
-    localStorage.setItem("cartModel", JSON.stringify(remainingCartModel));
+    cartItemsArray.push(action.item);
+    localStorage.setItem("cartModel", JSON.stringify(state.CartModel));
     return {
       ...state,
-      CartModel: remainingCartModel,
+      CartModel: {
+        TotalItems: cartTotalItem, TotalAmmount: cartTotalAmmount, Items: cartItemsArray
+      },
     }
   }
 //   if(action.type==="REMOVE_SINGLE_ITEM"){

@@ -2698,7 +2698,9 @@ textarea:focus{
 .alert.alert-error {
  font-size: 14px;
  color: var(--secundery-color);
- display: none;
+ /* edoted by tutul start  */
+ /* display: none; */
+ /* end  */
 }
 
 .summary-details-p {

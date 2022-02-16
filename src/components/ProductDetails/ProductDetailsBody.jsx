@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import Slider from '../../utilities/slider/Slider'
 import appData from '../DataSource/appData'
 import ProDetailsSliderSingleItem from './ProDetailsSliderSingleItem'
@@ -86,7 +86,7 @@ const ProductDetailsBody = () => {
                                 </div>
                                 <div class="pd-brand-ctg">
                                     <ul>
-                                        <li>Category :<a href="#">{getCategory.categoryName}</a></li>
+                                        <li>Category :<Link to={''}>{getCategory.categoryName}</Link></li>
                                         <li>Brand :<a href="#"> Radhuni</a></li>
                                     </ul>
                                 </div>
