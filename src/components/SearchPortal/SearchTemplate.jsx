@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import appData from '../DataSource/appData';
+import { urlProductDetails } from '../Services/UrlService';
 
 const SearchTemplate = ({item,closeSearch,lowerSearchvalue,setalert}) => {
   const categoryData= appData.BottomHeader[1].dropDownCategoryItem.find(item2=>(item2.categoryId===item.category_id))
@@ -22,7 +23,7 @@ const SearchTemplate = ({item,closeSearch,lowerSearchvalue,setalert}) => {
                 <img src={item.image} alt="product_image" />
               </div>
               <div class="result-card__details">
-                <Link to={''}  class="result-card__details--name" onClick={closeSearch}>
+                <Link to={urlProductDetails()+item.Id}  class="result-card__details--name" onClick={closeSearch}>
                   <span  dangerouslySetInnerHTML={getHTML()}></span>
                 </Link>
                 <p class="result-card__details--price">

@@ -1,6 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import ReviewSingleItem from './ReviewSingleItem';
 
 const ReviewBodyTemplate = () => {
+    //postValidation
+    const[post,setPost]=useState('')
+    const[clicked,setClicked]=useState(false)
+    const[postIsTouched,setPostIsTouched]=useState(false)
+    const[postIsValid,setPostIsValid]=useState(false)
+    
+    const postChangeHandler=({target})=>{
+        setPost(target.value)
+    }
+    const postIsTouchedhandler=()=>{
+        setPostIsTouched(true)
+    }
+    const submitHandler=()=>{
+        setClicked(true)
+    }
+    useEffect(()=>{
+        if(clicked){
+            (((postIsTouched && post.length===0)||(!postIsTouched && post.length===0))?setPostIsValid(true):setPostIsValid(false));
+        }
+        if(clicked && post.length!==0){
+            console.log('hi')
+        }
+    },[postIsTouched,post.length,clicked,postIsValid])
   return (
     <section class="customar-review-area">
     <div class="container">
@@ -11,106 +35,24 @@ const ReviewBodyTemplate = () => {
                     <i class="fa fa-commenting-o" aria-hidden="true"></i>
                     <div class="new_comment_container">
                         <div class="post-cmt-input">
-                            <input placeholder="Post Your Review Here" type="text" />
+                            <input placeholder="Post Your Review Here" type="text" 
+                            value={post}
+                            onChange={postChangeHandler}
+                            onBlur={postIsTouchedhandler}
+                            />
+                            {
+                            (postIsValid)&&<div class="alert alert-error">Post can't be empty.</div>
+                            }
+                            {
+                            (postIsTouched && post.length===0 && !postIsValid)&&<div class="alert alert-error">Post can't be empty.</div>
+                            }
                         </div>
-                        <div class="post-cmt-btn">
+                        <div class="post-cmt-btn" onClick={submitHandler}>
                             <button type="submit">Post</button>
                         </div>
                     </div>
                     <p></p>
-                    <div class="comment_container">
-                        {/* <!-- single comment item --> */}
-                        <div class="cmt-item">
-                            <div class="cmt-row">
-                                <div class="col ctr_img">
-                                    <div class="img_container">
-                                        <div class="img_round"><img src="/contents/assets/images/cmt.png" alt='img'/></div>
-                                    </div>
-                                </div>
-                                <div class="col commnet-dettail_container">
-                                    <div class="commnet-dettail">
-                                        <div>
-                                            <a><strong>Md. Sabbir Rahman</strong></a>
-                                            <div></div>
-                                        </div>
-                                        <div class="commnet-content">Trusted Online Shopping Site in Bangladesh</div>
-                                    </div>
-                                    <div class="comment_event">
-                                        <a class="comment_time col"><em>21, Apr-2021</em></a><a class="btn_like"> Like </a><a class="btn_unlike"> Unlike </a><a class="btn_reply"> Reply </a>
-                                    </div>
-                                    <div class="comment_reply_container"></div>
-                                </div>
-                            </div>
-                        </div>
-                        {/* <!-- single comment item --> */}
-                        <div class="cmt-item">
-                            <div class="cmt-row">
-                                <div class="col ctr_img">
-                                    <div class="img_container">
-                                        <div class="img_round"><img src="/contents/assets/images/notfount.png" alt='img' /></div>
-                                    </div>
-                                </div>
-                                <div class="col commnet-dettail_container">
-                                    <div class="commnet-dettail">
-                                        <div>
-                                            <a><strong>Md. Sabbir Rahman</strong></a>
-                                            <div></div>
-                                        </div>
-                                        <div class="commnet-content">A class medicine store in Bangladesh........ Best wishes for LazzPharma</div>
-                                    </div>
-                                    <div class="comment_event">
-                                        <a class="comment_time col"><em>21, Apr-2021</em></a><a class="btn_like"> Like </a><a class="btn_unlike"> Unlike </a><a class="btn_reply"> Reply </a>
-                                    </div>
-                                    <div class="comment_reply_container"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="cmt-item">
-                            <div class="cmt-row">
-                                <div class="col ctr_img">
-                                    <div class="img_container">
-                                        <div class="img_round"><img src="/contents/assets/images/cmt.png" alt='img' /></div>
-                                    </div>
-                                </div>
-                                <div class="col commnet-dettail_container">
-                                    <div class="commnet-dettail">
-                                        <div>
-                                            <a><strong>Md. Sabbir Rahman</strong></a>
-                                            <div></div>
-                                        </div>
-                                        <div class="commnet-content">Trusted Online Shopping Site in Bangladesh</div>
-                                    </div>
-                                    <div class="comment_event">
-                                        <a class="comment_time col"><em>21, Apr-2021</em></a><a class="btn_like"> Like </a><a class="btn_unlike"> Unlike </a><a class="btn_reply"> Reply </a>
-                                    </div>
-                                    <div class="comment_reply_container"></div>
-                                </div>
-                            </div>
-                        </div>
-                        {/* <!-- single comment item --> */}
-                        <div class="cmt-item">
-                            <div class="cmt-row">
-                                <div class="col ctr_img">
-                                    <div class="img_container">
-                                        <div class="img_round"><img src="/contents/assets/images/notfount.png" alt='img'/></div>
-                                    </div>
-                                </div>
-                                <div class="col commnet-dettail_container">
-                                    <div class="commnet-dettail">
-                                        <div>
-                                            <a><strong>Md. Sabbir Rahman</strong></a>
-                                            <div></div>
-                                        </div>
-                                        <div class="commnet-content">A class medicine store in Bangladesh........ Best wishes for LazzPharma</div>
-                                    </div>
-                                    <div class="comment_event">
-                                        <a class="comment_time col"><em>21, Apr-2021</em></a><a class="btn_like"> Like </a><a class="btn_unlike"> Unlike </a><a class="btn_reply"> Reply </a>
-                                    </div>
-                                    <div class="comment_reply_container"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <ReviewSingleItem />
                 </div>
                 {/* <!-- product desc review information --> */}
             </div>
