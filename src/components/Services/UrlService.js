@@ -16,9 +16,13 @@ export const urlSubCategoryRoute=()=>"/subcategory/";
 export const urlProductDetails=()=>"/product/details/";
 //Bottom Page Routes
 export const urlReturnPolicyRoute=()=>"/return/policy";
+//Bottom Page Routes
+ const urlPrivacyPolicyRoute=()=>"/return/PrivacyPolicy";
+//Bottom Page Routes
+ const urlTermsConditionsRoute=()=>"/return/TermsConditions";
 //checkout Route
 export const urlCheckoutRoute=()=>"/checkout";
 
 export{
-    UrlHomeRoute,UrlOfferRoute,UrlAboutRoute,UrlReviewRoute,UrlCarrerRoute,UrlContactRoute
+    UrlHomeRoute,UrlOfferRoute,UrlAboutRoute,UrlReviewRoute,UrlCarrerRoute,UrlContactRoute,urlPrivacyPolicyRoute,urlTermsConditionsRoute
 }
