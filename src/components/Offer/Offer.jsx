@@ -29,7 +29,7 @@ const Offer = () => {
     <section class="special-offer-area bg-sec">
     <div class="container">
         {/* <!-- common heading --> */}
-        <div class="common-heading common-heading-Oil">
+        <div class="common-heading">
             <h1>Special Offers</h1>
         </div>
      {/* <!-- common heading --> */}

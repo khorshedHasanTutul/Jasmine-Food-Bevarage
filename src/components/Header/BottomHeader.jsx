@@ -8,9 +8,7 @@ const BottomHeader = () => {
     const getBottomHeaderItems=appData.BottomHeader;
   return (
     <div class="header-main-menu">
-    {/* <!-- mobile menu --> */}
     <button class="mobile-desk openbtn" onclick="openNav()">&#9776;</button>
-    {/* <!-- mobile menu --> */}
     <div id="mySidepanel" class="menu sidepanel">
         <a href="javascript:void(0)" class="mobile-desk closebtn" onclick="closeNav()">&times;</a>
         <ul class="d-flex al-center">

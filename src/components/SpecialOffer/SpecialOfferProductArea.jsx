@@ -5,12 +5,9 @@ const SpecialOfferProductArea = () => {
   return (
     <section class="special-offer-product-area">
     <div class="container">
-         {/* <!-- common heading --> */}
-         <div class="common-heading common-heading-Oil">
+         <div class="common-heading">
             <h1>Hot Offers!</h1>
         </div>
-         {/* <!-- common heading --> */}
-         {/* single items  */}
          <SpecialOfferProItems />
          <nav class="pagenation-for-web" aria-label="Page navigation example">
             <ul class="pagination">

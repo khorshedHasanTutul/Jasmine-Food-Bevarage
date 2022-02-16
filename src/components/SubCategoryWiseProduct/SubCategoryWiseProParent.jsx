@@ -8,8 +8,8 @@ const SubCategoryWiseProParent = () => {
     const {subid}=useParams();
   return (
       <>
-      <SubCategoryWiseProHeader categoryParam={parseInt(id)} subCategoryParam={parseInt(subid)}/>
-      <SubCategoryWiseProBody categoryParam={parseInt(id)} subCategoryParam={parseInt(subid)}/>
+       <SubCategoryWiseProHeader categoryParam={parseInt(id)} subCategoryParam={parseInt(subid)}/>
+       <SubCategoryWiseProBody categoryParam={parseInt(id)} subCategoryParam={parseInt(subid)}/>
       </>
       
   )
