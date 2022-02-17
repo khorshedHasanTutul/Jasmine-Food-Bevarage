@@ -2,79 +2,146 @@ import React, { useReducer } from "react";
 import cartContext from "./cart-context";
 
 const initialState = () => {
+  // set initial cartContext 
   const initial = {
-    CartModel: { TotalItems: 0, TotalAmmount: 0, Items: [] }
+    TotalItems: 0,
+    TotalAmmount: 0,
+    Items: [],
   };
 
-  let getCartFromLocalStorage = localStorage.getItem("cartModel");
-  let updatedTotalItems = 0;
-  let updatedTotalAmmount = 0;
-  let updatedCartItems = [];
+  //get local storage items
+  let getCartFromLocalStorage = localStorage.getItem("CARTV1");
+  let TotalItems = 0,
+    TotalAmmount = 0,
+    Items = [];
   if (getCartFromLocalStorage) {
     let cartModel = JSON.parse(getCartFromLocalStorage);
-    updatedTotalItems = cartModel.TotalItems;
-    updatedTotalAmmount = cartModel.TotalAmmount;
-    updatedCartItems = cartModel.Items;
+    TotalItems = cartModel.TotalItems;
+    TotalAmmount = cartModel.TotalAmmount;
+    Items = cartModel.Items;
   }
+
+  //return items in context
   return {
     ...initial,
-    CartModel: {
-      TotalItems: updatedTotalItems,
-      TotalAmmount: updatedTotalAmmount,
-      Items: updatedCartItems,
-    }
+    TotalItems,
+    TotalAmmount,
+    Items,
   };
+
 };
 
 const reducer = (state, action) => {
-
+  //add to cart items
   if (action.type === "Store_Cart_Item") {
-    let cartItemsArray=state.CartModel.Items;
-    let cartTotalItem=state.CartModel.TotalItems;
-    let cartTotalAmmount=state.CartModel.TotalAmmount;
-    cartTotalItem+=1;
-    if(action.item.Ds>0){
-        let productPrice=(action.item.MRP-((action.item.MRP)*action.item.Ds)/100);
-        cartTotalAmmount += productPrice;
+    action.item.quantity=1;
+    const stateItems = [...state.Items];
+    stateItems.push(action.item);
+    let stateTotalItems = state.TotalItems;
+    stateTotalItems += 1;
+    let stateTotalAmmount = state.TotalAmmount;
+    if (action.item.Ds > 0) {
+      let productPrice =
+        action.item.MRP - (action.item.MRP * action.item.Ds) / 100;
+      stateTotalAmmount += productPrice;
+    } else {
+      stateTotalAmmount += action.item.MRP;
     }
-    else{
-        cartTotalAmmount += action.item.MRP;
-    } 
-    cartItemsArray.push(action.item);
-    localStorage.setItem("cartModel", JSON.stringify(state.CartModel));
+    localStorage.setItem(
+      "CARTV1",
+      JSON.stringify({
+        TotalItems: stateTotalItems,
+        TotalAmmount: stateTotalAmmount,
+        Items: stateItems,
+      })
+    );
     return {
       ...state,
-      CartModel: {
-        TotalItems: cartTotalItem, TotalAmmount: cartTotalAmmount, Items: cartItemsArray
-      },
-    }
+      TotalItems: stateTotalItems,
+      TotalAmmount: stateTotalAmmount,
+      Items: stateItems,
+    };
+    
   }
-//   if(action.type==="REMOVE_SINGLE_ITEM"){
-//     let cartcontext = state.CartModel
-//     //local storage update
-//     let getCartFromLocalStorage = localStorage.getItem("cartModel");
-//     getCartFromLocalStorage=JSON.parse(getCartFromLocalStorage)
-//     const index = getCartFromLocalStorage.Items.findIndex(item2 => item2.Id === action.item.Id);
-//     getCartFromLocalStorage.TotalAmount-=action.item.MRP;
-//     getCartFromLocalStorage.Items.splice(index, 1);
-//     //context update
-//     const getOrginalItems=cartcontext.Items.filter(item=>item.Id!==action.item.Id)
-//     cartcontext.TotalAmmount-=action.item.MRP
-//     cartcontext.TotalItems-=1
-//     cartContext.Items=getOrginalItems
-//     return {
-//       ...state,
-//       CartModel:cartcontext
-//     }
-//   }
 
-  if(action.type==="CLEAR_CART_ITEMS"){
-      localStorage.removeItem('cartModel')
-      return{
-          ...state,
-          CartModel:{ TotalItems: 0, TotalAmmount: 0, Items: []}
-      }
+  //remove a single item
+// #region Some
+  if (action.type === "REMOVE_SINGLE_ITEM") {
+    let cartcontext = state;
+    //local storage update
+    let getCartFromLocalStorage = localStorage.getItem("CARTV1");
+    getCartFromLocalStorage = JSON.parse(getCartFromLocalStorage);
+    const index = getCartFromLocalStorage.Items.findIndex(
+      (item2) => item2.Id === action.item.Id
+    );
+    getCartFromLocalStorage.TotalAmount -= action.item.MRP;
+    getCartFromLocalStorage.Items.splice(index, 1);
+    
+
+    //context update
+    const stateItems = cartcontext.Items.filter(
+      (item) => item.Id !== action.item.Id
+    );
+    let stateTotalAmmount = cartcontext.TotalAmmount;
+    stateTotalAmmount -= action.item.MRP;
+    let stateTotalItems = cartcontext.TotalItems;
+    stateTotalItems -= 1;
+
+    //update local storage
+    localStorage.setItem(
+      "CARTV1",
+      JSON.stringify({
+        TotalItems: stateTotalItems,
+        TotalAmmount: stateTotalAmmount,
+        Items: stateItems,
+      })
+    );
+    //return context update
+    return {
+      ...state,
+      TotalItems: stateTotalItems,
+      TotalAmmount: stateTotalAmmount,
+      Items: stateItems,
+    };
   }
+//#endregion Some
+
+//increment item
+if(action.type==="INCREMENT_QTY"){
+  const CtxItems=[...state.Items];
+  const findCtxItem=CtxItems.find(itemfind=>itemfind.Id===action.item.Id)
+  findCtxItem.quantity=action.qty
+  let stateTotalAmmount=state.TotalAmmount;
+  stateTotalAmmount+=action.item.MRP;
+  localStorage.setItem(
+    "CARTV1",
+    JSON.stringify({
+      TotalItems: state.TotalItems,
+      TotalAmmount: stateTotalAmmount,
+      Items: state.Items,
+    })
+  );
+  return{
+    ...state,
+    TotalItems: state.TotalItems,
+    TotalAmmount: stateTotalAmmount,
+    Items: state.Items,
+  }
+}
+
+  // clear cart & LocalStorage 
+
+  if (action.type === "CLEAR_CART_ITEMS") {
+    localStorage.removeItem("CARTV1");
+    return {
+      ...state,
+      TotalItems: 0,
+      TotalAmmount: 0,
+      Items: [],
+    };
+  }
+
+
 };
 
 const CartContextProvider = ({ children }) => {
@@ -82,20 +149,24 @@ const CartContextProvider = ({ children }) => {
 
   const storeCartHandler = (item) => {
     dispatch({ type: "Store_Cart_Item", item: item });
-  }
+  };
 
-  const clearCartHandler=()=>{
-      dispatch({type:"CLEAR_CART_ITEMS"})
+  const clearCartHandler = () => {
+    dispatch({ type: "CLEAR_CART_ITEMS" });
+  };
+  const CartItemRemoverHandler = (item) => {
+    dispatch({ type: "REMOVE_SINGLE_ITEM", item: item });
+  };
+  const IncQuantityHandler=(item,qty)=>{
+    dispatch({type:"INCREMENT_QTY",item:item,qty:qty})
   }
-//   const CartItemRemoverHandler=(item)=>{
-//       dispatch({type:"REMOVE_SINGLE_ITEM",item:item})
-//   }
-
   const context = {
     storeCartItems: storeCartHandler,
-    getCartModel:state.CartModel,
-    clearCart:clearCartHandler,
-    // singleItemRemover:CartItemRemoverHandler,
+    getCartModel: state,
+    clearCart: clearCartHandler,
+    singleItemRemover: CartItemRemoverHandler,
+    incrementQuantity:IncQuantityHandler,
+    
   };
 
   return (

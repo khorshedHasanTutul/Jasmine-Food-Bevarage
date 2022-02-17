@@ -1,14 +1,38 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { urlProductDetails } from "../../Services/UrlService";
 import cartContext from "../../Store/cart-context";
 
 const SingleItemProduct = ({ item }) => {
   const getCartContext = useContext(cartContext);
+  const [visibleCartBox,setVisibleCartBox]=useState(false)
+  const getCartCtxItems=getCartContext.getCartModel.Items;
+  const findItem=getCartCtxItems.find(item2=>item2.Id===item.Id)
+
   const storeCartHandler = (item,e) => {
     e.preventDefault();
     getCartContext.storeCartItems(item);
   };
+  const qtyIncHandler=(e)=>{
+    e.preventDefault();
+    let quantity=item.quantity+1;
+    getCartContext.incrementQuantity(item,quantity)
+  }
+  const qtyDecHandler=(e)=>{
+    e.preventDefault();
+    let quantity=item.quantity-1;
+    getCartContext.incrementQuantity(item,quantity)
+  }
+  
+  useEffect(()=>{
+    if(findItem){
+      setVisibleCartBox(true)
+    }
+    else{
+      setVisibleCartBox(false)
+    }
+  },[findItem])
+
   return (
     <div class="inner-product-main-flex slide-single splide__slide">
       <Link to={urlProductDetails() + item.Id}>
@@ -44,7 +68,9 @@ const SingleItemProduct = ({ item }) => {
             </div>
           </div>
         </div>
-        <div
+        {
+          (!visibleCartBox)&&
+          <div
           class="add-to-cart d-flex al-center j-center"
           onClick={storeCartHandler.bind(this, item)}
         >
@@ -58,6 +84,23 @@ const SingleItemProduct = ({ item }) => {
           </svg>
           <span>Add to Cart</span>
         </div>
+        }
+        {
+          (visibleCartBox)&&
+          <div class="wishlist-btn">
+          <div class="add-tocart-overlay">
+              <div class="inner-card-flex">
+                  <div class="qty-holder2">
+                      <span onClick={qtyDecHandler} class="qty-dec-btn2" title="Dec">-</span>
+                      <aside>{findItem?.quantity} Item Add</aside>
+                      <span onClick={qtyIncHandler} class="qty-inc-btn2" title="Inc">+</span>
+                  </div>
+              </div>
+          </div>
+        </div>
+        }
+       
+       
       </Link>
     </div>
   );
