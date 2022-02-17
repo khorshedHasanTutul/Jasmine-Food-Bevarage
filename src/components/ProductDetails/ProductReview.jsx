@@ -3,7 +3,6 @@ import React from 'react'
 const ProductReview = () => {
   return (
     <div  id="Tab2" class="tabcontent tab-content detalis-page-tab-content">
-    {/* <!-- product desc review information --> */}
     <div class="product-comments-block-tab">
         <div class="new_comment_container">
             <div class="post-cmt-input">
@@ -15,7 +14,6 @@ const ProductReview = () => {
         </div>
         <p></p>
         <div class="comment_container">
-            {/* <!-- single comment item --> */}
             <div class="cmt-item">
                 <div class="cmt-row">
                     <div class="col ctr_img">
@@ -38,7 +36,6 @@ const ProductReview = () => {
                     </div>
                 </div>
             </div>
-            {/* <!-- single comment item --> */}
             <div class="cmt-item">
                 <div class="cmt-row">
                     <div class="col ctr_img">
@@ -64,7 +61,6 @@ const ProductReview = () => {
             
         </div>
     </div>
-    {/* <!-- product desc review information --> */}
 </div>
   )
 }

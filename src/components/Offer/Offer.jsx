@@ -28,21 +28,10 @@ const Offer = () => {
   return (
     <section class="special-offer-area bg-sec">
     <div class="container">
-        {/* <!-- common heading --> */}
         <div class="common-heading">
             <h1>Special Offers</h1>
         </div>
-     {/* <!-- common heading --> */}
      <div class="special-offer-main">
-        {/* <div class="splide offer-splide">
-            <div class="splide__track">
-                  <ul class="splide__list">
-                      <li class="splide__slide offer_splide__slide">
-                            
-                      </li>
-                  </ul>
-            </div>
-         </div> */}
          <Slider options={options} Template={OfferSingleItem} data={getOfferProducts}/>
          <div class="common-btn">
              <Link to={UrlOfferRoute()}>See All Offers</Link>

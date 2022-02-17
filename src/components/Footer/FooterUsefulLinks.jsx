@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { UrlContactRoute, urlReturnPolicyRoute, urlPrivacyPolicyRoute, urlTermsConditionsRoute } from '../Services/UrlService'
+import { UrlContactRoute, urlReturnPolicyRoute, urlPrivacyPolicyRoute, urlTermsConditionsRoute, UrlAboutRoute } from '../Services/UrlService'
 
 const FooterUsefulLinks = () => {
   return (
@@ -13,7 +13,7 @@ const FooterUsefulLinks = () => {
         </li>
         <li>
           <i class="fa fa-angle-double-right"></i>
-          <a href>About Us</a>
+          <Link to={UrlAboutRoute()}>About Us</Link>
         </li>
         <li>
           <i class="fa fa-angle-double-right"></i>

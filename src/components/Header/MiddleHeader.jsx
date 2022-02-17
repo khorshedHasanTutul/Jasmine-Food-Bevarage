@@ -24,7 +24,7 @@ const MiddleHeader = () => {
         <div class="search-box">
             <form>
                 <div class="inner-search-box">
-                    <input type="search" name="" id="search" placeholder="I'am Looking for.." value={searchValue} onChange={textChangeHandler}/>
+                    <input type="search" name="" id="search" placeholder="I'am Looking for..." value={searchValue} onChange={textChangeHandler}/>
                     <button type="submit">
                         <i class="fa fa-search" aria-hidden="true"></i>
                     </button>
@@ -38,12 +38,12 @@ const MiddleHeader = () => {
             <div class="language-switch">
                   <label>
                     <input type='checkbox'/>
-                      <span class='base-color'>
-                       <span class='toggle-slider'></span>
-                       <span class='token'>বাংলা</span> 
-                       <span class='cash'>Eng</span>
-                     </span>
-                 </label>  
+                       <span class='base-color'>
+                        <span class='toggle-slider'></span>
+                        <span class='token'>বাংলা</span> 
+                        <span class='cash'>Eng</span>
+                       </span>
+                  </label>  
             </div>
             <ul class="d-flex">
                 <li>

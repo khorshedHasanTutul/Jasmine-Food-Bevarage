@@ -24,10 +24,10 @@ const SpecialOfferSlider = () => {
     }
   return (
     <section class="special-offer-slider-area">
-    <div class="container">
-        <Slider options={options} Template={SpecialOfferSliderItem} data={specialOfferImage}  />
-    </div>
-</section>   
+      <div class="container">
+          <Slider options={options} Template={SpecialOfferSliderItem} data={specialOfferImage}  />
+      </div>
+   </section>   
   );
 };
 

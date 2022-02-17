@@ -44,25 +44,18 @@ const CategoryWiseProductBody = ({categoryParam}) => {
                 if(getSubCatWiseItem.length>0)
                 return(
                     <div class="repeat-item">
-                    {/* <!-- common heading --> */}
                     <div class="common-heading">
                         <h1>{item.subCategoryName}</h1>
                     </div>
-                    {/* <!-- common heading --> */}
                     <div class="splide-slider-parent mt-20">
                         <div class="product-main-flex splide__track">
-                            {/* <ul class="splide__list"> */}
-                                {/* <!-- single item --> */}
-                                
-                                {/* <!-- single item --> */}
-                            {/* </ul> */}
                             <Slider options={options} Template={CategoryWiseProSingleItem} data={getSubCatWiseItem} />
                         </div>
                     </div>
                  </div>
                 )
                
-                })
+            })
         }
         
     </div>

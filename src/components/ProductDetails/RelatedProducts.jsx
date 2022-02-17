@@ -7,10 +7,8 @@ const RelatedProducts = ({productItem,imageChangedHandler}) => {
     const getRelatedProducts=appData.categoryProducts.filter(item=>item.category_id===productItem.category_id && item.subCategory_id===productItem.subCategory_id)
   return (
     <div class="product-details-right">
-    {/* <!-- RELATED PRODUCTS --> */}
     <div class="related-product-main">
         <h4>RELATED PRODUCTS</h4>
-        {/* <!-- single item --> */}
         {
             getRelatedProducts.map(item=>(
                 <div class="recent-pro-del-flex">

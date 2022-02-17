@@ -48,9 +48,7 @@ const ProductDetailsBody = () => {
     <div class="container">
         <div class="product-details-main">
             <div class="product-details-inner-flex">
-                {/* <!-- product-details-left --> */}
                 <div class="product-details-left">
-                     {/* <!-- product item details --> */}
                     <div class="inner-product-details-flex">
                         <div class="product-d-left-img">
                             <div class="det-img-padding">
@@ -111,11 +109,9 @@ const ProductDetailsBody = () => {
                             </div>
                         </div>
                     </div>
-                    {/* <!-- product item details --> */}
-                    {/* <!-- product desc review information --> */}
+
                     <div class="product-desc-review-information-main">
                         <div id="niiceeTab" class="page-content">
-                            {/* <!-- Tab links --> */}
                             <nav class="niiceeTabBtn">
                                 <button id="defaultOpen" ref={ref} class="tablinks" onClick={toggleHandler}>Product Details</button>
                                 <button class="tablinks"  onClick={toggleHandler}>review</button>
@@ -133,9 +129,7 @@ const ProductDetailsBody = () => {
                             </div>
                         </div>
                     </div>
-                    {/* <!-- product desc review information --> */}
                 </div>
-                {/* <!-- product-details-right --> */}
                <RelatedProducts productItem={getDataById} imageChangedHandler={imageChangedHandler}/>
             </div>
         </div>

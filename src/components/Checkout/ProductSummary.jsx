@@ -8,7 +8,7 @@ const ProductSummary = ({AddressActiveHandler}) => {
   const getCartModal=getCartContext.getCartModel
   return (
     <div id="Tab3" class="tabcontent tab-content checkout-main-tab-content">
-    {/* <!-- product desc review information --> */}
+
     <div class="cart-tb-tab-content">
         <div class="order-detail-content">
             <table class="table table-bordered table-responsive cart_summary">
@@ -85,9 +85,8 @@ const ProductSummary = ({AddressActiveHandler}) => {
             </div>
         </div>
         
-    </div>
-    {/* <!-- product desc review information --> */}
-</div>
+      </div>
+   </div>
   )
 }
 

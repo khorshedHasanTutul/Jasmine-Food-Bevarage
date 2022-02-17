@@ -8,14 +8,11 @@ const SubCategoryWiseProBody = ({categoryParam,subCategoryParam}) => {
   return (
     <section class="special-offer-product-area single-product-item-area">
         <div class="container">
-             {/* <!-- common heading --> */}
              <div class="common-heading common-heading-Oil">
                 <h1>{getSubCategory.subCategoryName}</h1>
             </div>
-             {/* <!-- common heading --> */}
              <div class="hot-offer-product mt-20">
                 <div class="product-main-flex">
-                    {/* <!-- single item --> */}
                    <SubCatWiseSingleProItem categoryParam={categoryParam} subCategoryParam={subCategoryParam}/>
                 </div>
              </div>
