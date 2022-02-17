@@ -30,7 +30,6 @@ const ReviewBodyTemplate = () => {
     <div class="container">
         <div class="customar-review-main-flex">
             <div class="tab-content detalis-page-tab-content">
-                {/* <!-- product desc review information --> */}
                 <div class="product-comments-block-tab">
                     <i class="fa fa-commenting-o" aria-hidden="true"></i>
                     <div class="new_comment_container">
@@ -54,7 +53,6 @@ const ReviewBodyTemplate = () => {
                     <p></p>
                     <ReviewSingleItem />
                 </div>
-                {/* <!-- product desc review information --> */}
             </div>
         </div>
     </div>

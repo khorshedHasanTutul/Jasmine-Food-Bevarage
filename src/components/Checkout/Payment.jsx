@@ -20,7 +20,7 @@ const Payment = () => {
      </div>
     </div>
     
-    {/* <!-- product desc review information --> */}
+
     <div class="product-payment-block-tab">
         <div class="payment-summary-table">
             <table class="table table-bordered table-responsive cart_summary">
@@ -76,7 +76,7 @@ const Payment = () => {
             </div>
         </div> 
     </div>
-    {/* <!-- product desc review information --> */}
+
 </div>
   )
 }

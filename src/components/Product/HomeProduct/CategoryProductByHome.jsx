@@ -45,7 +45,6 @@ const CategoryProductByHome = () => {
   return (
     <section class="product-main-area">
       <div class="container">
-        {/* <!-- common heading --> */}
         {findOnlyVisibleProduct.map((item) => {
           const getProduct = appData.categoryProducts.filter(
             (item2) => item2.category_id === item.categoryId
@@ -55,11 +54,9 @@ const CategoryProductByHome = () => {
               <div class="common-heading">
                 <h1>{item.categoryName}</h1>
               </div>
-              {/* <!-- common heading --> */}
               <div class="spices-auto-scroll mt-20">
                 <div class="slide-track splide__track product-main-flex">
                   <ul class="splide__list">
-                    {/* <!-- single item --> */}
                     <Slider
                       options={options}
                       Template={SingleItemProduct}

@@ -52,10 +52,8 @@ const CheckoutBody = () => {
     <section class="checkout-main-area">
             <div class="container">
                 <div class="checkout-main-tab-area">
-                   {/* <!-- checkout-main-tab --> */}
                    <div class="checkout-main-tab-information-main">
                      <div id="niiceeTab" class="page-content">
-                            {/* <!-- Tab links --> */}
                             <nav class="niiceeTabBtn">
                             <button id="defaultOpen" class="tablinks" ref={ProSummaryRef} onClick={SummaryActiveHandler}>01. Summary</button>
                             <button class="tablinks" onClick={AddressActiveHandler} >02. Address</button>
@@ -78,7 +76,6 @@ const CheckoutBody = () => {
                        </div>
                     </div>
                    </div>
-                  {/* <!-- checkout-main-tab --> */}
                 </div>
             </div>
         </section> 

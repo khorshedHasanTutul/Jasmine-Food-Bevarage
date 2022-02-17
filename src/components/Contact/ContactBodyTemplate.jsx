@@ -86,7 +86,6 @@ const ContactBodyTemplate = () => {
                     </li>
                     <li>
                         <i class="fa fa-volume-control-phone" aria-hidden="true"></i>
-
                         <a href={'tel:+'+getFooterAddress[0].Mobile}>+{getFooterAddress[0].Mobile}​</a>
                     </li>
                     <li>

@@ -8,27 +8,18 @@ import FooterUsefulLinks from "./FooterUsefulLinks";
 const Footer = () => {
   return (
     <>
-      {/* //     <!--=================================================
-//     start footer bottom area
-// ===================================================--> */}
       <footer class="footer-bottom-area">
         <div class="container">
           <div class="footer-bottom-main">
             <div class="footer-bottom-flex">
-              {/* <!-- single item --> */}
-             <FooterAddress />
-              {/* <!-- single item --> */}
+              <FooterAddress />
               <FooterUsefulLinks />
-              {/* <!-- single item --> */}
               <FooterPayment />
-              
-              {/* <!-- single item --> */}
               <FooterSocialLinks />
             </div>
           </div>
         </div>
       </footer>
-      {/* <!-- footer copy right area --> */}
       <footer class="copy-right-area">
         <div class="container">
           <div class="footer-copy-right">
@@ -44,9 +35,6 @@ const Footer = () => {
         </div>
       </footer>
       <BacktoTop />
-      {/* <!--=================================================
-End footer bottom area
-===================================================--> */}
     </>
   );
 };

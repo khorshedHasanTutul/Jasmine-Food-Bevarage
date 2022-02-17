@@ -17,7 +17,6 @@ const SearchTemplate = ({item,closeSearch,lowerSearchvalue,setalert}) => {
 
     return (
         <div class="search-result__items">
-              {/* <!-- search result --> */}
             <div class="result-card">
               <div class="result-card__img">
                 <img src={item.image} alt="product_image" />
@@ -27,17 +26,17 @@ const SearchTemplate = ({item,closeSearch,lowerSearchvalue,setalert}) => {
                   <span  dangerouslySetInnerHTML={getHTML()}></span>
                 </Link>
                 <p class="result-card__details--price">
-                <span>Price: </span>
-                                {
-                                    (item.Ds>0)?<span class="current">৳{(item.MRP-((item.MRP)*item.Ds)/100).toFixed(2)}</span>:
-                                    <span class="current">৳{item.MRP}</span>
-                                }
-                               
-                                {item.Ds>0 ? <span class="original"><del class="cross_price">৳ {item.MRP}</del></span> :
-                                ''
-                                }
+                  <span>Price: </span>
+                  {
+                      (item.Ds>0)?<span class="current">৳{(item.MRP-((item.MRP)*item.Ds)/100).toFixed(2)}</span>:
+                      <span class="current">৳{item.MRP}</span>
+                  }
+                  
+                  {item.Ds>0 ? <span class="original"><del class="cross_price">৳ {item.MRP}</del></span> :
+                  ''
+                  }
                                 
-                            </p>
+                </p>
                 <Link to={'/category/'+item.category_id} class="result-card__details--category" href onClick={closeSearch}>
                 <span>Category: </span>
                 <span class="current">{categoryData.categoryName}</span>
@@ -53,7 +52,7 @@ const SearchTemplate = ({item,closeSearch,lowerSearchvalue,setalert}) => {
              
              
             </div>
-            </div>
+        </div>
     );
 };
 

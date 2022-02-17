@@ -11,6 +11,7 @@ const BottomHeader = () => {
     <button class="mobile-desk openbtn" onclick="openNav()">&#9776;</button>
     <div id="mySidepanel" class="menu sidepanel">
         <a href="javascript:void(0)" class="mobile-desk closebtn" onclick="closeNav()">&times;</a>
+
         <ul class="d-flex al-center">
             <li class="prent-dropdown">
                 <div class="inner-flex d-flex al-center js-center">
@@ -37,6 +38,7 @@ const BottomHeader = () => {
                  }
              </ul>   
             </li>
+            
             <BottomLinks getNavLinksItem={getBottomHeaderItems[0].navLink}/>
         </ul>
     </div>

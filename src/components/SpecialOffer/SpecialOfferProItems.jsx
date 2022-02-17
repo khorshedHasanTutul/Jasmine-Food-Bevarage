@@ -16,7 +16,6 @@ const SpecialOfferProItems = () => {
     return (
     <div class="hot-offer-product mt-20">
     <div class="product-main-flex">
-        {/* <!-- single item --> */}
         {
             getSpecialProduct.map(item=>(
                 <div class="inner-product-main-flex">

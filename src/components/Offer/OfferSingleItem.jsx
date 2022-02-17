@@ -12,7 +12,7 @@ const OfferSingleItem = ({item}) => {
      <Link to={urlProductDetails()+item.Id}>
          <div class="product-top-area">
          <div class="product-img">
-                 <img src="/contents/assets/images/product/p18.jpg" alt="product" />
+              <img src="/contents/assets/images/product/p18.jpg" alt="product" />
          </div>
          <div class="product-content">
              <h3>{item.Nm}</h3>

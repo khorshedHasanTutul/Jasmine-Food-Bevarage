@@ -3,7 +3,6 @@ import React from 'react'
 const ReviewSingleItem = () => {
   return (
     <div class="comment_container">
-    {/* <!-- single comment item --> */}
     <div class="cmt-item">
         <div class="cmt-row">
             <div class="col ctr_img">
@@ -26,7 +25,6 @@ const ReviewSingleItem = () => {
             </div>
         </div>
     </div>
-    {/* <!-- single comment item --> */}
     <div class="cmt-item">
         <div class="cmt-row">
             <div class="col ctr_img">
@@ -71,7 +69,6 @@ const ReviewSingleItem = () => {
             </div>
         </div>
     </div>
-    {/* <!-- single comment item --> */}
     <div class="cmt-item">
         <div class="cmt-row">
             <div class="col ctr_img">

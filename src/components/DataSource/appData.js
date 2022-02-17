@@ -1,4 +1,4 @@
-import Home from "../../pages/Home";
+// import Home from "../../pages/Home";
 import { UrlAboutRoute, UrlCarrerRoute, UrlContactRoute, UrlHomeRoute, UrlOfferRoute, UrlReviewRoute } from "../Services/UrlService";
 
 var appData={
