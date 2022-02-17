@@ -14,11 +14,11 @@ export const urlSubCategoryRoute=()=>"/subcategory/";
 
 //Product Details Route 
 export const urlProductDetails=()=>"/product/details/";
-//Bottom Page Routes
+//Bottom Page policy Routes
 export const urlReturnPolicyRoute=()=>"/return/policy";
-//Bottom Page Routes
+//Bottom Page PrivacyPolicy Routes
  const urlPrivacyPolicyRoute=()=>"/return/PrivacyPolicy";
-//Bottom Page Routes
+//Bottom Page TermsConditions Routes
  const urlTermsConditionsRoute=()=>"/return/TermsConditions";
 //checkout Route
 export const urlCheckoutRoute=()=>"/checkout";
