@@ -1,8 +1,7 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom';
 import { Fragment } from 'react/cjs/react.production.min';
-import CheckoutPage from '../../pages/CheckoutPage';
-import { urlCheckoutRoute } from '../Services/UrlService';
+import { urlCheckoutRoute, urlProductDetails } from '../Services/UrlService';
 import cartContext from '../Store/cart-context'
 
 const ContentCart = ({openCart}) => {
@@ -16,7 +15,7 @@ const ContentCart = ({openCart}) => {
         openCart();
     }
     const cartItemRemoverHandler=(item)=>{
-        // getCartContext.singleItemRemover(item)
+        getCartContext.singleItemRemover(item)
 
     }
   return (
@@ -43,9 +42,9 @@ const ContentCart = ({openCart}) => {
                             getCartContextModel.Items.map(item=>(
                                 <tr class="close">
                                 <td class="card-title-heading">
-                                    <a href="#">
+                                    <Link to={urlProductDetails()+item.Id}>
                                         <span class="SearchProductName SearchFont">{item.Nm}</span>
-                                    </a>
+                                    </Link>
                                     <br />
                                     {
                                          (item.Ds===0)&&  <strong class="SearchPrice SearchDelPriceDel2">৳{item.MRP}</strong>
@@ -53,8 +52,8 @@ const ContentCart = ({openCart}) => {
                                     {
                                         (item.Ds>0)&&
                                         <Fragment>
-                                            <del class="SearchDelPrice SearchDelPriceDel1">৳{(item.MRP-((item.MRP)*item.Ds)/100).toFixed(2)}</del>
-                                             <strong class="SearchPrice SearchDelPriceDel2">৳{item.MRP}</strong>
+                                            <del class="SearchDelPrice SearchDelPriceDel1">৳{item.MRP}</del>
+                                             <strong class="SearchPrice SearchDelPriceDel2">৳{(item.MRP-((item.MRP)*item.Ds)/100).toFixed(2)}</strong>
                                         </Fragment> 
                                     }
                                     
@@ -63,9 +62,9 @@ const ContentCart = ({openCart}) => {
                                 <td class="card-plus-minuse">
                                     <div class="attributes input-group bootstrap-touchspin">
                                         <div class="qty-holder">
-                                            <a href="#" class="qty-dec-btn" title="Dec">-</a>
+                                            <a href class="qty-dec-btn" title="Dec">-</a>
                                             <input type="text" name="product_qty" id="product_qty" class="qty-input" value="1" />
-                                            <a href="#" class="qty-inc-btn" title="Inc">+</a>
+                                            <a href class="qty-inc-btn" title="Inc">+</a>
                                         </div>
                                     </div>
                                 </td>
@@ -78,9 +77,9 @@ const ContentCart = ({openCart}) => {
                                         {
                                             (item.Ds>0)&&
                                             <Fragment>
-                                                <del class="add-postion">{(item.MRP-((item.MRP)*item.Ds)/100).toFixed(2)}</del>
+                                                <del class="add-postion">{item.MRP}</del>
                                                 <br />
-                                                <span class="SearchFont SearchPrice">{item.MRP}</span>
+                                                <span class="SearchFont SearchPrice">{(item.MRP-((item.MRP)*item.Ds)/100).toFixed(2)}</span>
                                             </Fragment>
                                         }
                                         
