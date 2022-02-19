@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import Slider from '../../utilities/slider/Slider'
 import appData from '../DataSource/appData'
+import cartContext from '../Store/cart-context'
 import ProDetailsSliderSingleItem from './ProDetailsSliderSingleItem'
 import ProductDescription from './ProductDescription'
 import ProductReview from './ProductReview'
@@ -10,8 +11,12 @@ import RelatedProducts from './RelatedProducts'
 const ProductDetailsBody = () => {
     const {id}=useParams();
     const ref = useRef(null)
+    const getCartContext = useContext(cartContext);
+    const [visibleCartBox,setVisibleCartBox]=useState(false)
+    const getCartCtxItems=getCartContext.getCartModel.Items;
     const [isActive, setisActive] = useState(false)
     const getDataById=appData.categoryProducts.find(item=>item.Id===id)
+    const findItem=getCartCtxItems.find(item2=>item2.Id===getDataById.Id)
     const getCategory=appData.BottomHeader[1].dropDownCategoryItem.find(item=>item.categoryId===getDataById.category_id)
     const [productImage,setProductImage]=useState(getDataById.image)
     const toggleHandler=()=>{
@@ -21,6 +26,25 @@ const ProductDetailsBody = () => {
         setProductImage(image)
 
     }
+    const storeCartHandler = (item,e) => {
+        e.preventDefault();
+        getCartContext.storeCartItems(item);
+      };
+    
+      const qtyIncHandler=(e)=>{
+        e.preventDefault();
+        let quantity=findItem.quantity+1;
+        getCartContext.updateQuantity(findItem,quantity)
+      }
+    
+      const qtyDecHandler=(e)=>{
+        e.preventDefault();
+        let quantity=findItem.quantity-1;
+        getCartContext.updateQuantity(findItem,quantity)
+        if(findItem.quantity===0){
+          setVisibleCartBox(false)
+        }
+      }
     useEffect(() => {
         if(!isActive){
             ref.current.classList.add('active')
@@ -31,6 +55,15 @@ const ProductDetailsBody = () => {
             ref.current.nextElementSibling.classList.add('active')
         }
     }, [isActive])
+
+    useEffect(()=>{
+        if(findItem){
+          setVisibleCartBox(true)
+        }
+        else{
+          setVisibleCartBox(false)
+        }
+      },[findItem])
     
     const options={
         rewind: true,
@@ -43,6 +76,7 @@ const ProductDetailsBody = () => {
         width:'100%'
     }
     const data=appData.categoryProducts.filter(item=>item.category_id===getDataById.category_id)
+
   return (
     <section class="product-details-area">
     <div class="container">
@@ -90,21 +124,28 @@ const ProductDetailsBody = () => {
                                 </div>
 
                                 <div class="pro-add-wish-flex">
-                                    <div class="add-to-cart d-flex al-center j-center">
+                                    {
+                                        (!visibleCartBox)&&
+                                        <div class="add-to-cart d-flex al-center j-center" onClick={storeCartHandler.bind(this,getDataById)}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M16.53 7l-.564 2h-15.127l-.839-2h16.53zm-14.013 6h12.319l.564-2h-13.722l.839 2zm5.983 5c-.828 0-1.5.672-1.5 1.5 0 .829.672 1.5 1.5 1.5s1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm11.305-15l-3.432 12h-13.017l.839 2h13.659l3.474-12h1.929l.743-2h-4.195zm-6.305 15c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5z"/></svg>
                                         <span>Add to Cart</span>
-                                    </div>
-                                  <div class="wishlist-btn">
+                                        </div>
+                                    }
+                                    
+                                  {
+                                    (visibleCartBox)&&
+                                    <div class="wishlist-btn">
                                     <div class="add-tocart-overlay">
                                         <div class="inner-card-flex">
                                             <div class="qty-holder2">
-                                                <span onclick="inc()" class="qty-dec-btn2" title="Dec">-</span>
-                                                <aside>2 Item Add</aside>
-                                                <span onclick="dec()" class="qty-inc-btn2" title="Inc">+</span>
+                                                <span onClick={qtyDecHandler} class="qty-dec-btn2" title="Dec">-</span>
+                                                <aside>{findItem?.quantity} Item Add</aside>
+                                                <span onClick={qtyIncHandler} class="qty-inc-btn2" title="Inc">+</span>
                                             </div>
                                         </div>
                                     </div>
-                                  </div>
+                                </div>
+                                }
                                 </div>
                             </div>
                         </div>

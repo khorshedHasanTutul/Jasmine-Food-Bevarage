@@ -18,6 +18,17 @@ const ContentCart = ({openCart}) => {
         getCartContext.singleItemRemover(item)
 
     }
+    const qtyDecHandler=(findItem,e)=>{
+        e.preventDefault();
+    let quantity=findItem.quantity-1;
+    getCartContext.updateQuantity(findItem,quantity)
+    }
+    
+    const qtyIncHandler=(findItem,e)=>{
+        e.preventDefault();
+        let quantity=findItem.quantity+1;
+        getCartContext.updateQuantity(findItem,quantity)
+    }
   return (
     <div class="cart-box-view">
     <div class="cart-box-inner-view">
@@ -62,9 +73,9 @@ const ContentCart = ({openCart}) => {
                                 <td class="card-plus-minuse">
                                     <div class="attributes input-group bootstrap-touchspin">
                                         <div class="qty-holder">
-                                            <a href class="qty-dec-btn" title="Dec">-</a>
-                                            <input type="text" name="product_qty" id="product_qty" class="qty-input" value="1" />
-                                            <a href class="qty-inc-btn" title="Inc">+</a>
+                                            <a onClick={qtyDecHandler.bind(this,item)} href class="qty-dec-btn" title="Dec">-</a>
+                                            <input type="text" name="product_qty" id="product_qty" class="qty-input" value={item.quantity} />
+                                            <a onClick={qtyIncHandler.bind(this,item)} href class="qty-inc-btn" title="Inc">+</a>
                                         </div>
                                     </div>
                                 </td>
@@ -72,14 +83,14 @@ const ContentCart = ({openCart}) => {
                                     <span class="SearchFont SearchDelPrice">
                                         <aside>৳ </aside>
                                         {
-                                            (item.Ds===0)&& <span class="SearchFont SearchPrice">{item.MRP}</span>
+                                            (item.Ds===0)&& <span class="SearchFont SearchPrice">{(item.MRP*item.quantity.toFixed(2))}</span>
                                         }
                                         {
                                             (item.Ds>0)&&
                                             <Fragment>
-                                                <del class="add-postion">{item.MRP}</del>
+                                                <del class="add-postion">{(item.MRP*item.quantity.toFixed(2))}</del>
                                                 <br />
-                                                <span class="SearchFont SearchPrice">{(item.MRP-((item.MRP)*item.Ds)/100).toFixed(2)}</span>
+                                                <span class="SearchFont SearchPrice">{((item.MRP-((item.MRP)*item.Ds)/100)*item.quantity).toFixed(2)}</span>
                                             </Fragment>
                                         }
                                         

@@ -6,6 +6,17 @@ import cartContext from '../Store/cart-context'
 const ProductSummary = ({AddressActiveHandler}) => {
   const getCartContext = useContext(cartContext)
   const getCartModal=getCartContext.getCartModel
+  const qtyDecHandler=(findItem,e)=>{
+    e.preventDefault();
+let quantity=findItem.quantity-1;
+getCartContext.updateQuantity(findItem,quantity)
+}
+
+const qtyIncHandler=(findItem,e)=>{
+    e.preventDefault();
+    let quantity=findItem.quantity+1;
+    getCartContext.updateQuantity(findItem,quantity)
+}
   return (
     <div id="Tab3" class="tabcontent tab-content checkout-main-tab-content">
 
@@ -35,23 +46,34 @@ const ProductSummary = ({AddressActiveHandler}) => {
                           <br />
                           <small>Company: LPC </small>
                       </td>
-                      <td class="price"><span>৳ {item.MRP}</span></td>
+                      {
+                        (item.Ds===0)&& <td class="price"><span>৳ {item.MRP}</span></td>
+                      }
+                      {
+                        (item.Ds>0) &&  <td class="price"><span>৳ {(item.MRP - (item.MRP * item.Ds) / 100).toFixed(2)}</span></td>
+                      }
+                     
                       <td class="qty">
                           <div class="input-group product_qty">
-                              <span class="input-group-btn">
+                              <span class="input-group-btn" onClick={qtyDecHandler.bind(this,item)}>
                                   <button class="btn btn-white btn-minus" type="button">
                                   <i class="fa fa-minus" aria-hidden="true"></i>
                                 </button>
                               </span>
-                              <input type="text" class="form-control no-padding add-color text-center height-25" maxlength="3" value="0" />
-                               <span class="input-group-btn">
+                              <input type="text" class="form-control no-padding add-color text-center height-25" maxlength="3" value={item.quantity} />
+                               <span class="input-group-btn" onClick={qtyIncHandler.bind(this,item)}>
                                     <button class="btn btn-red btn-plus" type="button">
                                   <i class="fa fa-plus" aria-hidden="true"></i>
                                 </button>
                               </span>
                             </div>
                       </td>
-                      <td class="price"><span>1, 650.00</span></td>
+                      {
+                        (item.Ds===0)&&  <td class="price"><span>{item.MRP*item.quantity}</span></td>
+                      }
+                      {
+                        (item.Ds>0)&&  <td class="price"><span>{((item.MRP - (item.MRP * item.Ds) / 100)*item.quantity).toFixed(2)}</span></td>
+                      }
                       <td class="action"><a href>&times;</a></td>
                   </tr>
                     ))
@@ -62,7 +84,7 @@ const ProductSummary = ({AddressActiveHandler}) => {
                     <tr>
                         <td colspan="4"><strong>Total</strong></td>
                         <td colspan="4">
-                            <strong>৳ <span>1, 650.00</span></strong>
+                            <strong>৳ <span>{getCartModal.TotalAmmount}</span></strong>
                         </td>
                     </tr>
                 </tfoot>

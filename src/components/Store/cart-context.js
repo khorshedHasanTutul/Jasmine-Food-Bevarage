@@ -5,6 +5,6 @@ const cartContext=createContext({
     getCartModel:{},
     clearCart:{},
     singleItemRemover:(item)=>{},
-    incrementQuantity:(item,qty)=>{},
+    updateQuantity:(item,qty)=>{},
 })
 export default cartContext;
