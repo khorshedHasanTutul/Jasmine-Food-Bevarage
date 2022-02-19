@@ -13,15 +13,20 @@ const SingleItemProduct = ({ item }) => {
     e.preventDefault();
     getCartContext.storeCartItems(item);
   };
+
   const qtyIncHandler=(e)=>{
     e.preventDefault();
-    let quantity=item.quantity+1;
-    getCartContext.incrementQuantity(item,quantity)
+    let quantity=findItem.quantity+1;
+    getCartContext.updateQuantity(findItem,quantity)
   }
+
   const qtyDecHandler=(e)=>{
     e.preventDefault();
-    let quantity=item.quantity-1;
-    getCartContext.incrementQuantity(item,quantity)
+    let quantity=findItem.quantity-1;
+    getCartContext.updateQuantity(findItem,quantity)
+    if(findItem.quantity===0){
+      setVisibleCartBox(false)
+    }
   }
   
   useEffect(()=>{
