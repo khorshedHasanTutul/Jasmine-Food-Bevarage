@@ -1,9 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
+import AddressContextProvider from '../Store/AddressContextProvider'
+import cartContext from '../Store/cart-context'
 import Address from './Address'
 import Payment from './Payment'
 import ProductSummary from './ProductSummary'
 
 const CheckoutBody = () => {
+    const ctxCart=useContext(cartContext)
     const ProSummaryRef=useRef(null)
     const [isActiveProductSummary,setActiveProductSummary]=useState(true)
     const [isActiveAddress,setActiveAddress]=useState(false)
@@ -61,13 +64,13 @@ const CheckoutBody = () => {
                         </nav>
                        <div class="tabbed niiceeTabContent">
                            <span class="card-shiping-item"> Your shopping cart contains:
-                                <small>2 Product</small>
+                                <small>{ctxCart.getCartModel.Items.length} Product</small>
                             </span>
                             {
                                 (isActiveProductSummary)&& <ProductSummary AddressActiveHandler={AddressActiveHandler}/>
                             }
                             {
-                                (isActiveAddress)&& <Address />
+                                (isActiveAddress)&& <AddressContextProvider><Address /></AddressContextProvider> 
                             }
                             {
                                 (isActivePayment)&& <Payment />

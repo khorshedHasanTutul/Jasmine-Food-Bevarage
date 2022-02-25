@@ -705,6 +705,20 @@ var appData={
            productInfo:"Kasundi is a protein-rich, spicy relish made from mustard seeds. A condiment and a taste-enhancer. Kasundi brings out the best taste in whatever it is paired up with: seasonal green fruits, snacks such as “shingara” & “pakora”."
         }
       ],
+      BottomActiveAddress:[
+          {
+              id:1,
+              type:"Home"
+          },
+          {
+              id:2,
+              type:"Office"
+          },
+          {
+              id:3,
+              type:"Home Town"
+          }
+      ],
       Footer:[
           {
               Address:"Jasmine Food & Beverage 37/B Dilu Road,New Eskaton, Dhaka",

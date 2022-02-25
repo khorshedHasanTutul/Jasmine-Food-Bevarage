@@ -92,7 +92,7 @@ const SearchTemplate = ({item,closeSearch,lowerSearchvalue,setalert}) => {
               <div class="inner-card-flex">
                   <div class="qty-holder2">
                       <span onClick={qtyDecHandler} class="qty-dec-btn2" title="Dec">-</span>
-                      <aside>{findItem?.quantity} Item Add</aside>
+                      <aside>{findItem?.quantity} Item</aside>
                       <span onClick={qtyIncHandler} class="qty-inc-btn2" title="Inc">+</span>
                   </div>
               </div>

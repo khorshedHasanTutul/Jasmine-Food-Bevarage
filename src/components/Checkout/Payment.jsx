@@ -15,7 +15,7 @@ const Payment = () => {
      <div class="shapping-address-inner-content">
          <div class="location-ad-icon"><i class="fa fa-map-marker" aria-hidden="true"></i></div>
          <div class="saving-address-content">
-             <small>jakma</small><small>01725740820</small><span><aside>Office</aside></span><span>jakma@outlook.com</span><span>Dhaka-Dhaka-Mirpur-Mirpur Block C Road 12</span>
+             <small>jakma</small><small>01704247162</small><span><aside>Office</aside></span><span>jakma@outlook.com</span><span>Dhaka-Dhaka-Mirpur-Mirpur Block C Road 12</span>
          </div>
      </div>
     </div>
