@@ -876,6 +876,7 @@ p {
   color: #fff;
   font-weight: 400;
   font-size: 17px;
+  text-transform: capitalize;
 }
 
 .add-to-cart svg {
@@ -2614,6 +2615,7 @@ textarea:focus {
 .order-detail-content .action {
   text-align: center;
   vertical-align: middle !important;
+  cursor: pointer;
 }
 
 .order-detail-content .action a img {
@@ -2814,6 +2816,9 @@ textarea:focus {
   text-align: center;
   padding-bottom: 20px;
   position: relative;
+  /* edited by tutul  */
+  cursor: pointer;
+  /* end  */
 }
 
 .selected-address {
@@ -2889,6 +2894,9 @@ textarea:focus {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  /* edited by tutul  */
+  cursor: pointer;
+  /* end  */
 }
 .chosse-your-fvt-btn ul li {
   margin: 5px;

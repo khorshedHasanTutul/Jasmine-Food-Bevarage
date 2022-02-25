@@ -83,12 +83,12 @@ const ContentCart = ({openCart}) => {
                                     <span class="SearchFont SearchDelPrice">
                                         <aside>৳ </aside>
                                         {
-                                            (item.Ds===0)&& <span class="SearchFont SearchPrice">{(item.MRP*item.quantity.toFixed(2))}</span>
+                                            (item.Ds===0)&& <span class="SearchFont SearchPrice">{(item.MRP*item.quantity).toFixed(2)}</span>
                                         }
                                         {
                                             (item.Ds>0)&&
                                             <Fragment>
-                                                <del class="add-postion">{(item.MRP*item.quantity.toFixed(2))}</del>
+                                                <del class="add-postion">{(item.MRP*item.quantity).toFixed(2)}</del>
                                                 <br />
                                                 <span class="SearchFont SearchPrice">{((item.MRP-((item.MRP)*item.Ds)/100)*item.quantity).toFixed(2)}</span>
                                             </Fragment>
