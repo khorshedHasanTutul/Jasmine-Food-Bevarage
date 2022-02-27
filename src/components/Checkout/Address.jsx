@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { Link } from "react-router-dom";
+import { storeAddressObj } from "../Services/AddressService";
+import addressContext from "../Store/address-context";
 import AddressList from "./AddressList";
 import AddressValidation from "./AddressValidation/AddressValidation";
 import AreaValidation from "./AddressValidation/AreaValidation";
@@ -10,9 +13,23 @@ import NameValidation from "./AddressValidation/NameValidation";
 import BottomActiveAddress from "./BottomActiveAddress";
 
 const Address = () => {
+  const ctxAddress=useContext(addressContext)
   const [clicked, setClicked] = useState(false);
+  let addressObj=Object.assign({},storeAddressObj) ;
+
+
   const saveAddresshandler = () => {
     setClicked(true);
+    if (
+      addressObj.name.length !== 0 &&
+      addressObj.mobile.length !== 0 &&
+      addressObj.division.length !== 0 &&
+      addressObj.district.length !== 0 &&
+      addressObj.area.length !== 0 &&
+      addressObj.address.length !== 0
+    ) {
+      ctxAddress.storeAddressCtx(addressObj)
+    }
   };
 
   return (
@@ -30,12 +47,14 @@ const Address = () => {
                   <MobileValidation clicked={clicked} />
                   <EmailValidation />
                   <div class="address-inner-select-item">
-                    <Divisionvalidation clicked={clicked}/>
-                    <DistrictValidation clicked={clicked}/>
-                    <AreaValidation clicked={clicked}/>    
+                    <Divisionvalidation clicked={clicked} />
+                    <DistrictValidation clicked={clicked} />
+                    <AreaValidation clicked={clicked} />
                   </div>
-                  <AddressValidation clicked={clicked}/>
-                  <BottomActiveAddress saveAddresshandler={saveAddresshandler} />
+                  <AddressValidation clicked={clicked} />
+                  <BottomActiveAddress
+                    saveAddresshandler={saveAddresshandler}
+                  />
                 </div>
               </form>
             </div>
@@ -44,11 +63,11 @@ const Address = () => {
           </div>
         </div>
         <div class="cart_navigation">
-          <a class="prev-btn" href="/">
+          <Link class="prev-btn" to="/">
             <i class="fa fa-angle-left check-ang-left" aria-hidden="true"></i>{" "}
             Continue shopping
-          </a>
-          <a class="next-btn">
+          </Link>
+          <a href class="next-btn">
             {" "}
             Proceed to order{" "}
             <i class="fa fa-angle-right check-ang-right" aria-hidden="true"></i>

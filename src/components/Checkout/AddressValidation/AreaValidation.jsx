@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { getAreas } from "../../Services/AddressService";
+import { getAreas, storeAddressObj } from "../../Services/AddressService";
 import addressContext from "../../Store/address-context";
 
 const AreaValidation = ({clicked}) => {
@@ -20,6 +20,7 @@ const AreaValidation = ({clicked}) => {
     }
     const selectAreaHandler=(item)=>{
         ctxAddress.storeArea(item)
+        storeAddressObj.area=(item.name)
     }
     useEffect(()=>{
       if(clicked){

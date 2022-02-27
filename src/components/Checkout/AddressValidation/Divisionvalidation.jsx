@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { getDivision } from "../../Services/AddressService";
+import { getDivision, storeAddressObj } from "../../Services/AddressService";
 import addressContext from "../../Store/address-context";
 
 const Divisionvalidation = ({clicked}) => {
@@ -18,6 +18,7 @@ const Divisionvalidation = ({clicked}) => {
     }
     const selectDivisionHandler=(item)=>{
         addressCtx.storeDivision(item)
+        storeAddressObj.division=(item.name)
     }
 
     useEffect(()=>{

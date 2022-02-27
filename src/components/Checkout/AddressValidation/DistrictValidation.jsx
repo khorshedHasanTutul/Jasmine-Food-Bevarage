@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { getDistricts } from "../../Services/AddressService";
+import { getDistricts, storeAddressObj } from "../../Services/AddressService";
 import addressContext from "../../Store/address-context";
 
 const DistrictValidation = ({clicked}) => {
@@ -20,6 +20,7 @@ const DistrictValidation = ({clicked}) => {
     }
     const selectDistrictHandler=(item)=>{
         ctx.storeDistrict(item)
+        storeAddressObj.district=(item.name)
     }
 
     useEffect(()=>{

@@ -1,44 +1,64 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { storeAddressObj } from "../../Services/AddressService";
+import addressContext from "../../Store/address-context";
 
-const AddressValidation = ({clicked}) => {
-    const[address,setAddress]=useState('');
-    const[addressIsTouched,setAddressIsTouched]=useState(false)
-    const[addressValid,setAddressIsValid]=useState(false)
-    const addressChangeHandler=({target})=>{
-        setAddress(target.value)
+const AddressValidation = ({ clicked }) => {
+  const ctxAddress = useContext(addressContext);
+  const [address, setAddress] = useState('');
+  const [addressIsTouched, setAddressIsTouched] = useState(false);
+  const [addressValid, setAddressIsValid] = useState(false);
+  const getCtxStoreAddress = ctxAddress?.getStoreAddressCtx;
+  const getIfFindActiveType = getCtxStoreAddress?.find(
+    (item) => item.type === ctxAddress.getActiveType
+  );
+
+  const addressChangeHandler = ({ target }) => {
+    setAddress(target.value);
+    storeAddressObj.address = target.value;
+  };
+  const addressIsTouchedHandler = () => {
+    setAddressIsTouched(true);
+  };
+
+  useEffect(() => {
+    if (clicked) {
+      if (
+        (addressIsTouched && address.length === 0) ||
+        (!addressIsTouched && address.length === 0)
+      ) {
+        setAddressIsValid(true);
+      } else setAddressIsValid(false);
     }
-    const addressIsTouchedHandler=()=>{
-        setAddressIsTouched(true)
+  }, [address.length, addressIsTouched, clicked]);
+
+  useEffect(()=>{
+    if(getIfFindActiveType){
+      setAddress(getIfFindActiveType.address)
     }
-    useEffect(()=>{
-      if(clicked){
-        if((addressIsTouched && address.length===0)|| (!addressIsTouched && address.length===0)){
-            setAddressIsValid(true)
-        }
-        else
-        setAddressIsValid(false)
-      }
-        
-    },[address.length,addressIsTouched,clicked])
+    else{
+      setAddress('')
+    }
+  },[getIfFindActiveType])
+
   return (
     <div class="address-textarea">
       <label for="message">Address</label>
-      <textarea 
-      class="effect2" 
-      name="" 
-      id="message" 
-      required
-      onChange={addressChangeHandler}
-      onBlur={addressIsTouchedHandler}
+      <textarea
+        class="effect2"
+        name="address"
+        id="message"
+        required
+        onChange={addressChangeHandler}
+        onBlur={addressIsTouchedHandler}
       >
-          {address}
+        {address}
       </textarea>
-      {
-          (addressValid)&& <div class="alert alert-error">Address is required.</div>
-      }
-      {
-          (addressIsTouched && address.length===0 && !addressValid)&& <div class="alert alert-error">Address is required.</div>
-      }
+      {addressValid && (
+        <div class="alert alert-error">Address is required.</div>
+      )}
+      {addressIsTouched && address.length === 0 && !addressValid && (
+        <div class="alert alert-error">Address is required.</div>
+      )}
     </div>
   );
 };
