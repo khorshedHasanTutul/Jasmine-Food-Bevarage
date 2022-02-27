@@ -132,3 +132,13 @@ export const getAreas=(dsitrictId)=>{
         areas.filter(item=>item.districtId===dsitrictId)
     )
 }
+export const storeAddressObj={
+    name:'',
+    mobile:'',
+    email:'',
+    division:'',
+    district:'',
+    area:'',
+    address:'',
+    type:''
+}

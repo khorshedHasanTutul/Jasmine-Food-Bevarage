@@ -1,15 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { storeAddressObj } from "../../Services/AddressService";
+import addressContext from "../../Store/address-context";
 
 const NameValidation = ({clicked}) => {
+    const ctxAddress=useContext(addressContext)
     const[name,setName]=useState('');
     const[nameIsTouched,setNameIsTouched]=useState(false)
     const[nameValid,setNameIsValid]=useState(false)
+    const getCtxStoreAddress=ctxAddress?.getStoreAddressCtx;
+    const getIfFindActiveType=getCtxStoreAddress?.find(item=>item.type===ctxAddress.getActiveType)
+
     const nameChangeHandler=({target})=>{
         setName(target.value)
+        storeAddressObj.name=target.value
     }
     const nameIsTouchedHandler=()=>{
         setNameIsTouched(true)
     }
+
     useEffect(()=>{
       if(clicked){
         if((nameIsTouched && name.length===0)|| (!nameIsTouched && name.length===0)){
@@ -20,6 +28,15 @@ const NameValidation = ({clicked}) => {
       }
         
     },[name.length,nameIsTouched,clicked])
+
+    useEffect(()=>{
+      if(getIfFindActiveType){
+        setName(getIfFindActiveType.name)
+      }
+      else{
+        setName('')
+      }
+    },[getIfFindActiveType])
 
   return (
     <div class="custom-input">

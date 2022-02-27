@@ -7,6 +7,7 @@ const initialState=()=>{
         district:[],
         area:[],
         activeType:"Home",
+        storeAddress:[]
     }
     return {
         ...initial
@@ -42,12 +43,22 @@ const reducer=(state,action)=>{
             area:ctxArea
         }
     }
+
     if(action.type==="SET_ACTIVE_TYPE"){
         let ctxActiveType=state.activeType
         ctxActiveType=(action.item.type)
         return{
             ...state,
             activeType:ctxActiveType
+        }
+    }
+
+    if(action.type==="STORE_ADDRESS"){
+        let ctxAddress=[...state.storeAddress]
+        ctxAddress.push(action.item)
+        return{
+            ...state,
+            storeAddress:ctxAddress
         }
     }
 
@@ -68,6 +79,9 @@ const AddressContextProvider = ({children}) => {
     const activeTypeHandler=(item)=>{
         dispatch({type:"SET_ACTIVE_TYPE",item:item})
     }
+    const storeAddressCtxHandler=(item)=>{
+        dispatch({type:"STORE_ADDRESS",item:item})
+    }
 
     const context={
         storeDivision:storeDivisionHandler,
@@ -77,7 +91,9 @@ const AddressContextProvider = ({children}) => {
         storeArea:storeAreaHandler,
         getArea:state.area,
         setActiveType:activeTypeHandler,
-        getActiveType:state.activeType
+        getActiveType:state.activeType,
+        storeAddressCtx:storeAddressCtxHandler,
+        getStoreAddressCtx:state.storeAddress,
     }
 
   return (

@@ -1,14 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
 import appData from "../DataSource/appData";
+import { storeAddressObj } from "../Services/AddressService";
 import addressContext from "../Store/address-context";
 
 const BottomActiveAddress = ({ saveAddresshandler }) => {
   const ctxAddress = useContext(addressContext);
   const getAddressList = appData.BottomActiveAddress;
   const [activeType, setactiveType] = useState(ctxAddress.getActiveType);
+  //address type added in obj 
+  storeAddressObj.type=activeType
 
   const activeTypeHandler = (item) => {
     ctxAddress.setActiveType(item);
+    storeAddressObj.type=item.type
   };
   
   useEffect(() => {
