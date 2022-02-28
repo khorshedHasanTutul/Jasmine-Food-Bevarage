@@ -50,8 +50,8 @@ const AddressValidation = ({ clicked }) => {
         required
         onChange={addressChangeHandler}
         onBlur={addressIsTouchedHandler}
+        value={address}
       >
-        {address}
       </textarea>
       {addressValid && (
         <div class="alert alert-error">Address is required.</div>

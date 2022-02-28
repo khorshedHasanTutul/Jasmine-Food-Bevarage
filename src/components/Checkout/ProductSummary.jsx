@@ -2,12 +2,20 @@ import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { urlProductDetails } from "../Services/UrlService";
+import addressContext from "../Store/address-context";
 import cartContext from "../Store/cart-context";
 
-const ProductSummary = ({ AddressActiveHandler }) => {
+const ProductSummary = ({ AddressActiveHandler ,proceedToAddressHandler}) => {
+
   let history = useHistory();
   const getCartContext = useContext(cartContext);
-  const getCartModal = getCartContext.getCartModel;
+  const ctxAddress=useContext(addressContext)
+  const getCtxStoreAddress=ctxAddress.getStoreAddressCtx;
+  const getCtxAddressActiveType=ctxAddress.getActiveType
+  const getCartModal = getCartContext.getCartModel
+  const findActiveAddress=getCtxStoreAddress.find(item=>item.type===getCtxAddressActiveType)
+
+
   const qtyDecHandler = (findItem, e) => {
     e.preventDefault();
     let quantity = findItem.quantity - 1;
@@ -29,6 +37,7 @@ const ProductSummary = ({ AddressActiveHandler }) => {
       history.push("/");
     }
   }, [getCartModal.Items.length, history]);
+
   return (
     <div id="Tab3" class="tabcontent tab-content checkout-main-tab-content">
       <div class="cart-tb-tab-content">
@@ -138,25 +147,30 @@ const ProductSummary = ({ AddressActiveHandler }) => {
           </table>
 
           <div class="row-custom">
-            <div class="shaping-address-saveing-row">
+            {
+              (getCtxStoreAddress.length>0 && findActiveAddress?.name.length>0)&&
+              <div class="shaping-address-saveing-row">
               <div class="shapping-address-inner-content">
                 <div class="location-ad-icon">
                   <i class="fa fa-map-marker" aria-hidden="true"></i>
                 </div>
                 <div class="saving-address-content">
-                  <small>jakma</small>
-                  <small>01725740820</small>
-                  <span>
-                    <aside>Office</aside>
-                  </span>
-                  <span>jakma@outlook.com</span>
-                  <span>Dhaka-Dhaka-Mirpur-Mirpur Block C Road 12</span>
-                </div>
+              <small>{(findActiveAddress)&&findActiveAddress.name}</small>
+              <small>{(findActiveAddress)&&findActiveAddress.mobile}</small>
+              <span>
+                <aside>{(findActiveAddress)&&findActiveAddress.type}</aside>
+              </span>
+              <span>{(findActiveAddress)&&findActiveAddress.email}</span>
+              &nbsp;
+              <span>{(findActiveAddress)&& findActiveAddress.division +'-'+ findActiveAddress.district +'-'+ findActiveAddress.area +'-'+ findActiveAddress.address}</span>
+            </div>
               </div>
               <div class="saving-ad-btn" onClick={AddressActiveHandler}>
                 <button>Change</button>
               </div>
             </div>
+            }
+           
             <div class="cart_navigation">
               <Link class="prev-btn" to="/">
                 <i
@@ -165,7 +179,7 @@ const ProductSummary = ({ AddressActiveHandler }) => {
                 ></i>{" "}
                 Continue shopping
               </Link>
-              <a class="next-btn">
+              <a  href class="next-btn" onClick={proceedToAddressHandler}>
                 {" "}
                 Proceed to checkout{" "}
                 <i
@@ -173,6 +187,7 @@ const ProductSummary = ({ AddressActiveHandler }) => {
                   aria-hidden="true"
                 ></i>
               </a>
+
             </div>
           </div>
         </div>
