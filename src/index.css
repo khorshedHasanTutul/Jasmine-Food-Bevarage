@@ -1722,8 +1722,8 @@ label .token {
 
 /****************** modal login register css ******************/
 .modal {
-  visibility: hidden;
-  opacity: 0;
+  /* visibility: hidden; */
+  opacity: 1;
   position: fixed;
   top: 0;
   right: 0;
@@ -1779,6 +1779,7 @@ label .token {
   color: #fff;
   top: -3px;
   right: -3px;
+  cursor: pointer;
 }
 .user-info-phone .login-info-from {
   padding: 50px 30px;

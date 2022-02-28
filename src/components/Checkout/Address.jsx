@@ -12,13 +12,13 @@ import MobileValidation from "./AddressValidation/MobileValidation";
 import NameValidation from "./AddressValidation/NameValidation";
 import BottomActiveAddress from "./BottomActiveAddress";
 
-const Address = () => {
-  const ctxAddress=useContext(addressContext)
+const Address = ({ProceedToOrderHandler}) => {
+  const ctxAddress = useContext(addressContext);
   const [clicked, setClicked] = useState(false);
-  let addressObj=Object.assign({},storeAddressObj) ;
-
+  let addressObj = Object.assign({}, storeAddressObj);
 
   const saveAddresshandler = () => {
+    addressObj = Object.assign({}, storeAddressObj);
     setClicked(true);
     if (
       addressObj.name.length !== 0 &&
@@ -28,7 +28,7 @@ const Address = () => {
       addressObj.area.length !== 0 &&
       addressObj.address.length !== 0
     ) {
-      ctxAddress.storeAddressCtx(addressObj)
+      ctxAddress.storeAddressCtx(addressObj);
     }
   };
 
@@ -67,7 +67,7 @@ const Address = () => {
             <i class="fa fa-angle-left check-ang-left" aria-hidden="true"></i>{" "}
             Continue shopping
           </Link>
-          <a href class="next-btn">
+          <a href class="next-btn" onClick={ProceedToOrderHandler}>
             {" "}
             Proceed to order{" "}
             <i class="fa fa-angle-right check-ang-right" aria-hidden="true"></i>

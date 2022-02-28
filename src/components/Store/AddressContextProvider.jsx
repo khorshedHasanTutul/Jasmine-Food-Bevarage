@@ -55,7 +55,15 @@ const reducer=(state,action)=>{
 
     if(action.type==="STORE_ADDRESS"){
         let ctxAddress=[...state.storeAddress]
-        ctxAddress.push(action.item)
+        const findIfExist=ctxAddress.find(item=>item.type===action.item.type)
+        if(!findIfExist){
+            ctxAddress.push(action.item)
+        }
+        else {
+            const findIndex=ctxAddress.findIndex(item=>item.type===action.item.type)
+            ctxAddress.splice(findIndex,1,action.item)
+        }
+        
         return{
             ...state,
             storeAddress:ctxAddress
