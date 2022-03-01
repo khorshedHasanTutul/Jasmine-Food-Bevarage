@@ -2,7 +2,7 @@ import React ,{useState} from 'react';
 import { Link } from 'react-router-dom';
 import appData from '../DataSource/appData';
 import SearchProduct from '../SearchPortal/SearchProduct';
-import { UrlHomeRoute } from '../Services/UrlService';
+import { UrlHomeRoute, urlProfileRoute } from '../Services/UrlService';
 
 const MiddleHeader = () => {
     const getLogo=appData.MiddleHeader;
@@ -47,9 +47,9 @@ const MiddleHeader = () => {
             </div>
             <ul class="d-flex">
                 <li>
-                  <a href="#demo-modal">
+                  <Link to={urlProfileRoute()}>
                     <i class="fa fa-user-o" aria-hidden="true"></i>
-                  </a>
+                  </Link>
                 </li>
                 <li>
                     <a href>
