@@ -22,6 +22,8 @@ const urlPrivacyPolicyRoute = () => "/return/PrivacyPolicy";
 const urlTermsConditionsRoute = () => "/return/TermsConditions";
 //checkout Route
 export const urlCheckoutRoute = () => "/checkout";
+//notification Route
+export const urlNotificationRoute= ()=> "/notification"
 
 //profile Dashboard Route
 export const urlProfileRoute = () => "/profile";
@@ -47,6 +49,12 @@ export const urlSpecialOfferRoute=()=>"/special/offer"
 export const urlProfileEditRoute=()=>"/edit"
 // profile submit complain
 export const urlProfileComplain=()=>"/complain"
+
+
+
+
+//Not found 
+export const urlNotFoundRoute=()=>"/*"
 
 export {
   UrlHomeRoute,

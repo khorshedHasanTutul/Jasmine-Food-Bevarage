@@ -6,7 +6,7 @@ const SpecialOffer = () => {
                                 {/* <!-- single item --> */}
         <div class="single-cash-card-item">
             <div class="card-img">
-                <img src="/src/img/cash.png" alt="cash" />
+                <img src="/contents/assets/images/cash.png" alt="cash" />
             </div>
             <div class="cash-content">
                 <h4>Cashback Offer</h4>
@@ -16,7 +16,7 @@ const SpecialOffer = () => {
         {/* <!-- single item --> */}
         <div class="single-cash-card-item">
             <div class="card-img">
-                <img src="/src/img/cash.png" alt="cash" />
+                <img src="/contents/assets/images/cash.png" alt="cash" />
             </div>
             <div class="cash-content">
                 <h4>Cashback Offer</h4>
@@ -26,7 +26,7 @@ const SpecialOffer = () => {
         {/* <!-- single item --> */}
         <div class="single-cash-card-item">
             <div class="card-img">
-                <img src="/src/img/cash.png" alt="cash" />
+                <img src="/contents/assets/images/cash.png" alt="cash" />
             </div>
             <div class="cash-content">
                 <h4>Cashback Offer</h4>
@@ -36,7 +36,7 @@ const SpecialOffer = () => {
         {/* <!-- single item --> */}
         <div class="single-cash-card-item">
             <div class="card-img">
-                <img src="/src/img/cash.png" alt="cash" />
+                <img src="/contents/assets/images/cash.png" alt="cash" />
             </div>
             <div class="cash-content">
                 <h4>Cashback Offer</h4>
@@ -46,7 +46,7 @@ const SpecialOffer = () => {
         {/* <!-- single item --> */}
         <div class="single-cash-card-item">
             <div class="card-img">
-                <img src="/src/img/cash.png" alt="cash" />
+                <img src="/contents/assets/images/cash.png" alt="cash" />
             </div>
             <div class="cash-content">
                 <h4>Cashback Offer</h4>

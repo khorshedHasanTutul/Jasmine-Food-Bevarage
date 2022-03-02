@@ -5,7 +5,7 @@ const BottomLinks = ({getNavLinksItem}) => {
   return (
       getNavLinksItem.map(link=>(
         <li>
-          <NavLink to={link.to}>
+          <NavLink activeStyle={{color:"#FF1E1C"}} to={link.to} exact>
           {link.name}
           </NavLink>
         </li>

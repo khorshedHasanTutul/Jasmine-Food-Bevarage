@@ -4,7 +4,7 @@ import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import ShoppingCart from "./components/Cart/ShoppingCart";
 import { Route, Switch } from "react-router-dom";
-import { UrlCarrerRoute, urlCategoryRoute, urlCheckoutRoute, UrlContactRoute, UrlHomeRoute, UrlOfferRoute,urlProductDetails,urlReturnPolicyRoute,UrlReviewRoute, urlSubCategoryRoute, UrlAboutRoute, urlPrivacyPolicyRoute,urlTermsConditionsRoute, urlProfileRoute } from "./components/Services/UrlService";
+import { UrlCarrerRoute, urlCategoryRoute, urlCheckoutRoute, UrlContactRoute, UrlHomeRoute, UrlOfferRoute,urlProductDetails,urlReturnPolicyRoute,UrlReviewRoute, urlSubCategoryRoute, UrlAboutRoute, urlPrivacyPolicyRoute,urlTermsConditionsRoute, urlProfileRoute, urlNotFoundRoute, urlNotificationRoute } from "./components/Services/UrlService";
 import SpecialOffer from "./pages/SpecialOffer";
 import ReviewPage from "./pages/ReviewPage";
 import CarrerPage from "./pages/CarrerPage";
@@ -18,6 +18,8 @@ import About from "./pages/About";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TremsCondition from "./pages/TremsCondition";
 import Profile from "./pages/Profile";
+import ErrorPage from "./pages/ErrorPage";
+import NotificationPage from "./pages/NotificationPage";
 
 
 function App() {
@@ -41,6 +43,8 @@ function App() {
               <Route path={urlTermsConditionsRoute()}><TremsCondition /></Route>
               <Route path={urlCheckoutRoute()}><CheckoutPage/></Route>
               <Route path={urlProfileRoute()}><Profile/></Route>
+              <Route path={urlNotificationRoute()}><NotificationPage/></Route>
+              <Route path={urlNotFoundRoute()}><ErrorPage/></Route>
             </Switch>
         </main>
          <ShoppingCart />

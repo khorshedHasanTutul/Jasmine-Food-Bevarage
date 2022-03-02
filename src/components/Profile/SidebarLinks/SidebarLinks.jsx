@@ -39,7 +39,7 @@ const SidebarLinks = () => {
           </NavLink>
         </li>
         <li>
-          <Link to="/asd">
+          <Link to="/">
             <i class="fa fa-angle-double-right" aria-hidden="true"></i>Logout
           </Link>
         </li>

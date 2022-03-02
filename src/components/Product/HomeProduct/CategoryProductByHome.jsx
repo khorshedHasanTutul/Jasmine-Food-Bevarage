@@ -11,7 +11,7 @@ const CategoryProductByHome = () => {
     autoplay: true,
     rewindSpeed: 1000,
     speed: 1000,
-    pauseOnHover: false,
+    pauseOnHover: true,
     perPage: 5,
     width: "100%",
     breakpoints: {
@@ -36,7 +36,7 @@ const CategoryProductByHome = () => {
     },
     autoScroll: {
         speed: 1,
-      },
+      }
   };
   const getCategory = appData.BottomHeader;
   const findOnlyVisibleProduct = getCategory[1].dropDownCategoryItem.filter(
