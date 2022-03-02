@@ -6,7 +6,7 @@ const ProfileSidebar = () => {
     <div class="profile-sidebar">
     <div class="profile-sidebar-inner">
         <div class="profile-short-desc">
-            <img src="contents/assets/images/cmt.png" alt="cmt" />
+            <img src="/contents/assets/images/cmt.png" alt="cmt" />
             <p>Khorshed Hasan Tutul</p>
             <p>jakma@gmail.com</p>
             <aside>My Wallet: <span>0BDT</span></aside>
