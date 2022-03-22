@@ -20,9 +20,11 @@ const MiddleHeader = () => {
   const textChangeHandler = ({ target }) => {
     setSearchValuye(target.value);
   };
+
   const closeSearchHandler = () => {
     setSearchValuye("");
   };
+  
   const alertStatusChangesHandler = () => {
     setAlert((prevState) => !prevState);
   };
