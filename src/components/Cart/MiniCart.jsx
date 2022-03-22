@@ -4,6 +4,7 @@ import cartContext from '../Store/cart-context'
 const MiniCart = ({closeCart}) => {
   const getCartContext = useContext(cartContext)
   const getCartModal=getCartContext.getCartModel
+  console.log({getCartModal})
   return (
     <div class="cart-box view-pop" onClick={closeCart}>
     <div class="cart-items text-center">
@@ -15,7 +16,7 @@ const MiniCart = ({closeCart}) => {
     </div>
     <div class="cart-amount">
         <span>৳ </span>
-        <span class="cart-amount-span">{getCartModal.TotalAmmount.toFixed(2)}</span>
+        <span class="cart-amount-span">{(getCartModal.TotalAmmount).toFixed(2)}</span>
     </div>
 </div>
   )
