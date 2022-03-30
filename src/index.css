@@ -487,6 +487,7 @@ p {
 
 .inner-search-box {
   position: relative;
+  opacity: 0.93;
 }
 
 .inner-search-box > button {
@@ -1352,8 +1353,8 @@ table td {
   background: transparent;
   border-radius: 32px;
   opacity: 1;
-  border: 2px solid red;
-  opacity: 0.8;
+  border: 2px solid var(--secundery-color);
+ 
 }
 
 .language-switch label input[type="checkbox"] + .base-color .toggle-slider {
