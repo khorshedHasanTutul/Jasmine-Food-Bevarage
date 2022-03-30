@@ -63,6 +63,9 @@ const ContentCart = ({ openCart,setAlert }) => {
                 <tbody>
                   {getCartContextModel.Items.map((item) => (
                     <tr class="close">
+                      <td className="mimicart-img">
+                        <img src="/contents/assets/images/favicon.png" alt="img" />
+                      </td>
                       <td class="card-title-heading">
                         <Link to={urlProductDetails() + item.Id}>
                           <span class="SearchProductName SearchFont">
