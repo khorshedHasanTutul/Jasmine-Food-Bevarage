@@ -10,7 +10,8 @@ import ProductSummary from "./ProductSummary";
 const CheckoutBody = () => {
   const ctxCart = useContext(cartContext);
   const ctxAddress = useContext(addressContext);
-  const[alert,setAlert]=useState(false)
+  const[alert,setAlert]=useState(false);
+  const [qtyAlert , setQtyAlert] = useState(false);
 
   const getStoreCtxAddress = ctxAddress.getStoreAddressCtx;
   const getActiveTypeAddress = ctxAddress.getActiveType;
@@ -78,6 +79,10 @@ const CheckoutBody = () => {
       setAlert(prevState=>!prevState)
   }
 
+  const qtyAlertStatusChangeHandler = () => {
+    setQtyAlert((prevState) => !prevState);
+  };
+
   useEffect(() => {
     if (isActiveProductSummary) {
       ProSummaryRef.current.classList.add("active");
@@ -128,6 +133,7 @@ const CheckoutBody = () => {
                   <ProductSummary
                     AddressActiveHandler={AddressActiveHandler}
                     proceedToAddressHandler={proceedToAddressHandler}
+                    setQtyAlert={setQtyAlert}
                   />
                 )}
                 {isActiveAddress && (
@@ -143,6 +149,14 @@ const CheckoutBody = () => {
           alert &&(
               <PopAlert closeModal={alertStatusChangeHandler} content={"Please Enter Valid Address!"} />
           )
+      }
+      {
+        qtyAlert && (
+          <PopAlert 
+            closeModal={qtyAlertStatusChangeHandler}
+            content={"Quantity can't be less than 1!"}
+          />
+        )
       }
     </section>
   );

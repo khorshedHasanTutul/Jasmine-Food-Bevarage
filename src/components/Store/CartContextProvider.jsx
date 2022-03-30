@@ -33,7 +33,6 @@ const initialState = () => {
 //#endregion initial state
 
 const reducer = (state, action) => {
-
   //calculation Discount ammount of price
   const calcDiscountAmmount = (item) => {
     let productPrice = item.MRP - (item.MRP * item.Ds) / 100;
@@ -55,7 +54,7 @@ const reducer = (state, action) => {
     stateTotalItems += 1;
     let stateTotalAmmount = state.TotalAmmount;
     if (action.item.Ds > 0) {
-      let productPrice =calcDiscountAmmount(action.item)
+      let productPrice = calcDiscountAmmount(action.item);
       stateTotalAmmount += productPrice;
     } else {
       stateTotalAmmount += calcAmmount(action.item);
@@ -69,7 +68,7 @@ const reducer = (state, action) => {
         Items: stateItems,
       })
     );
-    //update context state 
+    //update context state
     return {
       ...state,
       TotalItems: stateTotalItems,
@@ -95,7 +94,7 @@ const reducer = (state, action) => {
     const stateItems = cartcontextItems.filter(
       (item) => item.Id !== action.item.Id
     );
-    
+
     let stateTotalItems = state.TotalItems;
     stateTotalItems -= 1;
     stateItems.forEach((element) => {
@@ -174,6 +173,45 @@ const reducer = (state, action) => {
     };
   }
 
+  //Update Editable quantity update
+  if (action.type === "UPDATE_EDITABLE_QTY") {
+    let CtxItems = [...state.Items];
+    const findCtxItem = CtxItems.find(
+      (itemfind) => itemfind.Id === action.item.Id
+    );
+    if (action.qty === "") {
+      action.qty = parseInt(0);
+    }
+
+    findCtxItem.quantity = parseInt(action.qty);
+    let totalAmmount = 0;
+
+    CtxItems.forEach((element) => {
+      let mrpPriceOfSingleProduct;
+      if (element.Ds > 0) {
+        mrpPriceOfSingleProduct = calcDiscountAmmount(element);
+      } else {
+        mrpPriceOfSingleProduct = calcAmmount(element);
+      }
+      totalAmmount += mrpPriceOfSingleProduct * element.quantity;
+    });
+
+    localStorage.setItem(
+      "CARTV1",
+      JSON.stringify({
+        TotalItems: CtxItems.length,
+        TotalAmmount: totalAmmount,
+        Items: CtxItems,
+      })
+    );
+    return {
+      ...state,
+      TotalItems: CtxItems.length,
+      TotalAmmount: totalAmmount,
+      Items: CtxItems,
+    };
+  }
+
   // clear cart & LocalStorage
 
   if (action.type === "CLEAR_CART_ITEMS") {
@@ -203,12 +241,17 @@ const CartContextProvider = ({ children }) => {
   const QuantityHandler = (item, qty) => {
     dispatch({ type: "UPDATE_QTY", item: item, qty: qty });
   };
+  const updateEditableQtyhandler = (item, qty) => {
+    dispatch({ type: "UPDATE_EDITABLE_QTY", item: item, qty: qty });
+  };
+
   const context = {
     storeCartItems: storeCartHandler,
     getCartModel: state,
     clearCart: clearCartHandler,
     singleItemRemover: CartItemRemoverHandler,
     updateQuantity: QuantityHandler,
+    updateEditableQuantity: updateEditableQtyhandler,
   };
 
   return (

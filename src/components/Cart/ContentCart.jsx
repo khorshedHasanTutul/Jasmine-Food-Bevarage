@@ -1,12 +1,13 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { Fragment } from "react/cjs/react.production.min";
 
 import { urlCheckoutRoute, urlProductDetails } from "../Services/UrlService";
 import cartContext from "../Store/cart-context";
 
-const ContentCart = ({ openCart,setAlert }) => {
+const ContentCart = ({ openCart,setAlert,setQtyAlert }) => {
   const getCartContext = useContext(cartContext);
+  const [qty, setQty] = useState("");
   const getCartContextModel = getCartContext.getCartModel;
 
   const clearCartHandler = () => {
@@ -40,6 +41,23 @@ const ContentCart = ({ openCart,setAlert }) => {
     getCartContext.updateQuantity(findItem, quantity);
   };
 
+  const qtyChangeHandler = (item, { target }) => {
+    if (target.value === "") {
+      setQty(0);
+    } else {
+      setQty(target.value);
+    }
+    getCartContext.updateEditableQuantity(item, target.value);
+  };
+
+  const blurHandler = (item) => {
+    if (qty === 0) {
+      setQtyAlert(true);
+      getCartContext.updateEditableQuantity(item, 1);
+      setQty(1);
+    }
+  };
+
   return (
     <>
       <div class="cart-box-view">
@@ -64,7 +82,7 @@ const ContentCart = ({ openCart,setAlert }) => {
                   {getCartContextModel.Items.map((item) => (
                     <tr class="close">
                       <td className="mimicart-img">
-                        <img src="/contents/assets/images/favicon.png" alt="img" />
+                        <img src={item.image} alt="img" />
                       </td>
                       <td class="card-title-heading">
                         <Link to={urlProductDetails() + item.Id}>
@@ -109,6 +127,8 @@ const ContentCart = ({ openCart,setAlert }) => {
                               id="product_qty"
                               class="qty-input"
                               value={item.quantity}
+                              onChange={qtyChangeHandler.bind(null, item)}
+                              onBlur={blurHandler.bind(null, item)}
                             />
                             <a
                               onClick={qtyIncHandler.bind(this, item)}
@@ -172,7 +192,7 @@ const ContentCart = ({ openCart,setAlert }) => {
               </span>
             </div>
 
-            <a class="block-btn-card" onClick={clearCartHandler}>
+            <a href class="block-btn-card" onClick={clearCartHandler}>
               <button class="cart-cmn-btn">Clear Cart</button>
             </a>
           </div>
