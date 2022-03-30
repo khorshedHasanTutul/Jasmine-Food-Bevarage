@@ -1,20 +1,25 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { urlProductDetails } from "../Services/UrlService";
 import addressContext from "../Store/address-context";
 import cartContext from "../Store/cart-context";
 
-const ProductSummary = ({ AddressActiveHandler ,proceedToAddressHandler}) => {
-
+const ProductSummary = ({
+  AddressActiveHandler,
+  proceedToAddressHandler,
+  setQtyAlert,
+}) => {
   let history = useHistory();
   const getCartContext = useContext(cartContext);
-  const ctxAddress=useContext(addressContext)
-  const getCtxStoreAddress=ctxAddress.getStoreAddressCtx;
-  const getCtxAddressActiveType=ctxAddress.getActiveType
-  const getCartModal = getCartContext.getCartModel
-  const findActiveAddress=getCtxStoreAddress.find(item=>item.type===getCtxAddressActiveType)
-
+  const ctxAddress = useContext(addressContext);
+  const [qty, setQty] = useState("");
+  const getCtxStoreAddress = ctxAddress.getStoreAddressCtx;
+  const getCtxAddressActiveType = ctxAddress.getActiveType;
+  const getCartModal = getCartContext.getCartModel;
+  const findActiveAddress = getCtxStoreAddress.find(
+    (item) => item.type === getCtxAddressActiveType
+  );
 
   const qtyDecHandler = (findItem, e) => {
     e.preventDefault();
@@ -30,6 +35,22 @@ const ProductSummary = ({ AddressActiveHandler ,proceedToAddressHandler}) => {
 
   const cartItemRemoverHandler = (item) => {
     getCartContext.singleItemRemover(item);
+  };
+
+  const qtyChangeHandler = (item, { target }) => {
+    if (target.value === "") {
+      setQty(0);
+    } else {
+      setQty(target.value);
+    }
+    getCartContext.updateEditableQuantity(item, target.value);
+  };
+  const blurHandler = (item) => {
+    if (qty === 0) {
+      setQtyAlert(true);
+      getCartContext.updateEditableQuantity(item, 1);
+      setQty(1);
+    }
   };
 
   useEffect(() => {
@@ -97,6 +118,8 @@ const ProductSummary = ({ AddressActiveHandler ,proceedToAddressHandler}) => {
                         class="form-control no-padding add-color text-center height-25"
                         maxlength="3"
                         value={item.quantity}
+                        onChange={qtyChangeHandler.bind(null, item)}
+                        onBlur={blurHandler.bind(null, item)}
                       />
                       <span
                         class="input-group-btn"
@@ -147,30 +170,47 @@ const ProductSummary = ({ AddressActiveHandler ,proceedToAddressHandler}) => {
           </table>
 
           <div class="row-custom">
-            {
-              (getCtxStoreAddress.length>0 && findActiveAddress?.name.length>0)&&
-              <div class="shaping-address-saveing-row">
-              <div class="shapping-address-inner-content">
-                <div class="location-ad-icon">
-                  <i class="fa fa-map-marker" aria-hidden="true"></i>
+            {getCtxStoreAddress.length > 0 &&
+              findActiveAddress?.name.length > 0 && (
+                <div class="shaping-address-saveing-row">
+                  <div class="shapping-address-inner-content">
+                    <div class="location-ad-icon">
+                      <i class="fa fa-map-marker" aria-hidden="true"></i>
+                    </div>
+                    <div class="saving-address-content">
+                      <small>
+                        {findActiveAddress && findActiveAddress.name}
+                      </small>
+                      <small>
+                        {findActiveAddress && findActiveAddress.mobile}
+                      </small>
+                      <span>
+                        <aside>
+                          {findActiveAddress && findActiveAddress.type}
+                        </aside>
+                      </span>
+                      <span>
+                        {findActiveAddress && findActiveAddress.email}
+                      </span>
+                      &nbsp;
+                      <span>
+                        {findActiveAddress &&
+                          findActiveAddress.division +
+                            "-" +
+                            findActiveAddress.district +
+                            "-" +
+                            findActiveAddress.area +
+                            "-" +
+                            findActiveAddress.address}
+                      </span>
+                    </div>
+                  </div>
+                  <div class="saving-ad-btn" onClick={AddressActiveHandler}>
+                    <button>Change</button>
+                  </div>
                 </div>
-                <div class="saving-address-content">
-              <small>{(findActiveAddress)&&findActiveAddress.name}</small>
-              <small>{(findActiveAddress)&&findActiveAddress.mobile}</small>
-              <span>
-                <aside>{(findActiveAddress)&&findActiveAddress.type}</aside>
-              </span>
-              <span>{(findActiveAddress)&&findActiveAddress.email}</span>
-              &nbsp;
-              <span>{(findActiveAddress)&& findActiveAddress.division +'-'+ findActiveAddress.district +'-'+ findActiveAddress.area +'-'+ findActiveAddress.address}</span>
-            </div>
-              </div>
-              <div class="saving-ad-btn" onClick={AddressActiveHandler}>
-                <button>Change</button>
-              </div>
-            </div>
-            }
-           
+              )}
+
             <div class="cart_navigation">
               <Link class="prev-btn" to="/">
                 <i
@@ -179,7 +219,7 @@ const ProductSummary = ({ AddressActiveHandler ,proceedToAddressHandler}) => {
                 ></i>{" "}
                 Continue shopping
               </Link>
-              <a  href class="next-btn" onClick={proceedToAddressHandler}>
+              <a href class="next-btn" onClick={proceedToAddressHandler}>
                 {" "}
                 Proceed to checkout{" "}
                 <i
@@ -187,7 +227,6 @@ const ProductSummary = ({ AddressActiveHandler ,proceedToAddressHandler}) => {
                   aria-hidden="true"
                 ></i>
               </a>
-
             </div>
           </div>
         </div>
