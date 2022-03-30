@@ -309,24 +309,24 @@ textarea {
 input {
   width: 100%;
   box-sizing: border-box;
-  border: 1px solid var(--secundery-color);
+  border: 1px solid #ddd;
   font-family: var(--poppins);
   height: 40px;
   line-height: 40px;
   display: block;
   font-size: 16px;
-  color: var(--secundery-color);
+  color: #212121;
 }
 textarea {
   width: 100%;
   box-sizing: border-box;
-  border: 1px solid var(--secundery-color);
+  border: 1px solid #ddd;
   font-family: var(--poppins);
   height: 110px;
   line-height: 24px;
   display: block;
   font-size: 16px;
-  color: var(--secundery-color);
+  color: #212121;
 }
 
 img {
@@ -372,6 +372,7 @@ img {
   background: var(--secundery-color);
   left: 0;
   bottom: 0;
+  opacity: 0.8;
 }
 
 h1 {
@@ -510,15 +511,19 @@ p {
 }
 
 .inner-search-box > button > i {
-  color: #fff;
-  font-size: 22px;
+	color: #fff;
+	font-size: 22px;
+	position: relative;
+	top: -3px;
 }
+
 .inner-search-box > input {
   border: 2px solid var(--secundery-color);
   border-radius: 5px;
   overflow: hidden;
   height: 40px;
   padding-left: 12px;
+  opacity: 0.8;
 }
 
 .header-account-flex > ul > li > a > span {
@@ -831,10 +836,10 @@ p {
   position: relative;
   border: 2px solid var(--secundery-color);
   cursor: pointer;
+  opacity: 0.8;
 }
 
 .add-tocart-overlay.show {
-  opacity: 1;
   visibility: visible;
 }
 
@@ -847,7 +852,7 @@ p {
   border-radius: 5px;
   height: 36px;
   z-index: 9;
-  opacity: 0;
+  opacity: 0.8;
   visibility: hidden;
   border: 2px solid var(--secundery-color);
 }
@@ -891,6 +896,7 @@ p {
 .add-to-cart:hover {
   transition: 0.3s;
   background: var(--secundery-color);
+  opacity: 0.8;
 }
 .add-to-cart:hover span {
   color: #fff;
@@ -1018,7 +1024,7 @@ p {
   margin: 0;
 }
 .cart-header {
-  background: var(--secundery-color);
+	background: #55584D;
 }
 .card-header-flex-for-sale {
   display: flex;
@@ -1074,7 +1080,6 @@ p {
 
 .cart-body {
   background: #ddd;
-  border-bottom: 1px solid #000;
   overflow-y: auto;
   height: 260px;
   width: 410px;
@@ -1114,11 +1119,15 @@ table td {
 }
 
 .cart-table td img {
-  width: 0px;
-  border: 1px solid skyblue;
-  border-radius: 5px;
-  opacity: 0;
+  width: 30px;
+  /* border: 1px solid skyblue;
+  border-radius: 5px; */
 }
+
+.card-plus-minuse {
+	text-align: left;
+}
+
 .SearchProductName {
   color: var(--main-color);
 }
@@ -1168,6 +1177,7 @@ table td {
   vertical-align: middle;
   font-size: 0;
   transition: 0.6s;
+  opacity: 0.8;
 }
 .amount-for-popup span del {
   font-size: 9px;
@@ -1251,7 +1261,7 @@ table td {
 .cart-footer {
   display: flex;
   padding: 10px;
-  background: var(--secundery-color);
+  background: #55584d;
   justify-content: space-between;
   align-items: center;
 }
@@ -1343,6 +1353,7 @@ table td {
   border-radius: 32px;
   opacity: 1;
   border: 2px solid red;
+  opacity: 0.8;
 }
 
 .language-switch label input[type="checkbox"] + .base-color .toggle-slider {
@@ -1465,6 +1476,7 @@ label .token {
   display: inline-block;
   margin-top: 35px;
   transition: 0.6s;
+  opacity: 0.8;
 }
 
 .common-btn a:hover {
@@ -1498,6 +1510,7 @@ label .token {
   z-index: 99;
   transition: 0.6s;
   border: 2px solid #fff;
+  opacity: 0.8;
 }
 
 #toTop:after {
@@ -1840,7 +1853,7 @@ label .token {
 
 .login-info-from .custom-input > input {
   width: 100%;
-  border: 1px solid var(--secundery-color);
+  border: 1px solid #ddd;
   height: 35px;
   display: block;
   padding: 0px 10px;
@@ -1865,7 +1878,7 @@ textarea:focus {
 
 .login-submit {
   text-align: center;
-  width: 130px;
+  width: 170px;
   margin: 0 auto;
 }
 
@@ -1932,7 +1945,7 @@ textarea:focus {
 .login-submit input:hover {
   transition: 0.6s;
   color: #fff;
-  opacity: 1;
+  opacity: 0.8;
 }
 
 .dont-have-account > p {
@@ -2031,7 +2044,7 @@ textarea:focus {
 
 .det-img-padding {
   padding: 10px;
-  border: 1px solid var(--secundery-color);
+  border: 1px solid #ddd;
   border-radius: 5px;
   position: relative;
   min-height: 368px;
@@ -2056,7 +2069,7 @@ textarea:focus {
   visibility: hidden;
   overflow: hidden;
   z-index: 9;
-  border: 1px solid var(--secundery-color);
+  border: 1px solid #ddd;
   transition: 0.6s;
   display: flex;
   align-items: center;
@@ -2234,7 +2247,7 @@ textarea:focus {
 .post-cmt-input > input {
   width: 100%;
   height: 39px;
-  border: 1px solid var(--secundery-color);
+  border: 1px solid #ddd;
   padding: 0px 10px;
   font-size: 15px;
   font-family: "Poppins", sans-serif;
@@ -2256,6 +2269,7 @@ textarea:focus {
   cursor: pointer;
   transition: 0.6s;
   border-radius: 5px;
+  opacity: 0.8;
 }
 .post-cmt-btn:hover button {
   background: transparent;
@@ -2287,7 +2301,7 @@ textarea:focus {
 .related-product-main > h4 {
   text-align: left;
   padding: 15px;
-  border-bottom: 1px solid var(--secundery-color);
+  border-bottom: 1px solid #ddd;
   margin-bottom: 15px;
   font-size: 18px;
 }
@@ -2298,7 +2312,7 @@ textarea:focus {
 }
 .recent-pro-del-flex > a {
   display: flex;
-  border-bottom: 1px solid var(--secundery-color);
+  border-bottom: 1px solid #ddd;
   padding-bottom: 15px;
 }
 .product-del-s-img {
@@ -2318,11 +2332,11 @@ textarea:focus {
 .img_round {
   border-radius: 50%;
   overflow: hidden;
-  border: 1px solid var(--secundery-color);
+  border: 1px solid #ddd;
 }
 
 .related-product-main {
-  border: 1px solid var(--secundery-color);
+  border: 1px solid #ddd;
   border-radius: 5px;
 }
 
@@ -2337,7 +2351,7 @@ textarea:focus {
 .input-group-btn > button {
   border: none;
   background: var(--secundery-color);
-  padding: 5px 10px;
+  padding: 7px 10px;
   cursor: pointer;
 }
 
@@ -2453,7 +2467,7 @@ textarea:focus {
 
 /************** comment and review css *****************/
 .comment_container .cmt-item {
-  border: 1px solid var(--secundery-color);
+  border: 1px solid #ddd;
   border-radius: 5px;
   margin-bottom: 15px;
   padding: 8px;
@@ -2496,7 +2510,7 @@ textarea:focus {
 
 /**************** table common csss ****************/
 .table-bordered {
-  border: 1px solid var(--secundery-color);
+  border: 1px solid #ddd;
 }
 .table {
   width: 100%;
@@ -2510,7 +2524,7 @@ textarea:focus {
 .table-bordered > tfoot > tr > th,
 .table-bordered > thead > tr > td,
 .table-bordered > thead > tr > th {
-  border: 1px solid var(--secundery-color);
+  border: 1px solid #ddd;
 }
 
 .table > tbody > tr > td,
@@ -2522,14 +2536,13 @@ textarea:focus {
   padding: 8px;
   line-height: 1.42857143;
   vertical-align: middle;
-  border-top: 1px solid var(--secundery-color);
+  border-top: 1px solid #ddd;
 }
 
 .wishlist-btn .add-tocart-overlay {
   visibility: visible;
-  opacity: 1;
+  opacity: 0.8;
   position: inherit;
-  opacity: 1;
 }
 
 /**************************************/
@@ -2555,6 +2568,7 @@ textarea:focus {
   font-weight: 400 !important;
   font-family: "Poppins", sans-serif;
   color: #fff;
+  opacity: 0.8;
 }
 
 .cart_summary > tfoot {
@@ -2603,6 +2617,7 @@ textarea:focus {
   display: flex;
   justify-content: center;
   align-items: center;
+  opacity: 0.8;
 }
 
 .order-detail-content .qty .input-group.product_qty > input {
@@ -2610,7 +2625,7 @@ textarea:focus {
   width: 35px;
   line-height: 0;
   padding: 0;
-  height: 33px;
+  height: 34px;
 }
 
 .page-content .tab-content.checkout-main-tab-content td strong {
@@ -2653,6 +2668,7 @@ textarea:focus {
   transition: 0.6s;
   cursor: pointer;
   height: 24px;
+  opacity: 0.8;
 }
 
 .cart_navigation a:hover {
@@ -2691,12 +2707,12 @@ textarea:focus {
   display: flex;
   justify-content: start;
   text-align: left;
-  border: 1px solid var(--secundery-color);
+  border: 1px solid #ddd;
 }
 .order-outside-inside-flex p {
   flex: 0 0 48%;
   text-align: left;
-  border-left: 1px solid var(--secundery-color);
+  border-left: 1px solid #ddd;
   padding: 12px 10px;
 }
 .order-outside-inside-flex p:first-child {
@@ -2803,6 +2819,7 @@ textarea:focus {
 
 .address-home-default-single.active {
   border: 2px solid var(--secundery-color);
+  opacity: 0.8;
 }
 
 .address-info-right-default h2 {
@@ -2883,6 +2900,7 @@ textarea:focus {
   border: 1px solid var(--secundery-color);
   color: var(--secundery-color);
   transition: 0.5s;
+  opacity: 0.8;
 }
 #discount_codeSubmit button:hover {
   background: var(--secundery-color);
@@ -2932,6 +2950,7 @@ textarea:focus {
   color: #fff;
   border: 2px solid var(--secundery-color);
   transition: 0.5s;
+  opacity: 0.8;
 }
 
 .chosse-your-fvt-btn ul li.default-set:hover a {
@@ -2979,13 +2998,13 @@ textarea:focus {
 #discount_codeSubmit input,
 .address-info-inner-content .address-textarea textarea {
   width: 100%;
-  border: 1px solid var(--secundery-color);
+  border: 1px solid #ddd;
   height: 35px;
   display: block;
   padding: 0px 10px;
   font-weight: 400;
   font-size: 14px;
-  color: var(--secundery-color);
+  color: #212121;
   font-family: "Poppins", sans-serif;
   outline: none;
   border-radius: 6px;
@@ -3029,7 +3048,7 @@ textarea:focus {
 
 .checkout-main-tab-information-main .niiceeTabBtn {
   display: flex;
-  border-bottom: 3px solid red;
+  border-bottom: 3px solid #ddd;
   width: 85%;
 }
 
@@ -3062,7 +3081,7 @@ textarea:focus {
   justify-content: space-between;
   align-items: center;
   padding: 15px;
-  border: 1px solid var(--secundery-color);
+  border: 1px solid #ddd;
   margin-bottom: 30px;
 }
 
@@ -3260,7 +3279,7 @@ textarea:focus {
 .reqest-demo-from form .custom-input input {
   height: 36px;
   padding-left: 10px;
-  color: var(--secundery-color);
+  color: #212121;
   font-size: 14px;
   line-height: 35px;
   border-radius: 5px;
@@ -3289,6 +3308,7 @@ textarea:focus {
   font-family: var(--poppins);
   font-size: 16px;
   cursor: pointer;
+  opacity: 0.8;
 }
 
 .custom-submit > button:hover {
@@ -3359,7 +3379,7 @@ textarea:focus {
   line-height: 1.25;
   color: var(--secundery-color);
   background-color: #fff;
-  border: 1px solid var(--secundery-color);
+  border: 1px solid #ddd;
   font-family: var(--roboto);
   font-weight: 400;
   font-size: 15px;
@@ -3465,6 +3485,7 @@ textarea:focus {
   left: 2px;
   color: var(--secundery-color);
   font-weight: 300;
+  opacity: 0.8;
 }
 
 .noti-img > img {
@@ -3655,11 +3676,13 @@ textarea:focus {
   border-radius: 5px;
   transition: 0.5s;
   cursor: pointer;
+  opacity: 0.8;
 }
 
 .result-card__details--actions > button:hover {
   background: var(--secundery-color);
   transition: 0.5s;
+  opacity: 0.8;
 }
 .result-card__details--actions > button:hover svg {
   fill: #fff;
@@ -3768,7 +3791,7 @@ textarea:focus {
 	width: 80px;
 	height: 80px;
 	border-radius: 50%;
-	border: 1px solid var(--secundery-color);
+	border: 1px solid #ddd;
 	object-fit: cover;
 	margin-top: 15px;
 	margin-bottom: 5px;
@@ -3876,7 +3899,7 @@ textarea:focus {
 }
 .tabbed.niiceeTabContent.profile-tab {
 	padding: 10px;
-	border: 1px solid var(--secundery-color);
+	border: 1px solid #ddd;
 	margin-top: 15px;
     border-radius: 5px;
 }
@@ -4004,6 +4027,7 @@ textarea:focus {
 	color: var(--secundery-color);
 	cursor: pointer;
 	transition: 0.5s;
+  opacity: 0.8;
 }
 
 .edit-profile-main-flex > form button:hover {
@@ -4182,7 +4206,7 @@ input[type="file"] {
 
 .order-invoice-ea .table-bordered th,
 .order-invoice-ea .table-bordered td {
-	border-left: 1px solid var(--secundery-color);
+	border-left: 1px solid #ddd;
 }
 .order-invoice-ea .table th,
 .order-invoice-ea .table td {
@@ -4190,7 +4214,7 @@ input[type="file"] {
 	line-height: 20px;
 	text-align: left;
 	vertical-align: top;
-	border-top: 1px solid var(--secundery-color);
+	border-top: 1px solid #ddd;
 	font-size: 16px;
 	font-weight: 400;
 }
@@ -4204,7 +4228,7 @@ input[type="file"] {
 
 .order-invoice-ea .table-bordered th,
 .order-invoice-ea .table-bordered td {
-	border-left: 1px solid var(--secundery-color);
+	border-left: 1px solid #ddd;
 }
 
 .order-invoice-ea strong {
@@ -4471,11 +4495,10 @@ div.brick.label {
 
 
 
-/* edited by tutul */
+
 .product-desc-review-information-main .page-content .niiceeTabBtn .orderbtn, button {
 	border: none;
 	font-size: 15px;
-	/* border-bottom: 2px solid var(--secundery-color); */
 	font-family: var(--roboto);
 	font-weight: 500;
 	padding: 10px 22px;
@@ -4486,4 +4509,3 @@ div.brick.label {
 }
 
 
-/* end  */
