@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
+import Select from "../../utilities/select/Select";
 import { storeAddressObj } from "../Services/AddressService";
 import {
   urlCheckoutRoute,
@@ -60,7 +61,8 @@ const Address = ({ ProceedToOrderHandler }) => {
                   <NameValidation clicked={clicked} />
                   <MobileValidation clicked={clicked} />
                   <EmailValidation />
-                  <div class="address-inner-select-item">
+
+                  <div className="grid-3 mb-16 g-8">
                     <Divisionvalidation clicked={clicked} />
                     <DistrictValidation clicked={clicked} />
                     <AreaValidation clicked={clicked} />

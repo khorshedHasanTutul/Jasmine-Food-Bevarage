@@ -1,16 +1,32 @@
 import React, { useContext, useEffect, useState } from "react";
+import Select from "../../../utilities/select/Select";
 import { getDistricts, storeAddressObj } from "../../Services/AddressService";
 import addressContext from "../../Store/address-context";
 
 const DistrictValidation = ({ clicked }) => {
+  const divisionsa = [
+    { id: 10, name: "Barisal" },
+    { id: 20, name: "Chittagong" },
+    { id: 30, name: "Dhaka" },
+    { id: 40, name: "Khulna" },
+    { id: 50, name: "Rajshahi" },
+    { id: 55, name: "Rangpur" },
+    { id: 60, name: "Sylhet" },
+    { id: 80, name: "Mymensing" },
+  ];
   const ctx = useContext(addressContext);
   const getDivisionCtx = ctx.getDivision;
   const [districts, setDistricts] = useState([]);
   const [districtIsTouched, setDistrictIsTouched] = useState(false);
   const [districtValid, setDistrictIsValid] = useState(false);
+  const [selectedValue, setSelectedValue] = useState("");
   // const districtChangeHandler=({target})=>{
   //     setDistricts(target.value)
   // }
+  const getCtxStoreAddress = ctx?.getStoreAddressCtx;
+  const getIfFindActiveType = getCtxStoreAddress?.find(
+    (item) => item.type === ctx.getActiveType
+  );
   const districtIsTouchedHandler = () => {
     setDistrictIsTouched(true);
   };
@@ -21,8 +37,13 @@ const DistrictValidation = ({ clicked }) => {
   const selectDistrictHandler = (item) => {
     ctx.storeDistrict(item);
     storeAddressObj.district.name = item.name;
-    storeAddressObj.district.id = item.districtId;
+    storeAddressObj.district.id = item.id;
   };
+  useEffect(() => {
+    if (getIfFindActiveType) {
+      setSelectedValue(getIfFindActiveType.district);
+    }
+  }, [getIfFindActiveType]);
 
   useEffect(() => {
     if (clicked) {
@@ -36,33 +57,21 @@ const DistrictValidation = ({ clicked }) => {
   }, [districts.length, districtIsTouched, clicked]);
 
   return (
-    <div class="custom-input">
-      <label for="district">Select District</label>
-      <select
-        id="district"
-        // onChange={districtChangeHandler}
-        onBlur={districtIsTouchedHandler}
-        onClick={getDistrictHandler}
-      >
-        {districts.map((item) => (
-          <option
-            value={item.id}
-            onClick={selectDistrictHandler.bind(null, item)}
-          >
-            {item.name}
-          </option>
-        ))}
-        {/* <option value="">Dhake</option>
-        <option value="">Rangpur</option>
-        <option value="">Dinajpur</option> */}
-      </select>
-      {districtValid && (
-        <div class="alert alert-error">District is required.</div>
-      )}
-      {districtIsTouched && districts.length === 0 && !districtValid && (
-        <div class="alert alert-error">District is required.</div>
-      )}
-    </div>
+    <Select
+      label="Select City"
+      name="district"
+      options={divisionsa || []}
+      onSelect={selectDistrictHandler}
+      config={{ searchPath: "name", keyPath: "id", textPath: "name" }}
+      selectedOption={selectedValue}
+      // onBlur={districtBlurHandler}
+      // error={districtInputIsInvalid && "City is required"}
+      // previewText={
+      //   districtStatus === "pending"
+      //     ? "Loading data..."
+      //     : "Select Region First"
+      // }
+    />
   );
 };
 

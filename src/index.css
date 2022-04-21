@@ -4502,3 +4502,9 @@ button {
   text-transform: uppercase;
   transition: 0.3s;
 }
+.grid-3.mb-16.g-8{
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  margin-bottom: 16px;
+  gap: 8px;
+}
