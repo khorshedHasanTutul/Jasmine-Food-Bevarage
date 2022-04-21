@@ -57,7 +57,7 @@ const ForgotModal = ({ closeModal, closeLoginModalhandler }) => {
     evt.preventDefault();
     setClicked(true);
     ///success codes go here
-    
+
     //if success all condition then state update bellow code
     setOtpCodeModal(true);
   };
@@ -166,12 +166,14 @@ const ForgotModal = ({ closeModal, closeLoginModalhandler }) => {
                         Confirm Password is required.
                       </div>
                     )}
-                  {password !== retypePassword && !retypePasswordIsValid && retypePassword.length!==0 && (
-                    <div class="alert alert-error">
-                      {" "}
-                      Password is mismatched.
-                    </div>
-                  )}
+                  {password !== retypePassword &&
+                    !retypePasswordIsValid &&
+                    retypePassword.length !== 0 && (
+                      <div class="alert alert-error">
+                        {" "}
+                        Password is mismatched.
+                      </div>
+                    )}
                 </div>
                 <div class="login-submit">
                   {/* <!-- <input type="submit" value="Reset Password"> --> */}

@@ -4,7 +4,7 @@ import addressContext from "../../Store/address-context";
 
 const AddressValidation = ({ clicked }) => {
   const ctxAddress = useContext(addressContext);
-  const [address, setAddress] = useState('');
+  const [address, setAddress] = useState("");
   const [addressIsTouched, setAddressIsTouched] = useState(false);
   const [addressValid, setAddressIsValid] = useState(false);
   const getCtxStoreAddress = ctxAddress?.getStoreAddressCtx;
@@ -31,14 +31,13 @@ const AddressValidation = ({ clicked }) => {
     }
   }, [address.length, addressIsTouched, clicked]);
 
-  useEffect(()=>{
-    if(getIfFindActiveType){
-      setAddress(getIfFindActiveType.address)
+  useEffect(() => {
+    if (getIfFindActiveType) {
+      setAddress(getIfFindActiveType.address);
+    } else {
+      setAddress("");
     }
-    else{
-      setAddress('')
-    }
-  },[getIfFindActiveType])
+  }, [getIfFindActiveType]);
 
   return (
     <div class="address-textarea">
@@ -51,8 +50,7 @@ const AddressValidation = ({ clicked }) => {
         onChange={addressChangeHandler}
         onBlur={addressIsTouchedHandler}
         value={address}
-      >
-      </textarea>
+      ></textarea>
       {addressValid && (
         <div class="alert alert-error">Address is required.</div>
       )}

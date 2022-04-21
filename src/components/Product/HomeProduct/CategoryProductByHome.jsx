@@ -7,7 +7,7 @@ const CategoryProductByHome = () => {
   const options = {
     rewind: true,
     type: "loop",
-    drag: 'free',
+    drag: "free",
     autoplay: true,
     rewindSpeed: 1000,
     speed: 1000,
@@ -35,8 +35,8 @@ const CategoryProductByHome = () => {
       },
     },
     autoScroll: {
-        speed: 1,
-      }
+      speed: 1,
+    },
   };
   const getCategory = appData.BottomHeader;
   const findOnlyVisibleProduct = getCategory[1].dropDownCategoryItem.filter(

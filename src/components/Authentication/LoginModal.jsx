@@ -1,10 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { useHistory } from "react-router-dom";
+import { login } from "../../lib/endpoint";
+import { http } from "../Services/httpService";
+import { urlCheckoutRoute, UrlHomeRoute } from "../Services/UrlService";
+import authContext from "../Store/auth-context";
+import Suspense from "../Suspense/Suspense";
 import AuthenticationModalBody from "./AuthenticationModalBody";
 import ForgotModal from "./ForgotModal";
 import RegistrationModal from "./RegistrationModal";
 
-const LoginModal = ({ closeModal }) => {
-
+const LoginModal = ({ closeModal, isOrderNowPressed }) => {
+  const authCtx = useContext(authContext);
+  let history = useHistory();
   ///validation state defined
   const [phone, setPhone] = useState("");
   const [phoneIsTouched, setPhoneIsTouched] = useState(false);
@@ -13,13 +20,15 @@ const LoginModal = ({ closeModal }) => {
   const [password, setPassword] = useState("");
   const [passwordIsTouched, setPasswordIsTouched] = useState(false);
   const [passwordIsValid, setPasswordIsValid] = useState(false);
+  const [isValidLength, setIsValidLength] = useState("");
 
   const [clicked, setClicked] = useState(false);
   ///end
-  
 
   const [forgotPopUpModal, setForgotPopUpModal] = useState(false);
   const [registerPopUpModal, setregisterPopUpModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isFailedLogin, setIsLoginFailed] = useState(false);
 
   const phoneChangeHandler = ({ target }) => {
     setPhone(target.value);
@@ -38,6 +47,47 @@ const LoginModal = ({ closeModal }) => {
   const submitButtonHandler = (evt) => {
     evt.preventDefault();
     setClicked(true);
+    if (
+      phone.length !== 0 &&
+      phone.length === 11 &&
+      password.length !== 0 &&
+      password.length >= 4
+    ) {
+      http.post({
+        url: login,
+        payload: {
+          phone: phone,
+          password: password,
+        },
+        before: () => {
+          setIsLoading(true);
+        },
+        successed: (data) => {
+          const loginInfo = {
+            id: data.data.id,
+            name: data.data.name,
+            phone: data.data.phone,
+            email: data.data.email,
+            token: data.data.token,
+          };
+          authCtx.login(loginInfo);
+          isOrderNowPressed
+            ? history.push(urlCheckoutRoute())
+            : //   : consultancyPressed
+              //   ? history.push("/consultancy")
+              //   : history.push("/");
+              history.push(UrlHomeRoute());
+          closeModal();
+        },
+        failed: () => {
+          console.log("failed");
+          setIsLoginFailed(true);
+        },
+        always: () => {
+          setIsLoading(false);
+        },
+      });
+    }
     ///success codes go here
   };
 
@@ -81,6 +131,15 @@ const LoginModal = ({ closeModal }) => {
     password.length,
     passwordIsTouched,
   ]);
+  useEffect(() => {
+    if (passwordIsTouched) {
+      if (password.length < 4) {
+        setIsValidLength(true);
+      } else {
+        setIsValidLength(false);
+      }
+    }
+  }, [password.length, passwordIsTouched]);
 
   return (
     <>
@@ -89,7 +148,7 @@ const LoginModal = ({ closeModal }) => {
           <div class="login-info-from">
             <form>
               <h2>LogIn to Jasmine</h2>
-              <i class="fa fa-spinner" aria-hidden="true"></i>
+              {/* <i class="fa fa-spinner" aria-hidden="true"></i> */}
               <div class="login-info-inner-content">
                 <div class="custom-input">
                   <label for="mobile">Mobile Number</label>
@@ -127,9 +186,19 @@ const LoginModal = ({ closeModal }) => {
                     !passwordIsValid && (
                       <div class="alert alert-error">Password is required.</div>
                     )}
+                  {/* {isValidLength && (
+                    <div class="alert alert-error">
+                      Password should be at least 4 charecter.
+                    </div>
+                  )} */}
                 </div>
-                <a class="forgot-pass" href onClick={forgotModalHandler}>
-                  Forgot Password?
+                {isFailedLogin && (
+                  <div class="alert alert-error login-failed">
+                    Login failed, Phone or Password is wrong!
+                  </div>
+                )}
+                <a class="forgot-pass" href>
+                  <span onClick={forgotModalHandler}>Forgot Password?</span>
                 </a>
                 <div class="login-submit" onClick={submitButtonHandler}>
                   <input type="submit" value="Login" />
@@ -145,6 +214,7 @@ const LoginModal = ({ closeModal }) => {
           </div>
         </div>
       )}
+      {isLoading && <Suspense />}
 
       {forgotPopUpModal && (
         <AuthenticationModalBody

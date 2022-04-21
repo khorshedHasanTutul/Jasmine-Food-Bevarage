@@ -195,11 +195,11 @@ const ProductSummary = ({
                       &nbsp;
                       <span>
                         {findActiveAddress &&
-                          findActiveAddress.division +
+                          findActiveAddress.division.name +
                             "-" +
-                            findActiveAddress.district +
+                            findActiveAddress.district.name +
                             "-" +
-                            findActiveAddress.area +
+                            findActiveAddress.area.name +
                             "-" +
                             findActiveAddress.address}
                       </span>

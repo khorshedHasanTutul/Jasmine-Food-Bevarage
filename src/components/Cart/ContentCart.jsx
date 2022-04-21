@@ -3,9 +3,17 @@ import { Link } from "react-router-dom";
 import { Fragment } from "react/cjs/react.production.min";
 
 import { urlCheckoutRoute, urlProductDetails } from "../Services/UrlService";
+import authContext from "../Store/auth-context";
 import cartContext from "../Store/cart-context";
 
-const ContentCart = ({ openCart,setAlert,setQtyAlert }) => {
+const ContentCart = ({
+  openCart,
+  setAlert,
+  setQtyAlert,
+  closeAuthModalHandler,
+  setIsOrderNowPressed
+}) => {
+  const authCtx = useContext(authContext);
   const getCartContext = useContext(cartContext);
   const [qty, setQty] = useState("");
   const getCartContextModel = getCartContext.getCartModel;
@@ -19,9 +27,17 @@ const ContentCart = ({ openCart,setAlert,setQtyAlert }) => {
     if (getCartContextModel.Items.length === 0) {
       e.preventDefault();
       setAlert();
-      openCart()
+      openCart();
       return false;
     }
+    if (authCtx.isLoggedIn === false) {
+      e.preventDefault();
+      closeAuthModalHandler();
+      openCart();
+      setIsOrderNowPressed(true);
+      return false;
+    }
+    
     openCart();
   };
 
@@ -198,7 +214,6 @@ const ContentCart = ({ openCart,setAlert,setQtyAlert }) => {
           </div>
         </div>
       </div>
-      
     </>
   );
 };

@@ -2,38 +2,38 @@ import React, { useContext, useEffect, useState } from "react";
 import { getDistricts, storeAddressObj } from "../../Services/AddressService";
 import addressContext from "../../Store/address-context";
 
-const DistrictValidation = ({clicked}) => {
-    const ctx=useContext(addressContext)
-    const getDivisionCtx=ctx.getDivision;
-    const[districts,setDistricts]=useState([]);
-    const[districtIsTouched,setDistrictIsTouched]=useState(false)
-    const[districtValid,setDistrictIsValid]=useState(false)
-    // const districtChangeHandler=({target})=>{
-    //     setDistricts(target.value)
-    // }
-    const districtIsTouchedHandler=()=>{
-        setDistrictIsTouched(true)
-    }
-    
-    const getDistrictHandler=()=>{
-        setDistricts(getDistricts(getDivisionCtx.id))
-    }
-    const selectDistrictHandler=(item)=>{
-        ctx.storeDistrict(item)
-        storeAddressObj.district=(item.name)
-    }
+const DistrictValidation = ({ clicked }) => {
+  const ctx = useContext(addressContext);
+  const getDivisionCtx = ctx.getDivision;
+  const [districts, setDistricts] = useState([]);
+  const [districtIsTouched, setDistrictIsTouched] = useState(false);
+  const [districtValid, setDistrictIsValid] = useState(false);
+  // const districtChangeHandler=({target})=>{
+  //     setDistricts(target.value)
+  // }
+  const districtIsTouchedHandler = () => {
+    setDistrictIsTouched(true);
+  };
 
-    useEffect(()=>{
-      if(clicked){
-        if((districtIsTouched && districts.length===0)|| (!districtIsTouched && districts.length===0)){
-            setDistrictIsValid(true)
-        }
-        else
-        setDistrictIsValid(false)
-      }
-        
-    },[districts.length,districtIsTouched,clicked])
+  const getDistrictHandler = () => {
+    setDistricts(getDistricts(getDivisionCtx.id));
+  };
+  const selectDistrictHandler = (item) => {
+    ctx.storeDistrict(item);
+    storeAddressObj.district.name = item.name;
+    storeAddressObj.district.id = item.districtId;
+  };
 
+  useEffect(() => {
+    if (clicked) {
+      if (
+        (districtIsTouched && districts.length === 0) ||
+        (!districtIsTouched && districts.length === 0)
+      ) {
+        setDistrictIsValid(true);
+      } else setDistrictIsValid(false);
+    }
+  }, [districts.length, districtIsTouched, clicked]);
 
   return (
     <div class="custom-input">
@@ -43,22 +43,25 @@ const DistrictValidation = ({clicked}) => {
         // onChange={districtChangeHandler}
         onBlur={districtIsTouchedHandler}
         onClick={getDistrictHandler}
-        >
-            {
-                districts.map(item=>(
-                    <option value={item.id} onClick={selectDistrictHandler.bind(null,item)}>{item.name}</option>
-                ))
-            }
+      >
+        {districts.map((item) => (
+          <option
+            value={item.id}
+            onClick={selectDistrictHandler.bind(null, item)}
+          >
+            {item.name}
+          </option>
+        ))}
         {/* <option value="">Dhake</option>
         <option value="">Rangpur</option>
         <option value="">Dinajpur</option> */}
       </select>
-      {
-          (districtValid)&& <div class="alert alert-error">District is required.</div>
-      }
-      {
-          (districtIsTouched && districts.length===0 && !districtValid)&& <div class="alert alert-error">District is required.</div>
-      }
+      {districtValid && (
+        <div class="alert alert-error">District is required.</div>
+      )}
+      {districtIsTouched && districts.length === 0 && !districtValid && (
+        <div class="alert alert-error">District is required.</div>
+      )}
     </div>
   );
 };

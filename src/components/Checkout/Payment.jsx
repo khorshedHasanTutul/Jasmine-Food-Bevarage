@@ -10,7 +10,7 @@ const Payment = () => {
   const ctxCart = useContext(cartContext);
   const [clickedRadio, setClickedRadio] = useState(false);
   const [alert, setAlert] = useState(false);
-  const[alertPayment,setAlertPayment]=useState(false)
+  const [alertPayment, setAlertPayment] = useState(false);
   const getStoreCartCtx = ctxCart.getCartModel;
   const getActiveAddressType = ctxAddress.getActiveType;
   const getSelectedAddress = ctxAddress.getStoreAddressCtx.find(
@@ -20,18 +20,18 @@ const Payment = () => {
   const radioButtonHandler = () => {
     setClickedRadio(true);
   };
-  const alertStateChangedHandler=()=>{
-    setAlert(prevState => !prevState);
-  }
-  const alertPaymentRadioStateChangeHandler=()=>{
-    setAlertPayment(prevState => !prevState)
-  }
+  const alertStateChangedHandler = () => {
+    setAlert((prevState) => !prevState);
+  };
+  const alertPaymentRadioStateChangeHandler = () => {
+    setAlertPayment((prevState) => !prevState);
+  };
   const proceedOrderHandler = () => {
     if (clickedRadio) {
-        alertStateChangedHandler()
-        ctxCart.clearCart()
+      alertStateChangedHandler();
+      ctxCart.clearCart();
     } else {
-        alertPaymentRadioStateChangeHandler()
+      alertPaymentRadioStateChangeHandler();
     }
   };
 
@@ -82,21 +82,21 @@ const Payment = () => {
                 &nbsp;
                 <span>
                   {getSelectedAddress &&
-                    getSelectedAddress.division +
+                    getSelectedAddress.division.name +
                       "-" +
-                      getSelectedAddress.district +
+                      getSelectedAddress.district.name +
                       "-" +
-                      getSelectedAddress.area +
+                      getSelectedAddress.area.name +
                       "-" +
                       getSelectedAddress.address}
                 </span>
                 <span>
                   {!getSelectedAddress &&
-                    storeAddressObj.division +
+                    storeAddressObj.division.name +
                       "-" +
-                      storeAddressObj.district +
+                      storeAddressObj.district.name +
                       "-" +
-                      storeAddressObj.area +
+                      storeAddressObj.area.name +
                       "-" +
                       storeAddressObj.address}
                 </span>
@@ -115,7 +115,7 @@ const Payment = () => {
                   Amount
                 </td>
                 <td class="summary-details-p" colspan="2">
-                  {(getStoreCartCtx.TotalAmmount).toFixed(2)}
+                  {getStoreCartCtx.TotalAmmount.toFixed(2)}
                 </td>
               </tr>
               <tr>
@@ -147,7 +147,9 @@ const Payment = () => {
                   <strong>Total Amount </strong>
                 </td>
                 <td class="summary-details-p" colspan="2">
-                  <strong>{(getStoreCartCtx.TotalAmmount + 80).toFixed(2)}</strong>
+                  <strong>
+                    {(getStoreCartCtx.TotalAmmount + 80).toFixed(2)}
+                  </strong>
                 </td>
               </tr>
             </tbody>
@@ -202,11 +204,12 @@ const Payment = () => {
       {alert && (
         <PopAlert Template={OrderAlert} closeModal={alertStateChangedHandler} />
       )}
-      {
-          alertPayment &&(
-            <PopAlert closeModal={alertPaymentRadioStateChangeHandler} content={"Please select a payment method!"}/>
-          )
-      }
+      {alertPayment && (
+        <PopAlert
+          closeModal={alertPaymentRadioStateChangeHandler}
+          content={"Please select a payment method!"}
+        />
+      )}
     </div>
   );
 };

@@ -10,8 +10,8 @@ import ProductSummary from "./ProductSummary";
 const CheckoutBody = () => {
   const ctxCart = useContext(cartContext);
   const ctxAddress = useContext(addressContext);
-  const[alert,setAlert]=useState(false);
-  const [qtyAlert , setQtyAlert] = useState(false);
+  const [alert, setAlert] = useState(false);
+  const [qtyAlert, setQtyAlert] = useState(false);
 
   const getStoreCtxAddress = ctxAddress.getStoreAddressCtx;
   const getActiveTypeAddress = ctxAddress.getActiveType;
@@ -41,8 +41,8 @@ const CheckoutBody = () => {
       setActiveAddress(false);
       setActivePayment(true);
     } else {
-        setAlert(true)
-    //   alert("Please Enter Valid Address!");
+      setAlert(true);
+      //   alert("Please Enter Valid Address!");
     }
   };
 
@@ -70,14 +70,14 @@ const CheckoutBody = () => {
     if (okToProceed()) {
       paymentActiveHandler();
     } else {
-        setAlert(true)
-    //   alert("Please Enter Valid Address!");
+      setAlert(true);
+      //   alert("Please Enter Valid Address!");
     }
   };
 
-  const alertStatusChangeHandler=()=>{
-      setAlert(prevState=>!prevState)
-  }
+  const alertStatusChangeHandler = () => {
+    setAlert((prevState) => !prevState);
+  };
 
   const qtyAlertStatusChangeHandler = () => {
     setQtyAlert((prevState) => !prevState);
@@ -145,19 +145,18 @@ const CheckoutBody = () => {
           </div>
         </div>
       </div>
-      {
-          alert &&(
-              <PopAlert closeModal={alertStatusChangeHandler} content={"Please Enter Valid Address!"} />
-          )
-      }
-      {
-        qtyAlert && (
-          <PopAlert 
-            closeModal={qtyAlertStatusChangeHandler}
-            content={"Quantity can't be less than 1!"}
-          />
-        )
-      }
+      {alert && (
+        <PopAlert
+          closeModal={alertStatusChangeHandler}
+          content={"Please Enter Valid Address!"}
+        />
+      )}
+      {qtyAlert && (
+        <PopAlert
+          closeModal={qtyAlertStatusChangeHandler}
+          content={"Quantity can't be less than 1!"}
+        />
+      )}
     </section>
   );
 };
