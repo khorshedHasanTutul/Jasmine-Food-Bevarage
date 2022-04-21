@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import AuthenticationModalBody from "../Authentication/AuthenticationModalBody";
 import LoginModal from "../Authentication/LoginModal";
@@ -10,12 +11,15 @@ import {
   urlNotificationRoute,
   urlProfileRoute,
 } from "../Services/UrlService";
+import authContext from "../Store/auth-context";
 
 const MiddleHeader = () => {
+  let history = useHistory();
   const getLogo = appData.MiddleHeader;
   const [searchValue, setSearchValuye] = useState("");
   const [alert, setAlert] = useState(false);
   const [loginPopUp, setLoginPopUp] = useState(false);
+  const authCtx = useContext(authContext);
 
   const textChangeHandler = ({ target }) => {
     setSearchValuye(target.value);
@@ -24,7 +28,7 @@ const MiddleHeader = () => {
   const closeSearchHandler = () => {
     setSearchValuye("");
   };
-  
+
   const alertStatusChangesHandler = () => {
     setAlert((prevState) => !prevState);
   };
@@ -32,11 +36,15 @@ const MiddleHeader = () => {
     setAlert(true);
   };
   const userHandler = () => {
-    setLoginPopUp(true)
+    if (authCtx.isLoggedIn) {
+      history.push(urlProfileRoute());
+    } else {
+      setLoginPopUp(true);
+    }
   };
-  const closeAuthModalHandler=()=>{
-    setLoginPopUp(prevState=>!prevState)
-  }
+  const closeAuthModalHandler = () => {
+    setLoginPopUp((prevState) => !prevState);
+  };
   return (
     <div class="header-middle-content mt-5">
       <div class="header-m-flex d-flexx">
@@ -99,7 +107,12 @@ const MiddleHeader = () => {
         </div>
       </div>
       {alert && <PhoneCallAlert closeModal={alertStatusChangesHandler} />}
-      {loginPopUp && <AuthenticationModalBody Template={LoginModal} closeModal={closeAuthModalHandler} />}
+      {loginPopUp && (
+        <AuthenticationModalBody
+          Template={LoginModal}
+          closeModal={closeAuthModalHandler}
+        />
+      )}
     </div>
   );
 };

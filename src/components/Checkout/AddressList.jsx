@@ -51,7 +51,7 @@ const AddressList = () => {
                 <h3>{item.type}</h3>
                 <p>{findCtxStoreItem.name}-{(findCtxStoreItem.mobile)}</p>
                 <p>{findCtxStoreItem?.email}</p>
-                <p>{findCtxStoreItem.division},{findCtxStoreItem.district},{findCtxStoreItem.area}</p>
+                <p>{findCtxStoreItem.division.name},{findCtxStoreItem.district.name},{findCtxStoreItem.area.name}</p>
                 <p>{findCtxStoreItem.address}</p>
               </div>
             )}
