@@ -196,7 +196,7 @@ const ContentCart = ({
             </div>
           </div>
           <div class="cart-footer">
-            <div class="card-footer-inner">
+            {/* <div class="card-footer-inner">
               <Link to={urlCheckoutRoute()}>
                 <button class="cart-cmn-btn" onClick={orderNowHandler}>
                   Order Now
@@ -210,7 +210,13 @@ const ContentCart = ({
 
             <a href class="block-btn-card" onClick={clearCartHandler}>
               <button class="cart-cmn-btn">Clear Cart</button>
-            </a>
+            </a> */}
+            <div className="cart-footer__orderNow">
+              <p>Order Now</p>
+            </div>
+            <div className="cart-footer__orderNow">
+              <p>Clear Cart</p>
+            </div>
           </div>
         </div>
       </div>

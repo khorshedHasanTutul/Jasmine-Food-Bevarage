@@ -1,6 +1,10 @@
 import React from "react";
 import Slider from "../../../utilities/slider/Slider";
 import appData from "../../DataSource/appData";
+import {
+  getDisplayCategories,
+  getObjectFormatofData,
+} from "../../Services/DataService";
 import SingleItemProduct from "./SingleItemProduct";
 
 const CategoryProductByHome = () => {
@@ -38,6 +42,7 @@ const CategoryProductByHome = () => {
       speed: 1,
     },
   };
+  console.log({ getDisplayCategories });
   const getCategory = appData.BottomHeader;
   const findOnlyVisibleProduct = getCategory[1].dropDownCategoryItem.filter(
     (item) => item.visible === true
@@ -45,23 +50,31 @@ const CategoryProductByHome = () => {
   return (
     <section class="product-main-area">
       <div class="container">
-        {findOnlyVisibleProduct.map((item) => {
-          const getProduct = appData.categoryProducts.filter(
-            (item2) => item2.category_id === item.categoryId
-          );
+        {getDisplayCategories.map((item) => {
+          // const getProduct = appData.categoryProducts.filter(
+          //   (item2) => item2.category_id === item.categoryId
+          // );
+          const getDisplayCategory = getObjectFormatofData(item);
+          console.log(getDisplayCategory.products);
           return (
             <>
               <div class="common-heading">
-                <h1>{item.categoryName}</h1>
+                <h1>{getDisplayCategory.categoryName}</h1>
               </div>
               <div class="spices-auto-scroll mt-20">
                 <div class="slide-track splide__track product-main-flex">
                   <ul class="splide__list">
-                    <Slider
-                      options={options}
-                      Template={SingleItemProduct}
-                      data={getProduct}
-                    />
+                    {getDisplayCategory.products.length > 5 && (
+                      <Slider
+                        options={options}
+                        Template={SingleItemProduct}
+                        data={getDisplayCategory.products}
+                      />
+                    )}
+                    {getDisplayCategory.products.length <= 5 &&
+                      getDisplayCategory.products.map((item) => (
+                        <SingleItemProduct item={item} />
+                      ))}
                   </ul>
                 </div>
               </div>

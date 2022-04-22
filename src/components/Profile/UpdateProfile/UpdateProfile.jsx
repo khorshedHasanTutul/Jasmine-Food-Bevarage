@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { getProfileInfo, updateProfileInfo } from "../../../lib/endpoint";
+import { http } from "../../Services/httpService";
 
 const UpdateProfile = () => {
   const [clicked, setClicked] = useState(false);
@@ -8,6 +10,9 @@ const UpdateProfile = () => {
   const [nameIsTouched, setNameIsTouched] = useState(false);
   const [nameIsValid, setNameIsValid] = useState(false);
   //end
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [files, setFiles]  = useState();
 
   //name Handlers
   const nameChangeHandler = ({ target }) => {
@@ -16,15 +21,66 @@ const UpdateProfile = () => {
   const nameTouchedHandler = () => {
     setNameIsTouched(true);
   };
+  const emailChangeHandler=({target})=>{
+    setEmail(target.value);
+  }
   //   end
 
   //save button handler
   const saveButtonHandler = (e) => {
     e.preventDefault();
     setClicked(true);
+    if(name.length!==0 || email.length!==0 || files!==undefined){
+      let formData = new FormData();
+      if(name.length!==0) formData.append("Name",name);
+      if(email.length!==0) formData.append("Email",email);
+      if(files!==undefined) formData.append("ProfilePicture",files);
+      http.put({
+        url:updateProfileInfo,
+        payload:{
+          formData
+        },
+        successed:(data)=>{
+          console.log(data)
+        },
+        failed:()=>{
+          console.log('failed')
+        },
+        always:()=>{
+
+        }
+      })
+    }
   };
   //end
 
+  const fileUploadHandler=({target})=>{
+    setFiles(target.files[0]);
+  }
+
+  const getProfileInfoHttp = () => {
+    http.get({
+      url: getProfileInfo,
+      before: () => {},
+      successed: (data) => {
+        if (data.data.name !== null) {
+          setName(data.data.name);
+        }
+        setPhone(data.data.phone);
+        if (data.data.email !== null) {
+          setEmail(data.data.email);
+        }
+      },
+      failed: () => {
+        console.log("failed");
+      },
+      always: () => {},
+    });
+  };
+
+  useEffect(() => {
+    getProfileInfoHttp();
+  }, []);
 
   useEffect(() => {
     if (clicked) {
@@ -68,18 +124,20 @@ const UpdateProfile = () => {
               name=""
               id="name"
               disabled
-              value={"01704247162"}
+              value={phone}
             />
           </div>
         </div>
         <div class="edit-profile-main-form">
           <div class="custom-input">
             <label for="name">Email</label>
-            <input type="text" name="" id="name" required="" />
+            <input type="text" name="" id="name" required="" value={email}
+            onChange={emailChangeHandler}
+            />
           </div>
           <div class="custom-input">
             <label for="name">Upload Photo</label>
-            <input type="file" name="" id="name" required="" />
+            <input type="file" name="" id="name" required="" onChange={fileUploadHandler}/>
             {/* <div class="alert alert-error">Photo is required.</div> */}
           </div>
         </div>
