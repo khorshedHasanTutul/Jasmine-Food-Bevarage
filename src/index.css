@@ -443,8 +443,8 @@ p {
   transition: all 0.5s ease-in-out;
 }
 .header-account-flex.d-flex.al-center ul > li:hover {
-  box-shadow: 0 0 5px rgba(0, 0, 0.2);
-  border-radius: 50%;
+	box-shadow: 0 0px 3px rgb(117, 110, 110);
+	border-radius: 50%;
 }
 
 .ex-number {
@@ -784,12 +784,28 @@ p {
   position: relative;
 }
 
-.product-img {
+/* .product-img {
   height: 267px;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
   padding: 10px;
+} */
+
+.product-img {
+	/* height: 267px; */
+	box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+	display: flex;
+	align-items: center;
+	padding: 10px;
+	max-width: 230px;
+	min-width: 100px;
+}
+
+.group-complain_type {
+	display: grid;
+	grid-template-columns: repeat(2,1fr);
+	gap: 1.2rem;
 }
 
 .inner-product-main-flex {
@@ -1020,16 +1036,15 @@ p {
 }
 
 .cart-box-inner-view {
-  /* tutul  */
-  /* display: none; */
-  /* end  */
-  max-width: 408px;
+	/* display: none; */
+	max-width: 408px;
+	box-shadow: 0 2px 4px rgba(0,0,0.2);
 }
 .no_margin {
   margin: 0;
 }
 .cart-header {
-  background: #50a962;
+	background: #55584D;
 }
 .card-header-flex-for-sale {
   display: flex;
@@ -1264,11 +1279,11 @@ table td {
 }
 
 .cart-footer {
-  display: flex;
-  padding: 10px;
-  background: #50a962;
-  justify-content: space-between;
-  align-items: center;
+	display: flex;
+	padding: 10px;
+	justify-content: space-between;
+	align-items: center;
+	background: #55584D;
 }
 #empty_cart_button i {
   color: #fff;
@@ -1301,8 +1316,28 @@ table td {
 }
 .cart-cmn-btn.cart-cmn-btn2 {
 	border-radius: 0px 5px 5px 0px;
+	background: white;
+	color: black;
+}
+.card-footer-inner a button {
 	background: #FF4B49;
-	color: #fff;
+	color: white;
+}
+.cart-footer {
+	display: flex;
+	padding: 10px;
+	justify-content: center;
+	align-items: center;
+	background: #F5F6F7;
+	gap: 1.25rem;
+}
+.cart-footer__orderNow {
+	background: #FF0000;
+	color: white;
+	padding: 6px;
+	border-radius: 5px;
+	width: 50%;
+	text-align: center;
 }
 .block-btn-card .cart-cmn-btn {
   border-radius: 5px;
@@ -4036,6 +4071,15 @@ textarea:focus {
   cursor: pointer;
   transition: 0.5s;
   opacity: 0.8;
+  width: 100%;
+}
+
+.complain_button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 11px;
+	padding: 4px;
 }
 
 .edit-profile-main-flex > form button:hover {

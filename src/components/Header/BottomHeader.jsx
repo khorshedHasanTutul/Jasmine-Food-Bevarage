@@ -1,10 +1,17 @@
 import React, { useRef } from "react";
 import { Link } from "react-router-dom";
 import appData from "../DataSource/appData";
+import {
+  getDropDownMainCategories,
+  getMainCategories,
+} from "../Services/DataService";
 import { urlCategoryRoute, urlSubCategoryRoute } from "../Services/UrlService";
 import BottomLinks from "./BottomLinks/BottomLinks";
 
 const BottomHeader = () => {
+  const getMainCategoriesData = getMainCategories;
+  const getDropDownCategory = getDropDownMainCategories();
+  console.log({ getDropDownCategory });
   const getBottomHeaderItems = appData.BottomHeader;
   const ref = useRef(null);
 
@@ -32,20 +39,19 @@ const BottomHeader = () => {
               <i class="fa fa-angle-down" aria-hidden="true"></i>
             </div>
             <ul class="child-dropdown">
-              {getBottomHeaderItems[1].dropDownCategoryItem.map(
-                (item, index) => (
-                  <li>
-                    <div class="inner-flex d-flex al-center js-center">
-                      <Link to={urlCategoryRoute() + item.categoryId}>
-                        {item.categoryName}{" "}
-                      </Link>
-                      <i
-                        class="fa fa-angle-right sub-menu-arrow-right"
-                        aria-hidden="true"
-                      ></i>
-                    </div>
-                    <ul class="child-dropdown child-dropdown-inner">
-                      {item.subCategory.map((item2) => (
+              {getMainCategoriesData.map((item, index) => (
+                <li>
+                  <div class="inner-flex d-flex al-center js-center">
+                    <Link to={urlCategoryRoute() + item.categoryId}>
+                      {item[1]}{" "}
+                    </Link>
+                    <i
+                      class="fa fa-angle-right sub-menu-arrow-right"
+                      aria-hidden="true"
+                    ></i>
+                  </div>
+                  <ul class="child-dropdown child-dropdown-inner">
+                      {getDropDownCategory[index].map((item2) => (
                         <li>
                           <Link
                             to={
@@ -55,14 +61,13 @@ const BottomHeader = () => {
                               item2.subCategoryId
                             }
                           >
-                            {item2.subCategoryName}
+                            {item2[1]}
                           </Link>
                         </li>
                       ))}
                     </ul>
-                  </li>
-                )
-              )}
+                </li>
+              ))}
             </ul>
           </li>
 

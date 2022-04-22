@@ -1,20 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
+import { addressArea } from "../../../lib/endpoint";
 import Select from "../../../utilities/select/Select";
 import { getAreas, storeAddressObj } from "../../Services/AddressService";
+import { http } from "../../Services/httpService";
 import addressContext from "../../Store/address-context";
 
-const AreaValidation = ({ clicked }) => {
-  const divisionsa = [
-    { id: 10, name: "Barisal" },
-    { id: 20, name: "Chittagong" },
-    { id: 30, name: "Dhaka" },
-    { id: 40, name: "Khulna" },
-    { id: 50, name: "Rajshahi" },
-    { id: 55, name: "Rangpur" },
-    { id: 60, name: "Sylhet" },
-    { id: 80, name: "Mymensing" },
-  ];
+const AreaValidation = ({ clicked, districtId,getSelectAreaHandler }) => {
   const ctxAddress = useContext(addressContext);
+  const [areaList, setAreaList] = useState([]);
+  const [selectedArea, setSelectedArea] = useState();
   const getAreaCtx = ctxAddress.getDistrict;
   const [areas, setAreas] = useState([]);
   const [areaIsTouched, setAreaIsTouched] = useState(false);
@@ -58,12 +52,35 @@ const AreaValidation = ({ clicked }) => {
     }
   }, [areas.length, areaIsTouched, clicked]);
 
+  const areaSelectHandler = (areaList) => {
+    setSelectedArea(areaList);
+    getSelectAreaHandler(areaList.id);
+  };
+
+  const getAreaHttp = (districtId) => {
+    console.log({ districtId });
+    http.get({
+      url: addressArea + districtId,
+      before: () => {},
+      successed: (data) => {
+        setAreaList(data.data);
+      },
+      failed: () => {
+        console.log("failed");
+      },
+      always: () => {},
+    });
+  };
+  useEffect(() => {
+    getAreaHttp(districtId);
+  }, [districtId]);
+
   return (
     <Select
       label="Select Area"
       name="area"
-      options={divisionsa || []}
-      onSelect={selectAreaHandler}
+      options={areaList || []}
+      onSelect={areaSelectHandler}
       config={{ searchPath: "name", keyPath: "id", textPath: "name" }}
       selectedOption={selectedValue}
       // onBlur={upzilaBlurHandler}

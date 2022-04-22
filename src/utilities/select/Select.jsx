@@ -1,4 +1,5 @@
 import {useEffect, useRef, useState } from "react";
+import { useOutsideAlerter } from "../../hooks/useOutSideClickedHandler";
 import classes from "./Select.module.css";
 
 const Select = ({
@@ -6,14 +7,13 @@ const Select = ({
   name,
   onSelect,
   options,
-  config = { searchPath: "text", textPath: "text", keyPath: "id" },
+  config = {},
   selectedOption,
   previewText,
   error,
-  onBlur,
-  className
+  onBlur
 }) => {
-  const { searchPath, textPath, keyPath} = config;
+  const { searchPath = "text", textPath = "text", keyPath = "id" } = config;
   
   const [listIsShown, setListisShown] = useState(false);
   const inputRef = useRef();
@@ -29,10 +29,10 @@ const Select = ({
   }, [options, selectedOption, textPath]);
 
 
-//   useOutsideAlerter(selectRef, () => {
-//     setListisShown(false);
-//   });
-
+  useOutsideAlerter(selectRef, () => {
+    setListisShown(false);
+  });
+  
   const focusHandler = () => {
     setListisShown(true);
   };
@@ -57,7 +57,7 @@ const Select = ({
   };
 
   const filterOptions = (searchQuery) => {
-    searchQuery = searchQuery.toLowerCase();
+    searchQuery.toLowerCase();
 
     if (searchQuery === "") {
       setOptionList(options);
@@ -73,7 +73,7 @@ const Select = ({
   };
 
   return (
-    <div className={`${classes.select} ${className}`} ref={selectRef}>
+    <div className={classes.select} ref={selectRef}>
       <label htmlFor={name}>{label}</label>
       <div className={classes.input}>
         <div className={classes["input-box"]}>

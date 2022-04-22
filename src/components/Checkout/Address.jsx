@@ -1,8 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { addressDistrict } from "../../lib/endpoint";
 import Select from "../../utilities/select/Select";
 import { storeAddressObj } from "../Services/AddressService";
+import { http } from "../Services/httpService";
 import {
   urlCheckoutRoute,
   urlProfileAddressRoute,
@@ -22,6 +24,10 @@ import BottomActiveAddress from "./BottomActiveAddress";
 const Address = ({ ProceedToOrderHandler }) => {
   const { pathname } = useLocation();
   const ctxAddress = useContext(addressContext);
+
+  const [divisionID, setDivisionId] = useState();
+  const [districtId, setDistrictId] = useState();
+  const [areaId, setAreaId] = useState();
   const [clicked, setClicked] = useState(false);
   let addressObj = Object.assign({}, storeAddressObj);
 
@@ -38,6 +44,17 @@ const Address = ({ ProceedToOrderHandler }) => {
     ) {
       ctxAddress.storeAddressCtx(addressObj);
     }
+    http.post({});
+  };
+
+  const getDistrictHandler = (divisionId) => {
+    setDivisionId(divisionId);
+  };
+  const getAreaHandler = (districtID) => {
+    setDistrictId(districtID);
+  };
+  const getSelectAreaHandler = (areaID) => {
+    setAreaId(areaID);
   };
 
   return (
@@ -63,9 +80,20 @@ const Address = ({ ProceedToOrderHandler }) => {
                   <EmailValidation />
 
                   <div className="grid-3 mb-16 g-8">
-                    <Divisionvalidation clicked={clicked} />
-                    <DistrictValidation clicked={clicked} />
-                    <AreaValidation clicked={clicked} />
+                    <Divisionvalidation
+                      clicked={clicked}
+                      getDistrictHandler={getDistrictHandler}
+                    />
+                    <DistrictValidation
+                      clicked={clicked}
+                      divisionID={divisionID}
+                      getAreaHandler={getAreaHandler}
+                    />
+                    <AreaValidation
+                      clicked={clicked}
+                      districtId={districtId}
+                      getSelectAreaHandler={getSelectAreaHandler}
+                    />
                   </div>
                   <AddressValidation clicked={clicked} />
                   <BottomActiveAddress

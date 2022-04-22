@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const BannerTemplate = ({item}) => {
   return ( 
         <>
-            <Link to='/'><img src={item.image} alt="img" /></Link>
+            <Link to={item.link}><img src={item.imageURL} alt="img" /></Link>
         </>
   );
 };

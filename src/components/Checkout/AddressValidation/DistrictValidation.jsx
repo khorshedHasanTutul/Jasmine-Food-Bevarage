@@ -1,21 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
+import { addressDistrict } from "../../../lib/endpoint";
 import Select from "../../../utilities/select/Select";
 import { getDistricts, storeAddressObj } from "../../Services/AddressService";
+import { http } from "../../Services/httpService";
 import addressContext from "../../Store/address-context";
 
-const DistrictValidation = ({ clicked }) => {
-  const divisionsa = [
-    { id: 10, name: "Barisal" },
-    { id: 20, name: "Chittagong" },
-    { id: 30, name: "Dhaka" },
-    { id: 40, name: "Khulna" },
-    { id: 50, name: "Rajshahi" },
-    { id: 55, name: "Rangpur" },
-    { id: 60, name: "Sylhet" },
-    { id: 80, name: "Mymensing" },
-  ];
+const DistrictValidation = ({ clicked,divisionID,getAreaHandler }) => {
   const ctx = useContext(addressContext);
   const getDivisionCtx = ctx.getDivision;
+  const [selectedDistrict,setSelectedDistrict] = useState({})
+  const [districtList, setDistrictList] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [districtIsTouched, setDistrictIsTouched] = useState(false);
   const [districtValid, setDistrictIsValid] = useState(false);
@@ -44,6 +38,33 @@ const DistrictValidation = ({ clicked }) => {
       setSelectedValue(getIfFindActiveType.district);
     }
   }, [getIfFindActiveType]);
+  const districtSelectHandler=(districtList)=>{
+    setSelectedDistrict(districtList);
+    getAreaHandler(districtList.id)
+  }
+
+  const getDistrictHttp =(divisionID)=>{
+    console.log({divisionID})
+    http.get({
+      url:addressDistrict+divisionID,
+      before:()=>{
+
+      },
+      successed:(data)=>{
+        setDistrictList(data.data)
+      },
+      failed:()=>{
+        console.log('failed');
+      },
+      always:()=>{
+
+      }
+    })
+  }
+  useEffect(()=>{
+    getDistrictHttp(divisionID);
+  },[divisionID])
+
 
   useEffect(() => {
     if (clicked) {
@@ -60,8 +81,8 @@ const DistrictValidation = ({ clicked }) => {
     <Select
       label="Select City"
       name="district"
-      options={divisionsa || []}
-      onSelect={selectDistrictHandler}
+      options={districtList || []}
+      onSelect={districtSelectHandler}
       config={{ searchPath: "name", keyPath: "id", textPath: "name" }}
       selectedOption={selectedValue}
       // onBlur={districtBlurHandler}

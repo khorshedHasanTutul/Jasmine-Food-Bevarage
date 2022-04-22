@@ -11,7 +11,6 @@ const AddressValidation = ({ clicked }) => {
   const getIfFindActiveType = getCtxStoreAddress?.find(
     (item) => item.type === ctxAddress.getActiveType
   );
-
   const addressChangeHandler = ({ target }) => {
     setAddress(target.value);
     storeAddressObj.address = target.value;

@@ -1,9 +1,11 @@
 import React from 'react';
 import appData from '../DataSource/appData';
+import { getDisplayCategories } from '../Services/DataService';
 
 const TopHeader = () => {
     const getTopHeaderData=appData.TopHeader;
-    console.log(getTopHeaderData);
+    console.log({getDisplayCategories});
+    
   return (
     <div class="new-header">
         <div class="container">
