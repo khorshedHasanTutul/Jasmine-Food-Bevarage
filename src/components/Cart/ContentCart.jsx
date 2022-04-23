@@ -11,7 +11,7 @@ const ContentCart = ({
   setAlert,
   setQtyAlert,
   closeAuthModalHandler,
-  setIsOrderNowPressed
+  setIsOrderNowPressed,
 }) => {
   const authCtx = useContext(authContext);
   const getCartContext = useContext(cartContext);
@@ -37,7 +37,7 @@ const ContentCart = ({
       setIsOrderNowPressed(true);
       return false;
     }
-    
+
     openCart();
   };
 
@@ -195,6 +195,16 @@ const ContentCart = ({
               </table>
             </div>
           </div>
+          <div className="product_items__count__container">
+            <div className="cmn-class-items-calc total__items">
+              <p>Total Items</p>
+              <span>{getCartContextModel.TotalItems}</span>
+            </div>
+            <div className="cmn-class-items-calc total__ammount">
+              <p>Total Ammount</p>
+              <span>{getCartContextModel.TotalAmmount.toFixed(2)}tk</span>
+            </div>
+          </div>
           <div class="cart-footer">
             {/* <div class="card-footer-inner">
               <Link to={urlCheckoutRoute()}>
@@ -211,11 +221,16 @@ const ContentCart = ({
             <a href class="block-btn-card" onClick={clearCartHandler}>
               <button class="cart-cmn-btn">Clear Cart</button>
             </a> */}
+
             <div className="cart-footer__orderNow">
-              <p>Order Now</p>
+              <Link to={urlCheckoutRoute()}>
+                <p>
+                  <span onClick={orderNowHandler}>Order Now</span>
+                </p>
+              </Link>
             </div>
-            <div className="cart-footer__orderNow">
-              <p>Clear Cart</p>
+            <div className="cart-footer__orderNow" style={{background:"#03752E"}}>
+              <p onClick={clearCartHandler}>Clear Cart</p>
             </div>
           </div>
         </div>

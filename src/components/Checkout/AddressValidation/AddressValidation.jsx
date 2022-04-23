@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { storeAddressObj } from "../../Services/AddressService";
 import addressContext from "../../Store/address-context";
 
-const AddressValidation = ({ clicked }) => {
+const AddressValidation = ({ clicked, setAddressP,fixArea }) => {
   const ctxAddress = useContext(addressContext);
   const [address, setAddress] = useState("");
   const [addressIsTouched, setAddressIsTouched] = useState(false);
@@ -14,6 +14,7 @@ const AddressValidation = ({ clicked }) => {
   const addressChangeHandler = ({ target }) => {
     setAddress(target.value);
     storeAddressObj.address = target.value;
+    setAddressP(target.value);
   };
   const addressIsTouchedHandler = () => {
     setAddressIsTouched(true);
@@ -31,12 +32,12 @@ const AddressValidation = ({ clicked }) => {
   }, [address.length, addressIsTouched, clicked]);
 
   useEffect(() => {
-    if (getIfFindActiveType) {
-      setAddress(getIfFindActiveType.address);
+    if (fixArea) {
+      setAddress(fixArea);
     } else {
       setAddress("");
     }
-  }, [getIfFindActiveType]);
+  }, [fixArea]);
 
   return (
     <div class="address-textarea">

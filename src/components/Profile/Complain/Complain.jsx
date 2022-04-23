@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { postComplain } from "../../../lib/endpoint";
+import PopAlert from "../../../utilities/alert/PopAlert";
 import Select from "../../../utilities/select/Select";
 import { http } from "../../Services/httpService";
 
 const Complain = () => {
   const [clicked, setClicked] = useState(false);
+  //complain states
+  const [complainIsTouched, setComplainIsTouched] = useState(false);
+  const [complainIsInvalid, setComplainIsInvalid] = useState(false);
   const [selectedComplain, setSelectedComplain] = useState({});
-
-  //title validation start
-  const [title, setTitle] = useState("");
-  const [titleIsTouched, setTitleIsTouched] = useState(false);
-  const [titleIsValid, setTitleIsValid] = useState(false);
-  //end
-
   //Remarks validation start
   const [remark, setRemark] = useState("");
   const [remarkIsTouched, setRemarkIsTouched] = useState(false);
   const [remarkIsValid, setRemarkIsValid] = useState(false);
   //end
+
+  const [isAlertHidden, setIsAlertHidden] = useState(false);
 
   const complainList = [
     {
@@ -30,7 +29,7 @@ const Complain = () => {
     },
     {
       id: 2,
-      name: "AgentBehaviors",
+      name: "Agent Behaviors",
     },
     {
       id: 3,
@@ -42,13 +41,6 @@ const Complain = () => {
     },
   ];
 
-  const titleChangeHandler = ({ target }) => {
-    setTitle(target.value);
-  };
-  const titleTouchedHandler = () => {
-    setTitleIsTouched(true);
-  };
-
   const remarkChangeHandler = ({ target }) => {
     setRemark(target.value);
   };
@@ -59,103 +51,120 @@ const Complain = () => {
   const complainSelectHandler = (complainList) => {
     setSelectedComplain(complainList);
   };
+  const complainBlurHandler = () => {
+    setComplainIsTouched(true);
+  };
+
+  const closeAlerthandler = () => {
+    setIsAlertHidden((prevState) => !prevState);
+  };
 
   const submitButtonHandler = (e) => {
     e.preventDefault();
     setClicked(true);
-    http.post({
-      url:postComplain,
-      payload:{
-        "activityId": "00000000-0000-0000-0000-000000000000",
-        "complainType": selectedComplain.id,
-        "message": remark
-      },
-      before:()=>{
-        
-      },
-      successed:(data)=>{
-        console.log(data)
-      },
-      failed:()=>{
-        console.log('failed');
-      }
-    })
+    if (remark.length > 0 && selectedComplain.name) {
+      //api post request send
+      http.post({
+        url: postComplain,
+        payload: {
+          activityId: "00000000-0000-0000-0000-000000000000",
+          complainType: selectedComplain.id,
+          message: remark,
+        },
+        before: () => {},
+        successed: (data) => {
+          setIsAlertHidden(true);
+          setClicked(false);
+          setRemark('');
+          setRemarkIsValid(false);
+          setRemarkIsTouched(false);
+          setSelectedComplain({})
+         
+          // setSelectedComplain(undefined)
+        },
+        failed: () => {
+          console.log("failed");
+        },
+      });
+    }
   };
+
   useEffect(() => {
     if (clicked) {
-      if (
-        (titleIsTouched && title.length === 0) ||
-        (!titleIsTouched && title.length === 0)
-      ) {
-        setTitleIsValid(true);
-      } else setTitleIsValid(false);
-
       if (
         (remarkIsTouched && remark.length === 0) ||
         (!remarkIsTouched && remark.length === 0)
       ) {
         setRemarkIsValid(true);
       } else setRemarkIsValid(false);
+      if (
+        (complainIsTouched && !selectedComplain?.name) ||
+        (!complainIsTouched && !selectedComplain?.name)
+      ) {
+        setComplainIsInvalid(true);
+      } else {
+        setComplainIsInvalid(false);
+      }
     }
-  }, [titleIsTouched, title.length, remarkIsTouched, remark.length, clicked]);
+  }, [
+    selectedComplain?.name,
+    complainIsTouched,
+    remarkIsTouched,
+    remark.length,
+    clicked,
+  ]);
 
   return (
-    <div class="submit-compline-main-flex edit-profile-main-flex">
-      <form>
-        {/* <div class="custom-input">
-          <label for="name">Title</label>
-          <input
-            type="text"
-            name=""
-            id="name"
-            required=""
-            onChange={titleChangeHandler}
-            onBlur={titleTouchedHandler}
-          />
-          {titleIsValid && (
-            <div class="alert alert-error">Title is required.</div>
-          )}
-          {titleIsTouched && title.length === 0 && !titleIsValid && (
-            <div class="alert alert-error">Title is required.</div>
-          )}
-        </div> */}
-
-        <div class="custom-input">
-          <label for="msg">Remarks</label>
-          <textarea
-            name=""
-            id="msg"
-            value={remark}
-            onChange={remarkChangeHandler}
-            onBlur={remarkTouchedHandler}
-          ></textarea>
-          {remarkIsValid && (
-            <div class="alert alert-error">Remark is required.</div>
-          )}
-          {remarkIsTouched && remark.length === 0 && !remarkIsValid && (
-            <div class="alert alert-error">Remark is required.</div>
-          )}
-        </div>
-        <div className="group-complain_type">
-          <Select
-            label="Select Region"
-            name="division"
-            options={complainList || []}
-            onSelect={complainSelectHandler}
-            config={{ searchPath: "name", keyPath: "id", textPath: "name" }}
-            // selectedOption={selectedValue}
-            // previewText={districtStatus === "pending" ? "Loading data..." : ""}
-            // error={divisionInputIsInvalid && "Region is required"}
-            // onBlur={divisionBlurHandler}
-          />
-          <div className="complain_button">
-            <button type="submit" onClick={submitButtonHandler}>
-              Send <i class="fa fa-paper-plane" aria-hidden="true"></i>
-            </button>
+    <>
+      <div class="submit-compline-main-flex edit-profile-main-flex">
+        <form>
+          <div class="custom-input">
+            <label for="msg">Remarks</label>
+            <textarea
+              name=""
+              id="msg"
+              value={remark}
+              onChange={remarkChangeHandler}
+              onBlur={remarkTouchedHandler}
+            ></textarea>
+            {remarkIsValid && (
+              <div class="alert alert-error">Remark is required.</div>
+            )}
+            {remarkIsTouched && remark.length === 0 && !remarkIsValid && (
+              <div class="alert alert-error">Remark is required.</div>
+            )}
           </div>
-        </div>
-      </form>
-    </div>
+
+          <div className="group-complain_type">
+            <Select
+              label="Select Complain"
+              name="complain"
+              options={complainList || []}
+              onSelect={complainSelectHandler}
+              config={{ searchPath: "name", keyPath: "id", textPath: "name" }}
+              error={complainIsInvalid && "Complain Type is required."}
+              onBlur={complainBlurHandler}
+              selectedOption={selectedComplain}
+            />
+            <div className="complain_button">
+              <button
+                type="submit"
+                onClick={submitButtonHandler}
+                style={{ height: "40px" }}
+              >
+                Send <i class="fa fa-paper-plane" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      {isAlertHidden && (
+        <PopAlert
+          content={"Submit Complain Successfully."}
+          closeModal={closeAlerthandler}
+        />
+      )}
+    </>
   );
 };
 

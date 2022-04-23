@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { storeAddressObj } from "../../Services/AddressService";
 import addressContext from "../../Store/address-context";
 
-const EmailValidation = () => {
+const EmailValidation = ({setEmailP,fixEmail}) => {
   const ctxAddress = useContext(addressContext);
   const getCtxStoreAddress = ctxAddress?.getStoreAddressCtx;
   const getIfFindActiveType = getCtxStoreAddress?.find(
@@ -13,15 +13,16 @@ const EmailValidation = () => {
   const emailChangeHandler = ({ target }) => {
     setEmail(target.value);
     storeAddressObj.email = target.value;
+    setEmailP(target.value);
   };
   useEffect(()=>{
-    if(getIfFindActiveType){
-      setEmail(getIfFindActiveType.email)
+    if(fixEmail){
+      setEmail(fixEmail)
     }
     else{
       setEmail('')
     }
-  },[getIfFindActiveType])
+  },[fixEmail])
 
   return (
     <div class="custom-input">

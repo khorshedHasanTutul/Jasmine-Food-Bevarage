@@ -1,60 +1,42 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
+import { GET_PROMOTIONAL } from "../../../lib/endpoint";
+import { BASE_URL, http } from "../../Services/httpService";
 
 const SpecialOffer = () => {
+  const [promotedOffers, setPromottedOffers] = useState([]);
+  const getOffersHttp = () => {
+    http.get({
+      url: GET_PROMOTIONAL,
+      before: () => {},
+      successed: (res) => {
+        console.log(res.data);
+        setPromottedOffers(res.data);
+      },
+      failed: () => {
+        console.log("failed");
+      },
+      always: () => {},
+    });
+  };
+  useEffect(() => {
+    getOffersHttp();
+  }, []);
   return (
     <div class="cash-back-offer-inner-card">
-                                {/* <!-- single item --> */}
+      {/* <!-- single item --> */}
+      {promotedOffers.map((item) => (
         <div class="single-cash-card-item">
-            <div class="card-img">
-                <img src="/contents/assets/images/cash.png" alt="cash" />
-            </div>
-            <div class="cash-content">
-                <h4>Cashback Offer</h4>
-                <p>Get 20TK Cashback on your 1000 Tk order!!</p>
-            </div>
+          <div class="card-img">
+            <img src={BASE_URL+item.imageURL} alt="img" />
+          </div>
+          <div class="cash-content">
+            <h4>{item.headline}</h4>
+            <p>{item.content}</p>
+          </div>
         </div>
-        {/* <!-- single item --> */}
-        <div class="single-cash-card-item">
-            <div class="card-img">
-                <img src="/contents/assets/images/cash.png" alt="cash" />
-            </div>
-            <div class="cash-content">
-                <h4>Cashback Offer</h4>
-                <p>Get 20TK Cashback on your 1000 Tk order!!</p>
-            </div>
-        </div>
-        {/* <!-- single item --> */}
-        <div class="single-cash-card-item">
-            <div class="card-img">
-                <img src="/contents/assets/images/cash.png" alt="cash" />
-            </div>
-            <div class="cash-content">
-                <h4>Cashback Offer</h4>
-                <p>Get 20TK Cashback on your 1000 Tk order!!</p>
-            </div>
-        </div>
-        {/* <!-- single item --> */}
-        <div class="single-cash-card-item">
-            <div class="card-img">
-                <img src="/contents/assets/images/cash.png" alt="cash" />
-            </div>
-            <div class="cash-content">
-                <h4>Cashback Offer</h4>
-                <p>Get 20TK Cashback on your 1000 Tk order!!</p>
-            </div>
-        </div>
-        {/* <!-- single item --> */}
-        <div class="single-cash-card-item">
-            <div class="card-img">
-                <img src="/contents/assets/images/cash.png" alt="cash" />
-            </div>
-            <div class="cash-content">
-                <h4>Cashback Offer</h4>
-                <p>Get 20TK Cashback on your 1000 Tk order!!</p>
-            </div>
-        </div>
-     </div>
-  )
-}
+      ))}
+    </div>
+  );
+};
 
-export default SpecialOffer
+export default SpecialOffer;

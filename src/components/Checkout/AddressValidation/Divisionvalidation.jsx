@@ -5,7 +5,7 @@ import { getDivision, storeAddressObj } from "../../Services/AddressService";
 import { http } from "../../Services/httpService";
 import addressContext from "../../Store/address-context";
 
-const Divisionvalidation = ({ clicked, getDistrictHandler }) => {
+const Divisionvalidation = ({ clicked, getDistrictHandler,fixDivision }) => {
   const addressCtx = useContext(addressContext);
   const [divisionList, setDivisionList] = useState([]);
   const [selectedDivision, setSelectedDivision] = useState({})

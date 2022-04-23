@@ -8,7 +8,7 @@ const addressContext=createContext({
     storeArea:(item)=>{},
     getArea:{},
     setActiveType:(item)=>{},
-    getActiveType:"",
+    getActiveType:(item)=>{},
     storeAddressCtx:(item)=>{},
     getStoreAddressCtx:[]
 

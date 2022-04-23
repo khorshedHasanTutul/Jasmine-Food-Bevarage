@@ -7,14 +7,15 @@ const BottomActiveAddress = ({ saveAddresshandler }) => {
   const ctxAddress = useContext(addressContext);
   const getAddressList = appData.BottomActiveAddress;
   const [activeType, setactiveType] = useState(ctxAddress.getActiveType);
-  //address type added in obj 
-  storeAddressObj.type=activeType
+  //address type added in obj
+  storeAddressObj.type = activeType;
 
   const activeTypeHandler = (item) => {
     ctxAddress.setActiveType(item);
-    storeAddressObj.type=item.type
+    storeAddressObj.type = item.type;
+    // ActiveIDAddressHandler();
   };
-  
+
   useEffect(() => {
     if (activeType !== ctxAddress.getActiveType) {
       setactiveType(ctxAddress.getActiveType);
@@ -27,7 +28,7 @@ const BottomActiveAddress = ({ saveAddresshandler }) => {
         <ul>
           {getAddressList.map((item) => (
             <li
-              class={item.type === activeType && "active"}
+              class={item.type === activeType.type && "active"}
               onClick={activeTypeHandler.bind(null, item)}
             >
               <a href>{item.type}</a>
