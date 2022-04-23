@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { storeAddressObj } from "../../Services/AddressService";
 import addressContext from "../../Store/address-context";
 
-const MobileValidation = ({ clicked }) => {
+const MobileValidation = ({ clicked,setPhoneP,fixPhone }) => {
   const ctxAddress = useContext(addressContext);
   const getCtxStoreAddress = ctxAddress?.getStoreAddressCtx;
   const getIfFindActiveType = getCtxStoreAddress?.find(
@@ -14,6 +14,7 @@ const MobileValidation = ({ clicked }) => {
   const mobileChangeHandler = ({ target }) => {
     setMobile(target.value);
     storeAddressObj.mobile = target.value;
+    setPhoneP(target.value);
   };
   const mobileIsTouchedHandler = () => {
     setMobileIsTouched(true);
@@ -30,13 +31,13 @@ const MobileValidation = ({ clicked }) => {
   }, [mobile.length, mobileIsTouched, clicked]);
 
   useEffect(()=>{
-    if(getIfFindActiveType){
-      setMobile(getIfFindActiveType.mobile)
+    if(fixPhone){
+      setMobile(fixPhone)
     }
     else{
       setMobile('')
     }
-  },[getIfFindActiveType])
+  },[fixPhone])
 
   return (
     <div class="custom-input">

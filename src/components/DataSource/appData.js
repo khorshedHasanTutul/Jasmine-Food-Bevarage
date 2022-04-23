@@ -1,4 +1,5 @@
 // import Home from "../../pages/Home";
+import { addressType } from "../../utilities/dictionaries";
 import { UrlAboutRoute, UrlCarrerRoute, UrlContactRoute, UrlHomeRoute, UrlOfferRoute, UrlReviewRoute } from "../Services/UrlService";
 
 var appData={
@@ -707,15 +708,15 @@ var appData={
       ],
       BottomActiveAddress:[
           {
-              id:1,
+              id:addressType.Home,
               type:"Home"
           },
           {
-              id:2,
+              id:addressType.Office,
               type:"Office"
           },
           {
-              id:3,
+              id:addressType.HomeTown,
               type:"Home Town"
           }
       ],

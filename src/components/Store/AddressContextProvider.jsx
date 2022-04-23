@@ -1,4 +1,5 @@
 import React, { useReducer } from "react";
+import { addressType } from "../../utilities/dictionaries";
 import addressContext from "./address-context";
 
 const initialState = () => {
@@ -6,7 +7,7 @@ const initialState = () => {
     division: [],
     district: [],
     area: [],
-    activeType: "Home",
+    activeType: {id:addressType.Home,type:"Home"},
     storeAddress: [],
   };
   return {
@@ -45,7 +46,7 @@ const reducer = (state, action) => {
 
   if (action.type === "SET_ACTIVE_TYPE") {
     let ctxActiveType = state.activeType;
-    ctxActiveType = action.item.type;
+    ctxActiveType = action.item;
     return {
       ...state,
       activeType: ctxActiveType,

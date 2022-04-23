@@ -798,14 +798,17 @@ p {
 	display: flex;
 	align-items: center;
 	padding: 10px;
-	max-width: 230px;
+	max-width: 200px;
 	min-width: 100px;
+	width: max-content;
 }
 
 .group-complain_type {
 	display: grid;
 	grid-template-columns: repeat(2,1fr);
 	gap: 1.2rem;
+	justify-content: space-between;
+	align-items: end;
 }
 
 .inner-product-main-flex {
@@ -1099,10 +1102,30 @@ p {
 }
 
 .cart-body {
-  background: #ddd;
-  overflow-y: auto;
-  height: 260px;
-  width: 410px;
+	background: #ddd;
+	overflow-y: scroll;
+	height: 415px;
+	width: 420px;
+	overflow-x: hidden;
+}
+.product_items__count__container {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	padding: 3px;
+	background: #F1F3F4;
+}
+.cmn-class-items-calc span {
+	font-weight: bold;
+	margin-right: 6px;
+}
+.cmn-class-items-calc p {
+	font-weight: bold;
+}
+.cmn-class-items-calc {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 .text-center {
   text-align: center;
@@ -1330,6 +1353,17 @@ table td {
 	align-items: center;
 	background: #F5F6F7;
 	gap: 1.25rem;
+}
+.cart-footer__orderNow p {
+	color: white;
+	font-size: 1rem;
+	font-weight: 500;
+}
+.cart-footer__orderNow:hover {
+	box-shadow: 0 1px 3px rgb(0, 0, 0.3);
+	background: #DF2D2D;
+	transition: 0.2s ease-in-out;
+	cursor: pointer;
 }
 .cart-footer__orderNow {
 	background: #FF0000;
@@ -4077,9 +4111,7 @@ textarea:focus {
 .complain_button {
 	display: flex;
 	justify-content: center;
-	align-items: center;
-	margin-top: 11px;
-	padding: 4px;
+	align-items: flex-end;
 }
 
 .edit-profile-main-flex > form button:hover {

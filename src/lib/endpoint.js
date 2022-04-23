@@ -9,3 +9,6 @@ export const banners = "/api/v1/Banners?bannerType=";
 export const getProfileInfo = "/api/v1/Customers";
 export const updateProfileInfo = "/api/v1/Customers";
 export const postComplain = "/api/v1/Complains";
+export const postAddress = "/api/v1/Addresses";
+export const GET_ADDRESS = "/api/v1/Addresses";
+export const GET_PROMOTIONAL="/api/v1/Promotions";

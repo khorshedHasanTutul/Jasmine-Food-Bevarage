@@ -9,17 +9,17 @@ const AddressList = () => {
   // const getIfFindActiveType = getCtxStoreAddress?.find(
   //   (item) => item.type === ctxAddress.getActiveType
   // );
-  const [activeAddress, setActiveAddress] = useState(ctxAddress.getActiveType);
+  const [activeAddress, setActiveAddress] = useState(ctxAddress.getActiveType.type);
 
   const addressActiveHandler = (item) => {
     ctxAddress.setActiveType(item);
   };
 
   useEffect(() => {
-    if (activeAddress !== ctxAddress.getActiveType) {
-      setActiveAddress(ctxAddress.getActiveType);
+    if (activeAddress !== ctxAddress.getActiveType.type) {
+      setActiveAddress(ctxAddress.getActiveType.type);
     }
-  }, [activeAddress, ctxAddress.getActiveType]);
+  }, [activeAddress, ctxAddress.getActiveType.type]);
 
   return (
     <div class="address-info-right-default">
