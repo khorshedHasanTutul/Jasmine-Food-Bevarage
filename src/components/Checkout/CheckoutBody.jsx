@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
+import { GET_ADDRESS, POST_ORDER_PAYMENT } from "../../lib/endpoint";
 import PopAlert from "../../utilities/alert/PopAlert";
 import { storeAddressObj } from "../Services/AddressService";
+import { http } from "../Services/httpService";
 import addressContext from "../Store/address-context";
 import cartContext from "../Store/cart-context";
 import Address from "./Address";
@@ -9,15 +11,19 @@ import ProductSummary from "./ProductSummary";
 
 const CheckoutBody = () => {
   const ctxCart = useContext(cartContext);
+  const getCtxCartItems = ctxCart.getCartModel;
   const ctxAddress = useContext(addressContext);
+  const [addresses, setAddresses] = useState([]);
   const [alert, setAlert] = useState(false);
   const [qtyAlert, setQtyAlert] = useState(false);
+
 
   const getStoreCtxAddress = ctxAddress.getStoreAddressCtx;
   const getActiveTypeAddress = ctxAddress.getActiveType;
   const findActiveAddress = getStoreCtxAddress.find(
     (item) => item.type === getActiveTypeAddress
   );
+
   const ProSummaryRef = useRef(null);
   const [isActiveProductSummary, setActiveProductSummary] = useState(true);
   const [isActiveAddress, setActiveAddress] = useState(false);
@@ -27,6 +33,7 @@ const CheckoutBody = () => {
     setActiveProductSummary(true);
     setActiveAddress(false);
     setActivePayment(false);
+    getAddressHttp();
   };
 
   const AddressActiveHandler = () => {
@@ -40,6 +47,7 @@ const CheckoutBody = () => {
       setActiveProductSummary(false);
       setActiveAddress(false);
       setActivePayment(true);
+      getAddressHttp();
     } else {
       setAlert(true);
       //   alert("Please Enter Valid Address!");
@@ -48,7 +56,7 @@ const CheckoutBody = () => {
 
   const okToProceed = () => {
     if (
-      (getStoreCtxAddress.length > 0 && findActiveAddress) ||
+      findActiveAddress?.name !== null ||
       (storeAddressObj.name.length > 0 &&
         storeAddressObj.mobile.length > 0 &&
         storeAddressObj.division.length > 0 &&
@@ -69,6 +77,7 @@ const CheckoutBody = () => {
   const ProceedToOrderHandler = () => {
     if (okToProceed()) {
       paymentActiveHandler();
+     
     } else {
       setAlert(true);
       //   alert("Please Enter Valid Address!");
@@ -82,6 +91,23 @@ const CheckoutBody = () => {
   const qtyAlertStatusChangeHandler = () => {
     setQtyAlert((prevState) => !prevState);
   };
+
+
+  const getAddressHttp = () => {
+    http.get({
+      url: GET_ADDRESS,
+      before: () => {},
+      successed: (res) => {
+        setAddresses(res.data);
+      },
+      failed: () => {},
+      always: () => {},
+    });
+  };
+
+  useEffect(() => {
+    getAddressHttp();
+  }, []);
 
   useEffect(() => {
     if (isActiveProductSummary) {
@@ -134,12 +160,18 @@ const CheckoutBody = () => {
                     AddressActiveHandler={AddressActiveHandler}
                     proceedToAddressHandler={proceedToAddressHandler}
                     setQtyAlert={setQtyAlert}
+                    addresses={addresses}
                   />
                 )}
                 {isActiveAddress && (
                   <Address ProceedToOrderHandler={ProceedToOrderHandler} />
                 )}
-                {isActivePayment && <Payment />}
+                {isActivePayment && (
+                  <Payment
+                    addresses={addresses}
+                    AddressActiveHandler={AddressActiveHandler}
+                  />
+                )}
               </div>
             </div>
           </div>

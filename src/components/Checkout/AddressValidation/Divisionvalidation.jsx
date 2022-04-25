@@ -5,10 +5,15 @@ import { getDivision, storeAddressObj } from "../../Services/AddressService";
 import { http } from "../../Services/httpService";
 import addressContext from "../../Store/address-context";
 
-const Divisionvalidation = ({ clicked, getDistrictHandler,fixDivision }) => {
+const Divisionvalidation = ({
+  clicked,
+  getDistrictHandler,
+  fixDivision,
+  setDivisionId,
+}) => {
   const addressCtx = useContext(addressContext);
   const [divisionList, setDivisionList] = useState([]);
-  const [selectedDivision, setSelectedDivision] = useState({})
+  const [selectedDivision, setSelectedDivision] = useState({});
   const [divisionIsTouched, setDivisionIsTouched] = useState(false);
   const [divisionValid, setDivisionIsValid] = useState(false);
   const getCtxStoreAddress = addressCtx?.getStoreAddressCtx;
@@ -45,20 +50,22 @@ const Divisionvalidation = ({ clicked, getDistrictHandler,fixDivision }) => {
       always: () => {},
     });
   };
-  const divisionSelectHandler=(divisionList)=>{
+  const divisionSelectHandler = (divisionList) => {
     setSelectedDivision(divisionList);
-    getDistrictHandler(divisionList.id)
-  }
+    getDistrictHandler(divisionList.id);
+  };
 
   useEffect(() => {
     getDivisionsHttp();
   }, []);
 
   useEffect(() => {
-    if (getIfFindActiveType) {
-      setSelectedValue(getIfFindActiveType.division);
+    if (fixDivision) {
+      setSelectedValue(fixDivision);
+      setSelectedDivision(fixDivision);
+      setDivisionId(fixDivision.id);
     }
-  }, [getIfFindActiveType]);
+  }, [fixDivision, setDivisionId]);
 
   console.log({ selectedValue });
 
@@ -80,7 +87,7 @@ const Divisionvalidation = ({ clicked, getDistrictHandler,fixDivision }) => {
       options={divisionList || []}
       onSelect={divisionSelectHandler}
       config={{ searchPath: "name", keyPath: "id", textPath: "name" }}
-      // selectedOption={selectedValue}
+      selectedOption={selectedDivision}
       // previewText={
       //   districtStatus === "pending" ? "Loading data..." : ""
       // }

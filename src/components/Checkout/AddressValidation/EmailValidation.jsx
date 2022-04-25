@@ -17,12 +17,13 @@ const EmailValidation = ({setEmailP,fixEmail}) => {
   };
   useEffect(()=>{
     if(fixEmail){
-      setEmail(fixEmail)
+      setEmail(fixEmail);
+      setEmailP(fixEmail);
     }
     else{
       setEmail('')
     }
-  },[fixEmail])
+  },[fixEmail,setEmailP])
 
   return (
     <div class="custom-input">

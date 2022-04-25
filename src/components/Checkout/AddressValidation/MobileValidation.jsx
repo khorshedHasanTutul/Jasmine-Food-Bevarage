@@ -32,12 +32,13 @@ const MobileValidation = ({ clicked,setPhoneP,fixPhone }) => {
 
   useEffect(()=>{
     if(fixPhone){
-      setMobile(fixPhone)
+      setMobile(fixPhone);
+      setPhoneP(fixPhone);
     }
     else{
       setMobile('')
     }
-  },[fixPhone])
+  },[fixPhone,setPhoneP])
 
   return (
     <div class="custom-input">

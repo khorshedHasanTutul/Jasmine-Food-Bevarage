@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { GET_ADDRESS } from "../../lib/endpoint";
+import { http } from "../Services/httpService";
 import { urlProductDetails } from "../Services/UrlService";
 import addressContext from "../Store/address-context";
 import cartContext from "../Store/cart-context";
@@ -9,16 +11,18 @@ const ProductSummary = ({
   AddressActiveHandler,
   proceedToAddressHandler,
   setQtyAlert,
+  addresses,
 }) => {
   let history = useHistory();
+
   const getCartContext = useContext(cartContext);
   const ctxAddress = useContext(addressContext);
   const [qty, setQty] = useState("");
   const getCtxStoreAddress = ctxAddress.getStoreAddressCtx;
   const getCtxAddressActiveType = ctxAddress.getActiveType;
   const getCartModal = getCartContext.getCartModel;
-  const findActiveAddress = getCtxStoreAddress.find(
-    (item) => item.type === getCtxAddressActiveType
+  const findActiveAddress = addresses.find(
+    (item) => item.typeOfAddress === getCtxAddressActiveType.id
   );
 
   const qtyDecHandler = (findItem, e) => {
@@ -170,46 +174,49 @@ const ProductSummary = ({
           </table>
 
           <div class="row-custom">
-            {getCtxStoreAddress.length > 0 &&
-              findActiveAddress?.name.length > 0 && (
-                <div class="shaping-address-saveing-row">
-                  <div class="shapping-address-inner-content">
-                    <div class="location-ad-icon">
-                      <i class="fa fa-map-marker" aria-hidden="true"></i>
-                    </div>
-                    <div class="saving-address-content">
-                      <small>
-                        {findActiveAddress && findActiveAddress.name}
-                      </small>
-                      <small>
-                        {findActiveAddress && findActiveAddress.mobile}
-                      </small>
-                      <span>
-                        <aside>
-                          {findActiveAddress && findActiveAddress.type}
-                        </aside>
-                      </span>
-                      <span>
-                        {findActiveAddress && findActiveAddress.email}
-                      </span>
-                      &nbsp;
-                      <span>
-                        {findActiveAddress &&
-                          findActiveAddress.division.name +
-                            "-" +
-                            findActiveAddress.district.name +
-                            "-" +
-                            findActiveAddress.area.name +
-                            "-" +
-                            findActiveAddress.address}
-                      </span>
-                    </div>
+            {findActiveAddress?.name !== null && (
+              <div class="shaping-address-saveing-row">
+                <div class="shapping-address-inner-content">
+                  <div class="location-ad-icon">
+                    <i class="fa fa-map-marker" aria-hidden="true"></i>
                   </div>
-                  <div class="saving-ad-btn" onClick={AddressActiveHandler}>
-                    <button>Change</button>
+                  <div class="saving-address-content">
+                    <small>{findActiveAddress && findActiveAddress.name}</small>
+                    <small>
+                      {findActiveAddress && findActiveAddress.phone}
+                    </small>
+                    <span>
+                      <aside>
+                        {findActiveAddress &&
+                          findActiveAddress.typeOfAddress === 0 &&
+                          "Home"}
+                        {findActiveAddress &&
+                          findActiveAddress.typeOfAddress === 1 &&
+                          "Office"}
+                        {findActiveAddress &&
+                          findActiveAddress.typeOfAddress === 2 &&
+                          "Home Town"}
+                      </aside>
+                    </span>
+                    <span>{findActiveAddress && findActiveAddress.email}</span>
+                    &nbsp;
+                    <span>
+                      {findActiveAddress &&
+                        findActiveAddress.province.name +
+                          "-" +
+                          findActiveAddress.district.name +
+                          "-" +
+                          findActiveAddress.upazila.name +
+                          "-" +
+                          findActiveAddress.remarks}
+                    </span>
                   </div>
                 </div>
-              )}
+                <div class="saving-ad-btn" onClick={AddressActiveHandler}>
+                  <button>Change</button>
+                </div>
+              </div>
+            )}
 
             <div class="cart_navigation">
               <Link class="prev-btn" to="/">

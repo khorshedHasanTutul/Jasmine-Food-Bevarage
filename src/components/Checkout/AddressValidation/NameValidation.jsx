@@ -35,10 +35,11 @@ const NameValidation = ({ clicked,setNameP,fixName }) => {
   useEffect(() => {
     if (fixName) {
       setName(fixName);
+      setNameP(fixName)
     } else {
       setName("");
     }
-  }, [fixName]);
+  }, [fixName,setNameP]);
 
   return (
     <div class="custom-input">

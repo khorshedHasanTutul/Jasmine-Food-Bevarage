@@ -5,7 +5,7 @@ import { getDistricts, storeAddressObj } from "../../Services/AddressService";
 import { http } from "../../Services/httpService";
 import addressContext from "../../Store/address-context";
 
-const DistrictValidation = ({ clicked,divisionID,getAreaHandler }) => {
+const DistrictValidation = ({ clicked,divisionID,getAreaHandler,fixDistrict,setDistrictId }) => {
   const ctx = useContext(addressContext);
   const getDivisionCtx = ctx.getDivision;
   const [selectedDistrict,setSelectedDistrict] = useState({})
@@ -33,11 +33,7 @@ const DistrictValidation = ({ clicked,divisionID,getAreaHandler }) => {
     storeAddressObj.district.name = item.name;
     storeAddressObj.district.id = item.id;
   };
-  useEffect(() => {
-    if (getIfFindActiveType) {
-      setSelectedValue(getIfFindActiveType.district);
-    }
-  }, [getIfFindActiveType]);
+
   const districtSelectHandler=(districtList)=>{
     setSelectedDistrict(districtList);
     getAreaHandler(districtList.id)
@@ -77,6 +73,14 @@ const DistrictValidation = ({ clicked,divisionID,getAreaHandler }) => {
     }
   }, [districts.length, districtIsTouched, clicked]);
 
+  useEffect(() => {
+    if (fixDistrict) {
+      setSelectedValue(fixDistrict);
+      setSelectedDistrict(fixDistrict);
+      setDistrictId(fixDistrict.id);
+    }
+  }, [fixDistrict,setDistrictId]);
+
   return (
     <Select
       label="Select City"
@@ -84,7 +88,7 @@ const DistrictValidation = ({ clicked,divisionID,getAreaHandler }) => {
       options={districtList || []}
       onSelect={districtSelectHandler}
       config={{ searchPath: "name", keyPath: "id", textPath: "name" }}
-      selectedOption={selectedValue}
+      selectedOption={selectedDistrict}
       // onBlur={districtBlurHandler}
       // error={districtInputIsInvalid && "City is required"}
       // previewText={
