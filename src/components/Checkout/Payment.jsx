@@ -1,20 +1,32 @@
-import React, { Fragment, useContext, useState } from "react";
+import React, { Fragment, useContext, useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import { POST_ORDER, POST_ORDER_PAYMENT } from "../../lib/endpoint";
 import PopAlert from "../../utilities/alert/PopAlert";
 import { storeAddressObj } from "../Services/AddressService";
+import { http } from "../Services/httpService";
 import addressContext from "../Store/address-context";
 import cartContext from "../Store/cart-context";
 import OrderAlert from "./OrderAlert/OrderAlert";
 
-const Payment = () => {
+const Payment = ({ addresses, AddressActiveHandler }) => {
+  let history = useHistory();
   const ctxAddress = useContext(addressContext);
   const ctxCart = useContext(cartContext);
+  const getCtxCartItems = ctxCart.getCartModel;
   const [clickedRadio, setClickedRadio] = useState(false);
   const [alert, setAlert] = useState(false);
   const [alertPayment, setAlertPayment] = useState(false);
   const getStoreCartCtx = ctxCart.getCartModel;
   const getActiveAddressType = ctxAddress.getActiveType;
-  const getSelectedAddress = ctxAddress.getStoreAddressCtx.find(
-    (item) => item.type === getActiveAddressType
+  const [paymentData, setPaymentData] = useState();
+  const [cupon, setCupon] = useState("");
+  const [isInvalidCupon, setIsInvalidCupon] = useState(false);
+  const getSelectedAddress = addresses.find(
+    (item) => item.typeOfAddress === getActiveAddressType.id
+  );
+  const products = [];
+  getCtxCartItems.Items.map((item) =>
+    products.push({ id: item.Id, quantity: item.quantity })
   );
 
   const radioButtonHandler = () => {
@@ -26,14 +38,84 @@ const Payment = () => {
   const alertPaymentRadioStateChangeHandler = () => {
     setAlertPayment((prevState) => !prevState);
   };
+  const cuponSubmitHandler = (evt) => {
+    evt.preventDefault();
+    postOrderHttp();
+  };
+  const cuponChangeHandler = ({ target }) => {
+    setCupon(target.value);
+  };
   const proceedOrderHandler = () => {
     if (clickedRadio) {
       alertStateChangedHandler();
+      http.post({
+        url: POST_ORDER,
+        payload: {
+          addressId: getSelectedAddress.id,
+          couponCode: cupon,
+          products: products,
+          payment: {
+            orderValue: paymentData.orderValue,
+            productAmount: paymentData.productAmount,
+            productDiscount: paymentData.productDiscount,
+            coupon: paymentData.coupon,
+            cashback: paymentData.cashback,
+            shippingCharge: paymentData.shippingCharge,
+            originalShippingCharge: paymentData.originalShippingCharge,
+            payableAmount: paymentData.payableAmount,
+          },
+          activityId: "00000000-0000-0000-0000-000000000000",
+          remarks: "",
+        },
+        before: () => {},
+        successed: (res) => {
+          console.log(res.data);
+        },
+        failed: () => {},
+        always: () => {},
+      });
       ctxCart.clearCart();
     } else {
       alertPaymentRadioStateChangeHandler();
     }
   };
+
+  const postOrderHttp = () => {
+    http.post({
+      url: POST_ORDER_PAYMENT,
+      payload: {
+        addressId: getSelectedAddress.id,
+        products: products,
+        couponCode: cupon,
+      },
+      before: () => {},
+      successed: (res) => {
+        console.log(res.data);
+        setPaymentData(res.data);
+        if (
+          res.data.coupon.isLegit === false &&
+          res.data.coupon.code !== null
+        ) {
+          setIsInvalidCupon(true);
+        } else {
+          setIsInvalidCupon(false);
+        }
+      },
+      failed: () => {},
+      always: () => {},
+    });
+  };
+
+  console.log({paymentData})
+  useEffect(() => {
+    postOrderHttp();
+  }, []);
+
+  // useEffect(() => {
+  //   if (getCtxCartItems.Items.length === 0) {
+  //     history.push("/");
+  //   }
+  // }, [getCtxCartItems.Items.length, history]);
 
   return (
     <div id="Tab5" class="tabcontent tab-content checkout-main-tab-content">
@@ -44,9 +126,14 @@ const Payment = () => {
             type="text"
             id="discount_code"
             placeholder="Discount Code..."
+            onChange={cuponChangeHandler}
           />
-          <button type="submit">Apply</button>
+
+          <button type="submit" onClick={cuponSubmitHandler}>
+            Apply
+          </button>
         </form>
+        {isInvalidCupon && <div class="alert alert-error">Invalid Cupon.</div>}
       </div>
       {(getSelectedAddress || storeAddressObj.name.length !== 0) && (
         <Fragment>
@@ -64,14 +151,21 @@ const Payment = () => {
                 </small>
                 <small>
                   {getSelectedAddress
-                    ? getSelectedAddress.mobile
+                    ? getSelectedAddress.phone
                     : storeAddressObj.mobile}
                 </small>
                 <span>
                   <aside>
-                    {getSelectedAddress
-                      ? getSelectedAddress.type
-                      : storeAddressObj.type}
+                    {getSelectedAddress &&
+                      getSelectedAddress.typeOfAddress === 0 &&
+                      "Home"}
+                    {getSelectedAddress &&
+                      getSelectedAddress.typeOfAddress === 1 &&
+                      "Office"}
+                    {getSelectedAddress &&
+                      getSelectedAddress.typeOfAddress === 2 &&
+                      "Home Town"}
+                    {!getSelectedAddress && storeAddressObj.type}
                   </aside>
                 </span>
                 <span>
@@ -82,13 +176,13 @@ const Payment = () => {
                 &nbsp;
                 <span>
                   {getSelectedAddress &&
-                    getSelectedAddress.division.name +
+                    getSelectedAddress.province.name +
                       "-" +
                       getSelectedAddress.district.name +
                       "-" +
-                      getSelectedAddress.area.name +
+                      getSelectedAddress.upazila.name +
                       "-" +
-                      getSelectedAddress.address}
+                      getSelectedAddress.remarks}
                 </span>
                 <span>
                   {!getSelectedAddress &&
@@ -102,6 +196,9 @@ const Payment = () => {
                 </span>
               </div>
             </div>
+            <div class="saving-ad-btn" onClick={AddressActiveHandler}>
+              <button>Change</button>
+            </div>
           </div>
         </Fragment>
       )}
@@ -112,18 +209,18 @@ const Payment = () => {
             <tbody>
               <tr>
                 <td class="summary-details-p" colspan="3">
-                  Amount
+                  Ammount
                 </td>
                 <td class="summary-details-p" colspan="2">
-                  {getStoreCartCtx.TotalAmmount.toFixed(2)}
+                  {paymentData?.orderValue.toFixed(2)}
                 </td>
               </tr>
               <tr>
                 <td class="summary-details-p" colspan="3">
-                  Discount
+                  Product Discount
                 </td>
                 <td class="summary-details-p" colspan="2">
-                  0
+                  {paymentData?.productDiscount}
                 </td>
               </tr>
               <tr>
@@ -131,7 +228,7 @@ const Payment = () => {
                   Cupon Discount
                 </td>
                 <td class="summary-details-p" colspan="2">
-                  0
+                  {paymentData?.discount}
                 </td>
               </tr>
               <tr>
@@ -139,7 +236,7 @@ const Payment = () => {
                   Delivery Charge
                 </td>
                 <td class="summary-details-p" colspan="2">
-                  80
+                  {paymentData?.shippingCharge}
                 </td>
               </tr>
               <tr>
@@ -147,9 +244,7 @@ const Payment = () => {
                   <strong>Total Amount </strong>
                 </td>
                 <td class="summary-details-p" colspan="2">
-                  <strong>
-                    {(getStoreCartCtx.TotalAmmount + 80).toFixed(2)}
-                  </strong>
+                  <strong>{paymentData?.payableAmount.toFixed(2)}</strong>
                 </td>
               </tr>
             </tbody>

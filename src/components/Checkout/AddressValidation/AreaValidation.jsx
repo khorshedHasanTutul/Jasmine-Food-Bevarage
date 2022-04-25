@@ -5,7 +5,13 @@ import { getAreas, storeAddressObj } from "../../Services/AddressService";
 import { http } from "../../Services/httpService";
 import addressContext from "../../Store/address-context";
 
-const AreaValidation = ({ clicked, districtId,getSelectAreaHandler }) => {
+const AreaValidation = ({
+  clicked,
+  districtId,
+  getSelectAreaHandler,
+  fixArea,
+  setAreaId
+}) => {
   const ctxAddress = useContext(addressContext);
   const [areaList, setAreaList] = useState([]);
   const [selectedArea, setSelectedArea] = useState();
@@ -34,12 +40,6 @@ const AreaValidation = ({ clicked, districtId,getSelectAreaHandler }) => {
     storeAddressObj.area.name = item.name;
     storeAddressObj.area.id = item.id;
   };
-
-  useEffect(() => {
-    if (getIfFindActiveType) {
-      setSelectedValue(getIfFindActiveType.area);
-    }
-  }, [getIfFindActiveType]);
 
   useEffect(() => {
     if (clicked) {
@@ -75,6 +75,13 @@ const AreaValidation = ({ clicked, districtId,getSelectAreaHandler }) => {
     getAreaHttp(districtId);
   }, [districtId]);
 
+  useEffect(() => {
+    if (fixArea) {
+      setSelectedValue(fixArea);
+      setSelectedArea(fixArea);
+      setAreaId(fixArea.id);
+    }
+  }, [fixArea,setAreaId]);
   return (
     <Select
       label="Select Area"
@@ -82,7 +89,7 @@ const AreaValidation = ({ clicked, districtId,getSelectAreaHandler }) => {
       options={areaList || []}
       onSelect={areaSelectHandler}
       config={{ searchPath: "name", keyPath: "id", textPath: "name" }}
-      selectedOption={selectedValue}
+      selectedOption={selectedArea}
       // onBlur={upzilaBlurHandler}
       // error={upzilaInputIsInvalid && "Area is required"}
       // previewText={

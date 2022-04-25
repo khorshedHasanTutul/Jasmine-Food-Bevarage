@@ -1,13 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { urlOrderDetailsRoute, urlProfileRoute } from "../../Services/UrlService";
+import {
+  urlOrderDetailsRoute,
+  urlProfileRoute,
+} from "../../Services/UrlService";
 
-const OrderCard = ({order}) => {
+const OrderCard = ({ order }) => {
   return (
     <div id="Tab6" class="tabcontent tab-content detalis-page-tab-content">
       {/* <!-- product desc review information --> */}
       <div class="profile-order-tab">
-        <Link to={urlProfileRoute()+urlOrderDetailsRoute()+order.id}>
+        <Link to={urlProfileRoute() + urlOrderDetailsRoute() + order.id}>
           <div class="order-id d-flex js-center">
             <span> Order ID #2566</span>
             <aside>Cancel Order</aside>

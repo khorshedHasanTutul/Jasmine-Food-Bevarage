@@ -2,14 +2,17 @@ import React, { useContext, useEffect, useState } from "react";
 import appData from "../DataSource/appData";
 import addressContext from "../Store/address-context";
 
-const AddressList = () => {
+const AddressList = ({ addresses }) => {
+  console.log({ addresses });
   const getBottomActiveAddress = appData.BottomActiveAddress;
   const ctxAddress = useContext(addressContext);
   const getCtxStoreAddress = ctxAddress.getStoreAddressCtx;
   // const getIfFindActiveType = getCtxStoreAddress?.find(
   //   (item) => item.type === ctxAddress.getActiveType
   // );
-  const [activeAddress, setActiveAddress] = useState(ctxAddress.getActiveType.type);
+  const [activeAddress, setActiveAddress] = useState(
+    ctxAddress.getActiveType.type
+  );
 
   const addressActiveHandler = (item) => {
     ctxAddress.setActiveType(item);
@@ -26,12 +29,13 @@ const AddressList = () => {
       <h3>Saved Addresses</h3>
       <h2>Select Your Shipping Address</h2>
       {getBottomActiveAddress.map((item) => {
-        const findCtxStoreItem = getCtxStoreAddress?.find(
-          (item2) => item2.type === item.type
+        const findCtxStoreItem = addresses?.find(
+          (item2) => item2.typeOfAddress === item.id
         );
+        console.log({ findCtxStoreItem });
         return (
           <>
-            {findCtxStoreItem && (
+            {findCtxStoreItem?.name !== null && (
               <div
                 class={
                   item.type === activeAddress
@@ -49,13 +53,19 @@ const AddressList = () => {
                 )}
 
                 <h3>{item.type}</h3>
-                <p>{findCtxStoreItem.name}-{(findCtxStoreItem.mobile)}</p>
+                <p>
+                  {findCtxStoreItem?.name}-{findCtxStoreItem?.phone}
+                </p>
                 <p>{findCtxStoreItem?.email}</p>
-                <p>{findCtxStoreItem.division.name},{findCtxStoreItem.district.name},{findCtxStoreItem.area.name}</p>
-                <p>{findCtxStoreItem.address}</p>
+                <p>
+                  {findCtxStoreItem?.province.name},
+                  {findCtxStoreItem?.district.name},
+                  {findCtxStoreItem?.upazila.name}
+                </p>
+                <p>{findCtxStoreItem?.remarks}</p>
               </div>
             )}
-            {!findCtxStoreItem && (
+            {findCtxStoreItem?.name === null && (
               <div class="address-home-default-single">
                 <h3>{item.type}</h3>
                 <p>No Address Saved In {item.type} Slot</p>

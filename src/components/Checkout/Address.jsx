@@ -53,9 +53,10 @@ const Address = ({ ProceedToOrderHandler }) => {
     http.PUT({
       url: postAddress,
       payload: {
-        id: activeTypeAddress.id,
+        id: activeTypeAddress?.id,
         phone: phone,
         email: email,
+        name: name,
         provinceId: divisionID,
         districtId: districtId,
         upazilaId: areaId,
@@ -135,42 +136,45 @@ const Address = ({ ProceedToOrderHandler }) => {
                   <NameValidation
                     clicked={clicked}
                     setNameP={setNameP}
-                    fixName={activeTypeAddress.name}
+                    fixName={activeTypeAddress?.name}
                   />
                   <MobileValidation
                     clicked={clicked}
                     setPhoneP={setPhoneP}
-                    fixPhone={activeTypeAddress.phone}
+                    fixPhone={activeTypeAddress?.phone}
                   />
                   <EmailValidation
                     setEmailP={setEmailP}
-                    fixEmail={activeTypeAddress.email}
+                    fixEmail={activeTypeAddress?.email}
                   />
 
                   <div className="grid-3 mb-16 g-8">
                     <Divisionvalidation
                       clicked={clicked}
                       getDistrictHandler={getDistrictHandler}
-                      fixDivision={activeTypeAddress.province}
+                      fixDivision={activeTypeAddress?.province}
+                      setDivisionId={setDivisionId}
                     />
                     <DistrictValidation
                       clicked={clicked}
                       divisionID={divisionID}
                       getAreaHandler={getAreaHandler}
-                      fixDistrict={activeTypeAddress.district}
+                      fixDistrict={activeTypeAddress?.district}
+                      setDistrictId={setDistrictId}
                     />
                     <AreaValidation
                       clicked={clicked}
                       districtId={districtId}
                       getSelectAreaHandler={getSelectAreaHandler}
-                      fixArea={activeTypeAddress.upazila}
+                      fixArea={activeTypeAddress?.upazila}
+                      setAreaId={setAreaId}
                     />
                   </div>
                   <AddressValidation
                     clicked={clicked}
                     setAddressP={setAddressP}
                     activeTypeAddress={activeTypeAddress}
-                    fixArea={activeTypeAddress.remarks}
+                    fixArea={activeTypeAddress?.remarks}
                   />
                   <BottomActiveAddress
                     saveAddresshandler={saveAddresshandler}
@@ -179,7 +183,7 @@ const Address = ({ ProceedToOrderHandler }) => {
               </form>
             </div>
 
-            <AddressList />
+            <AddressList addresses={addresses} />
           </div>
         </div>
         {pathname === urlCheckoutRoute() && (
