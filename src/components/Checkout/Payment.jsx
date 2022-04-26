@@ -4,6 +4,7 @@ import { POST_ORDER, POST_ORDER_PAYMENT } from "../../lib/endpoint";
 import PopAlert from "../../utilities/alert/PopAlert";
 import { storeAddressObj } from "../Services/AddressService";
 import { http } from "../Services/httpService";
+import { UrlHomeRoute } from "../Services/UrlService";
 import addressContext from "../Store/address-context";
 import cartContext from "../Store/cart-context";
 import OrderAlert from "./OrderAlert/OrderAlert";
@@ -13,6 +14,7 @@ const Payment = ({ addresses, AddressActiveHandler }) => {
   const ctxAddress = useContext(addressContext);
   const ctxCart = useContext(cartContext);
   const getCtxCartItems = ctxCart.getCartModel;
+  const [orderData, setOrderData] = useState();
   const [clickedRadio, setClickedRadio] = useState(false);
   const [alert, setAlert] = useState(false);
   const [alertPayment, setAlertPayment] = useState(false);
@@ -34,6 +36,7 @@ const Payment = ({ addresses, AddressActiveHandler }) => {
   };
   const alertStateChangedHandler = () => {
     setAlert((prevState) => !prevState);
+    // history.push(UrlHomeRoute());
   };
   const alertPaymentRadioStateChangeHandler = () => {
     setAlertPayment((prevState) => !prevState);
@@ -47,29 +50,22 @@ const Payment = ({ addresses, AddressActiveHandler }) => {
   };
   const proceedOrderHandler = () => {
     if (clickedRadio) {
-      alertStateChangedHandler();
+      
       http.post({
         url: POST_ORDER,
         payload: {
           addressId: getSelectedAddress.id,
           couponCode: cupon,
           products: products,
-          payment: {
-            orderValue: paymentData.orderValue,
-            productAmount: paymentData.productAmount,
-            productDiscount: paymentData.productDiscount,
-            coupon: paymentData.coupon,
-            cashback: paymentData.cashback,
-            shippingCharge: paymentData.shippingCharge,
-            originalShippingCharge: paymentData.originalShippingCharge,
-            payableAmount: paymentData.payableAmount,
-          },
+          payment: paymentData,
           activityId: "00000000-0000-0000-0000-000000000000",
           remarks: "",
         },
         before: () => {},
         successed: (res) => {
           console.log(res.data);
+          setOrderData(res.data);
+          alertStateChangedHandler();
         },
         failed: () => {},
         always: () => {},
@@ -106,7 +102,7 @@ const Payment = ({ addresses, AddressActiveHandler }) => {
     });
   };
 
-  console.log({paymentData})
+  console.log({ paymentData });
   useEffect(() => {
     postOrderHttp();
   }, []);
@@ -228,7 +224,7 @@ const Payment = ({ addresses, AddressActiveHandler }) => {
                   Cupon Discount
                 </td>
                 <td class="summary-details-p" colspan="2">
-                  {paymentData?.discount}
+                  {paymentData?.couponDiscount}
                 </td>
               </tr>
               <tr>
@@ -297,7 +293,7 @@ const Payment = ({ addresses, AddressActiveHandler }) => {
         </div>
       </div>
       {alert && (
-        <PopAlert Template={OrderAlert} closeModal={alertStateChangedHandler} />
+        <PopAlert Template={OrderAlert} closeModal={alertStateChangedHandler} orderData={orderData}/>
       )}
       {alertPayment && (
         <PopAlert

@@ -17,6 +17,7 @@ const Complain = () => {
   //end
 
   const [isAlertHidden, setIsAlertHidden] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const complainList = [
     {
@@ -75,11 +76,11 @@ const Complain = () => {
         successed: (data) => {
           setIsAlertHidden(true);
           setClicked(false);
-          setRemark('');
+          setRemark("");
           setRemarkIsValid(false);
           setRemarkIsTouched(false);
-          setSelectedComplain({})
-         
+          setSelectedComplain({});
+
           // setSelectedComplain(undefined)
         },
         failed: () => {

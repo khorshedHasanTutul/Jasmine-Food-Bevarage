@@ -229,7 +229,7 @@ const ContentCart = ({
                 </p>
               </Link>
             </div>
-            <div className="cart-footer__orderNow" style={{background:"#03752E"}}>
+            <div className="cart-footer__orderNow" style={{background:"#4FA961"}}>
               <p onClick={clearCartHandler}>Clear Cart</p>
             </div>
           </div>

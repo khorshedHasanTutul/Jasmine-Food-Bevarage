@@ -5,34 +5,40 @@ import {
   urlProfileRoute,
 } from "../../Services/UrlService";
 
-const OrderCard = ({ order }) => {
+const OrderCard = ({ order, key }) => {
+  let created_at = new Date(order.createdAt);
+  console.log({ order });
+
   return (
     <div id="Tab6" class="tabcontent tab-content detalis-page-tab-content">
       {/* <!-- product desc review information --> */}
       <div class="profile-order-tab">
         <Link to={urlProfileRoute() + urlOrderDetailsRoute() + order.id}>
           <div class="order-id d-flex js-center">
-            <span> Order ID #2566</span>
+            <span> Order ID #{order.orderNumber}</span>
             <aside>Cancel Order</aside>
           </div>
           <div class="order-dsc d-flex js-center">
             <span> Date</span>
-            <aside>12 October'22 02:30 PM</aside>
+            <aside>
+              {created_at.toLocaleDateString()}&nbsp;
+              {created_at.toLocaleTimeString()}
+            </aside>
           </div>
           <div class="order-dsc d-flex js-center">
             <span> Payable Amount</span>
-            <aside>Awaiting For Feedback</aside>
+            <aside>{order.payableAmount}</aside>
           </div>
           <div class="order-dsc d-flex js-center">
             <span>Shipping Address</span>
             <aside>59 BDT</aside>
           </div>
-          <p>
+          {/* <p>
             Lorem ipsum dolor sit amet consectetur , adipisicing elit.
             Necessitatibus fugit, soluta dicta obcaecati eos voluptatibus iste
             culpa, provident est nihil voluptas exercitationem possimus, a
             suscipit?
-          </p>
+          </p> */}
         </Link>
       </div>
       {/* <!-- product desc review information --> */}

@@ -16,8 +16,9 @@ export const put = async ({
   }) => {
     const token = await getToken();
     if (token) {
-      headers["datacontent"] = token;
+      headers["Authorization"] = "Bearer " + token;
     }
+  
   
     before();
   
