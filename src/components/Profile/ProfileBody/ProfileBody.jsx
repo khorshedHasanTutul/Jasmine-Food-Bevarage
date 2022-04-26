@@ -15,7 +15,7 @@ import OrderHistory from "../OrderHistory/OrderHistory";
 import SpecialOffer from "../Special Offer/SpecialOffer";
 import UpdateProfile from "../UpdateProfile/UpdateProfile";
 
-const ProfileBody = () => {
+const ProfileBody = ({getProfileInfoHttp}) => {
   return (
     <div class="profile-body">
       <div class="profile-body-inner-content">
@@ -37,7 +37,7 @@ const ProfileBody = () => {
                 <SpecialOffer/>
             </Route>
             <Route path={urlProfileRoute()+urlProfileEditRoute()} exact>
-                <UpdateProfile />
+                <UpdateProfile getProfileInformation={getProfileInfoHttp}/>
             </Route>
             <Route path={urlProfileRoute()+urlProfileComplain()} exact>
                 <Complain />

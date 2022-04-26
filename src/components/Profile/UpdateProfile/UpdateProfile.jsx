@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getProfileInfo, updateProfileInfo } from "../../../lib/endpoint";
 import { http } from "../../Services/httpService";
 
-const UpdateProfile = () => {
+const UpdateProfile = ({ getProfileInformation }) => {
   const [clicked, setClicked] = useState(false);
 
   //name validation
@@ -12,7 +12,7 @@ const UpdateProfile = () => {
   //end
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [files, setFiles]  = useState();
+  const [files, setFiles] = useState();
 
   //name Handlers
   const nameChangeHandler = ({ target }) => {
@@ -21,42 +21,38 @@ const UpdateProfile = () => {
   const nameTouchedHandler = () => {
     setNameIsTouched(true);
   };
-  const emailChangeHandler=({target})=>{
+  const emailChangeHandler = ({ target }) => {
     setEmail(target.value);
-  }
+  };
   //   end
 
   //save button handler
   const saveButtonHandler = (e) => {
     e.preventDefault();
     setClicked(true);
-    if(name.length!==0 || email.length!==0 || files!==undefined){
+    if (name.length !== 0 || email.length !== 0 || files !== undefined) {
       let formData = new FormData();
-      if(name.length!==0) formData.append("Name",name);
-      if(email.length!==0) formData.append("Email",email);
-      if(files!==undefined) formData.append("ProfilePicture",files);
+      if (name.length !== 0) formData.append("Name", name);
+      if (email.length !== 0) formData.append("Email", email);
+      if (files !== undefined) formData.append("ProfilePicture", files);
       http.put({
-        url:updateProfileInfo,
-        payload:{
-          formData
+        url: updateProfileInfo,
+        payload: formData,
+        successed: (data) => {
+          getProfileInformation();
         },
-        successed:(data)=>{
-          console.log(data)
+        failed: () => {
+          console.log("failed");
         },
-        failed:()=>{
-          console.log('failed')
-        },
-        always:()=>{
-
-        }
-      })
+        always: () => {},
+      });
     }
   };
   //end
 
-  const fileUploadHandler=({target})=>{
+  const fileUploadHandler = ({ target }) => {
     setFiles(target.files[0]);
-  }
+  };
 
   const getProfileInfoHttp = () => {
     http.get({
@@ -131,13 +127,24 @@ const UpdateProfile = () => {
         <div class="edit-profile-main-form">
           <div class="custom-input">
             <label for="name">Email</label>
-            <input type="text" name="" id="name" required="" value={email}
-            onChange={emailChangeHandler}
+            <input
+              type="text"
+              name=""
+              id="name"
+              required=""
+              value={email}
+              onChange={emailChangeHandler}
             />
           </div>
           <div class="custom-input">
             <label for="name">Upload Photo</label>
-            <input type="file" name="" id="name" required="" onChange={fileUploadHandler}/>
+            <input
+              type="file"
+              name=""
+              id="name"
+              required=""
+              onChange={fileUploadHandler}
+            />
             {/* <div class="alert alert-error">Photo is required.</div> */}
           </div>
         </div>

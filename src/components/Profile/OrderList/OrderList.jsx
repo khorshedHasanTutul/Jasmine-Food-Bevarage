@@ -3,24 +3,8 @@ import { GET_ORDERS } from "../../../lib/endpoint";
 import { http } from "../../Services/httpService";
 import OrderCard from "../OrderCard/OrderCard";
 
-const OrderList = ({ orders }) => {
-  const [ordersArray, setOrdersArray] = useState([]);
-  const getAllOrdersHttp = () => {
-    http.get({
-      url: GET_ORDERS,
-      before: () => {},
-      successed: (res) => {
-        console.log(res.data);
-        setOrdersArray(res.data);
-      },
-      failed: () => {},
-      always: () => {},
-    });
-  };
+const OrderList = ({ ordersArray }) => {
 
-  useEffect(() => {
-    getAllOrdersHttp();
-  }, []);
 
   if (ordersArray?.data === undefined) {
     return (
@@ -32,7 +16,7 @@ const OrderList = ({ orders }) => {
     return (
       <div className="tabbed niiceeTabContent profile-tab">
         {ordersArray.data.map((order) => (
-          <OrderCard order={order} key={order.id} />
+          <OrderCard order={order} key={order.orderNumber} />
         ))}
       </div>
     );

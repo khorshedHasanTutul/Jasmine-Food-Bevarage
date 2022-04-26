@@ -798,9 +798,12 @@ p {
 	display: flex;
 	align-items: center;
 	padding: 10px;
-	max-width: 200px;
+	max-width: 230px;
 	min-width: 100px;
 	width: max-content;
+}
+.group-complain_type .complain_button button {
+	width: 100%;
 }
 
 .group-complain_type {
@@ -1366,7 +1369,7 @@ table td {
 	cursor: pointer;
 }
 .cart-footer__orderNow {
-	background: #FF0000;
+	background: #FF4B49;
 	color: white;
 	padding: 6px;
 	border-radius: 5px;
@@ -3974,6 +3977,15 @@ textarea:focus {
 .profile-tab .tab-content.detalis-page-tab-content {
   padding: 0 !important;
   margin: 0;
+  margin-bottom: 20px;
+  
+}
+.order-id.d-flex.js-center aside {
+	background: #FF0000;
+	color: white;
+	padding: 6px;
+	border-radius: 5px;
+	font-weight: 700;
 }
 .tabbed.niiceeTabContent.profile-tab {
   padding: 10px;
@@ -4105,7 +4117,6 @@ textarea:focus {
   cursor: pointer;
   transition: 0.5s;
   opacity: 0.8;
-  width: 100%;
 }
 
 .complain_button {
