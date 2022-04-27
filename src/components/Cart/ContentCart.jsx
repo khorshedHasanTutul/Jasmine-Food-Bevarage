@@ -222,15 +222,15 @@ const ContentCart = ({
               <button class="cart-cmn-btn">Clear Cart</button>
             </a> */}
 
-            <div className="cart-footer__orderNow">
+            <div className="cart-footer__orderNow" onClick={orderNowHandler}>
               <Link to={urlCheckoutRoute()}>
                 <p>
-                  <span onClick={orderNowHandler}>Order Now</span>
+                  <span >Order Now</span>
                 </p>
               </Link>
             </div>
-            <div className="cart-footer__orderNow" style={{background:"#4FA961"}}>
-              <p onClick={clearCartHandler}>Clear Cart</p>
+            <div className="cart-footer__orderNow" style={{background:"#4FA961"}} onClick={clearCartHandler}>
+              <p >Clear Cart</p>
             </div>
           </div>
         </div>

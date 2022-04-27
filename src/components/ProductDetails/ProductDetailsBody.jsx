@@ -8,33 +8,41 @@ import ProductDescription from "./ProductDescription";
 import ProductReview from "./ProductReview";
 import RelatedProducts from "./RelatedProducts";
 import ReactImageZoom from "react-image-zoom";
+import { http } from "../Services/httpService";
+import { GET_PRODUCT_DETAILS } from "../../lib/endpoint";
 
 const ProductDetailsBody = () => {
+  const getSlider = appData.Banner;
   const { id } = useParams();
   const ref = useRef(null);
+  const [productItemDetails, setProductItemDetails] = useState();
   const getCartContext = useContext(cartContext);
   const [visibleCartBox, setVisibleCartBox] = useState(false);
   const getCartCtxItems = getCartContext.getCartModel.Items;
   const [isActive, setisActive] = useState(false);
-  const getDataById = appData.categoryProducts.find((item) => item.Id === id);
-  const findItem = getCartCtxItems.find((item2) => item2.Id === getDataById.Id);
-  const getCategory = appData.BottomHeader[1].dropDownCategoryItem.find(
-    (item) => item.categoryId === getDataById.category_id
+
+  const findItem = getCartCtxItems.find(
+    (item2) => item2.Id === productItemDetails?.id
   );
-  const [productImage, setProductImage] = useState(getDataById.image);
-  const props = {
-    width: 345,
-    height: 420,
-    img: productImage,
-    zoomPosition: "original",
+  const objectFormItem = {
+    Id:productItemDetails?.id,
+    MRP: productItemDetails?.originalPrice,
+    Ds: productItemDetails?.discountedPercentage,
   };
+  // const [productImage, setProductImage] = useState(getDataById.image);
+  // const props = {
+  //   width: 345,
+  //   height: 420,
+  //   img: productImage,
+  //   zoomPosition: "original",
+  // };
   const [isPreview, setIsPreview] = useState(false);
 
   const toggleHandler = () => {
     setisActive((prevState) => !prevState);
   };
   const imageChangedHandler = (image) => {
-    setProductImage(image);
+    // setProductImage(image);
   };
   const storeCartHandler = (item, e) => {
     e.preventDefault();
@@ -59,6 +67,25 @@ const ProductDetailsBody = () => {
   const imgZoomHandler = () => {
     setIsPreview(true);
   };
+
+  const getProductDetails = () => {
+    http.get({
+      url: GET_PRODUCT_DETAILS + id,
+      before: () => {},
+      successed: (res) => {
+        console.log(res.data);
+        setProductItemDetails(res.data);
+      },
+      failed: () => {
+        console.log("failed");
+      },
+      always: () => {},
+    });
+  };
+  useEffect(() => {
+    getProductDetails();
+  }, []);
+
   useEffect(() => {
     if (!isActive) {
       ref.current.classList.add("active");
@@ -84,12 +111,12 @@ const ProductDetailsBody = () => {
     rewindSpeed: 500,
     speed: 500,
     pauseOnHover: false,
-    perPage: 4,
+    perPage: 2,
     width: "100%",
   };
-  const data = appData.categoryProducts.filter(
-    (item) => item.category_id === getDataById.category_id
-  );
+  // const data = appData.categoryProducts.filter(
+  //   (item) => item.category_id === getDataById.category_id
+  // );
 
   return (
     <section class="product-details-area">
@@ -100,10 +127,10 @@ const ProductDetailsBody = () => {
               <div class="inner-product-details-flex">
                 <div class="product-d-left-img">
                   <div class="det-img-padding" onMouseEnter={imgZoomHandler}>
-                    <img src={productImage} alt="img" />
+                    {/* <img src={productImage} alt="img" /> */}
                     {/* <div class="product-dec-overlay"> 
                      <img src={productImage} alt="img" /> */}
-                    {isPreview && <ReactImageZoom {...props} />}
+                    {/* {isPreview && <ReactImageZoom {...props} />} */}
                     {/* </div>  */}
                   </div>
                   <div class="product-gallery-hover">
@@ -112,7 +139,7 @@ const ProductDetailsBody = () => {
                         <Slider
                           Template={ProDetailsSliderSingleItem}
                           options={options}
-                          data={data}
+                          data={getSlider}
                           imageChangedHandler={imageChangedHandler}
                         />
                       </div>
@@ -122,33 +149,45 @@ const ProductDetailsBody = () => {
                 <div class="product-desc-right-content">
                   <div class="catagory-overly-main-bg">
                     <div class="catagory-product-overly">
-                      <h4>{getDataById.Nm}</h4>
-                      <p>{getDataById.productInfo}</p>
+                      <h4>{productItemDetails?.name}</h4>
+                      <p>{productItemDetails?.excerpt}</p>
                     </div>
                     <div class="avablle-in-product">
                       <h3>Available In</h3>
-                      <span>{getDataById.St}</span>
+                      <span>{productItemDetails?.packSize}</span>
                     </div>
                     {/* <!-- <div class="product-review-main">
                                     <a href="#">No Review</a>
                                 </div> --> */}
                     <div class="basket-add">
-                      <span class="item__price item__price--now">
-                        ৳{getDataById.MRP}
-                      </span>
-                      <span class="price product-price">
-                        <del class="cross_price">৳{getDataById.MRP}</del>
-                      </span>
+                      {objectFormItem.Ds > 0 ? (
+                        <span class="item__price item__price--now">
+                          ৳
+                          {(
+                            objectFormItem.MRP -
+                            (objectFormItem.MRP * objectFormItem.Ds) / 100
+                          ).toFixed(2)}
+                        </span>
+                      ) : (
+                        <span class="item__price item__price--now">
+                          ৳{objectFormItem.MRP}
+                        </span>
+                      )}
+
+                      {objectFormItem.Ds > 0 && (
+                        <span class="price product-price">
+                          <del class="cross_price">৳{objectFormItem.MRP}</del>
+                        </span>
+                      )}
                     </div>
                     <div class="pd-brand-ctg">
                       <ul>
                         <li>
-                          Category :
-                          <Link to={""}>{getCategory.categoryName}</Link>
+                          Category :<Link to={""}>Mosalla</Link>
                         </li>
-                        <li>
+                        {/* <li>
                           Brand :<a href="#"> Radhuni</a>
-                        </li>
+                        </li> */}
                       </ul>
                     </div>
 
@@ -156,7 +195,7 @@ const ProductDetailsBody = () => {
                       {!visibleCartBox && (
                         <div
                           class="add-to-cart d-flex al-center j-center"
-                          onClick={storeCartHandler.bind(this, getDataById)}
+                          onClick={storeCartHandler.bind(this, objectFormItem)}
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -223,10 +262,10 @@ const ProductDetailsBody = () => {
                 </div>
               </div>
             </div>
-            <RelatedProducts
+            {/* <RelatedProducts
               productItem={getDataById}
               imageChangedHandler={imageChangedHandler}
-            />
+            /> */}
           </div>
         </div>
       </div>

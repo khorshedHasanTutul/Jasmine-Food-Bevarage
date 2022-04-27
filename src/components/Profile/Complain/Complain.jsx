@@ -3,9 +3,9 @@ import { postComplain } from "../../../lib/endpoint";
 import PopAlert from "../../../utilities/alert/PopAlert";
 import Select from "../../../utilities/select/Select";
 import { http } from "../../Services/httpService";
+import Suspense from "../../Suspense/Suspense";
 
 const Complain = () => {
-  const [clicked, setClicked] = useState(false);
   //complain states
   const [complainIsTouched, setComplainIsTouched] = useState(false);
   const [complainIsInvalid, setComplainIsInvalid] = useState(false);
@@ -14,11 +14,16 @@ const Complain = () => {
   const [remark, setRemark] = useState("");
   const [remarkIsTouched, setRemarkIsTouched] = useState(false);
   const [remarkIsValid, setRemarkIsValid] = useState(false);
-  //end
-
+  //submit state
+  const [clicked, setClicked] = useState(false);
+  //Alert PopUp
   const [isAlertHidden, setIsAlertHidden] = useState(false);
+  //Loading Snippet
   const [isLoading, setIsLoading] = useState(false);
+  //respond failed
+  const [isFailedRes, setIsFailedRes] = useState(false);
 
+  //object of complain Type
   const complainList = [
     {
       id: 0,
@@ -48,16 +53,17 @@ const Complain = () => {
   const remarkTouchedHandler = () => {
     setRemarkIsTouched(true);
   };
-
   const complainSelectHandler = (complainList) => {
     setSelectedComplain(complainList);
   };
   const complainBlurHandler = () => {
     setComplainIsTouched(true);
   };
-
-  const closeAlerthandler = () => {
+  const closeAlertHandler = () => {
     setIsAlertHidden((prevState) => !prevState);
+  };
+  const closeResAlerthandler = () => {
+    setIsFailedRes((prevState) => !prevState);
   };
 
   const submitButtonHandler = (e) => {
@@ -72,7 +78,9 @@ const Complain = () => {
           complainType: selectedComplain.id,
           message: remark,
         },
-        before: () => {},
+        before: () => {
+          setIsLoading(true);
+        },
         successed: (data) => {
           setIsAlertHidden(true);
           setClicked(false);
@@ -80,11 +88,13 @@ const Complain = () => {
           setRemarkIsValid(false);
           setRemarkIsTouched(false);
           setSelectedComplain({});
-
-          // setSelectedComplain(undefined)
+          setIsFailedRes(false);
         },
         failed: () => {
-          console.log("failed");
+          setIsFailedRes(true);
+        },
+        always: () => {
+          setIsLoading(false);
         },
       });
     }
@@ -162,9 +172,16 @@ const Complain = () => {
       {isAlertHidden && (
         <PopAlert
           content={"Submit Complain Successfully."}
-          closeModal={closeAlerthandler}
+          closeModal={closeAlertHandler}
         />
       )}
+      {isFailedRes && (
+        <PopAlert
+          content={"Something went wrong."}
+          closeModal={closeResAlerthandler}
+        />
+      )}
+      {isLoading && <Suspense />}
     </>
   );
 };

@@ -15,4 +15,7 @@ export const GET_PROMOTIONAL = "/api/v1/Promotions";
 export const POST_ORDER_PAYMENT = "/api/v1/Orders/PaymentInfo";
 export const POST_ORDER = "/api/v1/Orders";
 export const GET_ORDERS = "/api/v1/Orders";
-export const GET_ORDER_DETAILS = "/api/v1/Orders/"
+export const GET_ORDER_DETAILS = "/api/v1/Orders/";
+export const GET_SUBCATEGORY_PRODUCTS =
+  "/api/v1/Categories/ChildrenWithProducts/";
+export const GET_PRODUCT_DETAILS = "/api/v1/Products/";
