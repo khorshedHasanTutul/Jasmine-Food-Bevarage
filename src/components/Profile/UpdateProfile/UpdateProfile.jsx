@@ -1,20 +1,27 @@
 import React, { useEffect, useState } from "react";
+import { Fragment } from "react/cjs/react.production.min";
 import { getProfileInfo, updateProfileInfo } from "../../../lib/endpoint";
-import { http } from "../../Services/httpService";
+import { BASE_URL, http } from "../../Services/httpService";
+import Suspense from "../../Suspense/Suspense";
 
 const UpdateProfile = ({ getProfileInformation }) => {
   const [clicked, setClicked] = useState(false);
 
-  //name validation
+  //name state
   const [name, setName] = useState("");
   const [nameIsTouched, setNameIsTouched] = useState(false);
   const [nameIsValid, setNameIsValid] = useState(false);
-  //end
+  //phone state
   const [phone, setPhone] = useState("");
+  //email state
   const [email, setEmail] = useState("");
+  //file state
   const [files, setFiles] = useState();
+  //image preview
+  const [selectedFile, setSelectedFile] = useState();
+  const [preview, setPreview] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
-  //name Handlers
   const nameChangeHandler = ({ target }) => {
     setName(target.value);
   };
@@ -24,7 +31,15 @@ const UpdateProfile = ({ getProfileInformation }) => {
   const emailChangeHandler = ({ target }) => {
     setEmail(target.value);
   };
-  //   end
+
+  const fileUploadHandler = (e) => {
+    setFiles(e.target.files[0]);
+    if (!e.target.files || e.target.files.length === 0) {
+      setSelectedFile(undefined);
+      return;
+    }
+    setSelectedFile(e.target.files[0]);
+  };
 
   //save button handler
   const saveButtonHandler = (e) => {
@@ -35,29 +50,33 @@ const UpdateProfile = ({ getProfileInformation }) => {
       if (name.length !== 0) formData.append("Name", name);
       if (email.length !== 0) formData.append("Email", email);
       if (files !== undefined) formData.append("ProfilePicture", files);
+      //api request for update profile information
       http.put({
         url: updateProfileInfo,
         payload: formData,
+        before: () => {
+          setIsLoading(true);
+        },
         successed: (data) => {
           getProfileInformation();
         },
         failed: () => {
           console.log("failed");
         },
-        always: () => {},
+        always: () => {
+          setIsLoading(false);
+        },
       });
     }
   };
-  //end
-
-  const fileUploadHandler = ({ target }) => {
-    setFiles(target.files[0]);
-  };
 
   const getProfileInfoHttp = () => {
+    //api request for get profile information
     http.get({
       url: getProfileInfo,
-      before: () => {},
+      before: () => {
+        setIsLoading(true);
+      },
       successed: (data) => {
         if (data.data.name !== null) {
           setName(data.data.name);
@@ -66,11 +85,16 @@ const UpdateProfile = ({ getProfileInformation }) => {
         if (data.data.email !== null) {
           setEmail(data.data.email);
         }
+        if (data.data.imageURL !== null) {
+          setPreview(BASE_URL + data.data.imageURL);
+        }
       },
       failed: () => {
         console.log("failed");
       },
-      always: () => {},
+      always: () => {
+        setIsLoading(false);
+      },
     });
   };
 
@@ -89,70 +113,98 @@ const UpdateProfile = ({ getProfileInformation }) => {
     }
   }, [clicked, name.length, nameIsTouched]);
 
-  return (
-    <div class="edit-profile-main-flex">
-      <form>
-        <div class="edit-profile-main-form">
-          <div class="custom-input">
-            <label for="name">Name</label>
-            <input
-              type="text"
-              name=""
-              id="name"
-              required=""
-              value={name}
-              onChange={nameChangeHandler}
-              onBlur={nameTouchedHandler}
-            />
+  // create a preview as a side effect, whenever selected file is changed
+  useEffect(() => {
+    if (!selectedFile) {
+      setPreview(undefined);
+      return;
+    }
 
-            {nameIsValid && (
-              <div class="alert alert-error">Name is required.</div>
-            )}
-            {nameIsTouched && name.length === 0 && !nameIsValid && (
-              <div class="alert alert-error">Name is required.</div>
-            )}
-          </div>
-          <div class="custom-input">
-            <label for="name">Phone Number</label>
-            <input
-              type="text"
-              class="disabled"
-              name=""
-              id="name"
-              disabled
-              value={phone}
-            />
-          </div>
+    const objectUrl = URL.createObjectURL(selectedFile);
+    setPreview(objectUrl);
+
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [selectedFile]);
+
+  return (
+    <Fragment>
+      {!isLoading && (
+        <div class="edit-profile-main-flex">
+          <form className="form-parrent">
+            <div class="edit-profile-main-form first-column">
+              <div class="custom-input">
+                <label for="name">Name</label>
+                <input
+                  type="text"
+                  name=""
+                  id="name"
+                  required=""
+                  value={name}
+                  onChange={nameChangeHandler}
+                  onBlur={nameTouchedHandler}
+                />
+
+                {nameIsValid && (
+                  <div class="alert alert-error">Name is required.</div>
+                )}
+                {nameIsTouched && name.length === 0 && !nameIsValid && (
+                  <div class="alert alert-error">Name is required.</div>
+                )}
+              </div>
+              <div class="custom-input">
+                <label for="name">Email</label>
+                <input
+                  type="text"
+                  name=""
+                  id="name"
+                  required=""
+                  value={email}
+                  onChange={emailChangeHandler}
+                />
+              </div>
+              <div class="custom-input">
+                <label for="name">Phone Number</label>
+                <input
+                  type="text"
+                  class="disabled"
+                  name=""
+                  id="name"
+                  disabled
+                  value={phone}
+                />
+              </div>
+            </div>
+            <div class="edit-profile-main-form second-column">
+              <div className="image_preview">
+                {preview && <img src={preview} alt="" />}
+              </div>
+              <div className="container-file-button">
+                <div class="custom-input">
+                  <label for="name">Upload Photo</label>
+                  <input
+                    type="file"
+                    name=""
+                    id="name"
+                    required=""
+                    onChange={fileUploadHandler}
+                  />
+                  {/* <div class="alert alert-error">Photo is required.</div> */}
+                </div>
+                <button
+                  type="submit"
+                  onClick={saveButtonHandler}
+                  style={{ position: "relative", top: "4px" }}
+                >
+                  Save
+                  {/* <i class="fa fa-floppy-o" aria-hidden="true"></i> */}
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
-        <div class="edit-profile-main-form">
-          <div class="custom-input">
-            <label for="name">Email</label>
-            <input
-              type="text"
-              name=""
-              id="name"
-              required=""
-              value={email}
-              onChange={emailChangeHandler}
-            />
-          </div>
-          <div class="custom-input">
-            <label for="name">Upload Photo</label>
-            <input
-              type="file"
-              name=""
-              id="name"
-              required=""
-              onChange={fileUploadHandler}
-            />
-            {/* <div class="alert alert-error">Photo is required.</div> */}
-          </div>
-        </div>
-        <button type="submit" onClick={saveButtonHandler}>
-          Save <i class="fa fa-floppy-o" aria-hidden="true"></i>
-        </button>
-      </form>
-    </div>
+      )}
+      {isLoading && <Suspense />}
+    </Fragment>
   );
 };
 

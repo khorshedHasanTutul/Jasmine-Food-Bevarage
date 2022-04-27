@@ -5,8 +5,8 @@ import { urlProductDetails } from "../../Services/UrlService";
 import cartContext from "../../Store/cart-context";
 
 const SingleItemProduct = ({ item }) => {
-  console.log("productItem===>", item);
   const getReturnObjectData = returnDataAsObjectProperties(item);
+  console.log({getReturnObjectData})
   const getCartContext = useContext(cartContext);
   const [visibleCartBox, setVisibleCartBox] = useState(false);
   const getCartCtxItems = getCartContext.getCartModel.Items;

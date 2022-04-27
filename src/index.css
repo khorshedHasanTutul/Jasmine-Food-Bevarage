@@ -15,6 +15,19 @@ body {
   --roboto: "Roboto", sans-serif;
   --green-color: #4fa961;
 }
+.no-product-container img {
+	min-width: 200px;
+	max-width: 50%;
+	width: max-content;
+	object-fit: cover;
+}
+.no-product-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	flex-wrap: wrap;
+}
 
 .bg-sec {
   background: #f4f4f4;
@@ -1828,7 +1841,7 @@ label .token {
   bottom: 0;
   left: 0;
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: center;
   background: rgba(77, 77, 77, 0.7);
   transition: all 0.4s;
@@ -4083,17 +4096,48 @@ textarea:focus {
   top: 2px;
 }
 
-.edit-profile-main-form {
+/* .edit-profile-main-form {
   display: grid;
   grid-template-columns: 6fr 6fr;
   grid-gap: 30px;
-}
+} */
 
 .edit-profile-main-form .custom-input input {
   height: 35px;
   line-height: 35px;
   border-radius: 6px;
   padding-left: 10px;
+}
+.edit-profile-main-form .custom-input input {
+  height: 35px;
+  line-height: 35px;
+  border-radius: 6px;
+  padding-left: 10px;
+}
+.edit-profile-main-form.second-column .image_preview {
+	width: 110px;
+	height: 110px;
+	border: 1px solid black;
+	border-radius: 50%;
+	background: whitesmoke;
+	overflow: hidden;
+}
+.image_preview img {
+	width: 100%;
+}
+.edit-profile-main-form.second-column {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 50%;
+}
+.container-file-button {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 35px;
+	gap: 1.2rem;
 }
 
 .disabled {
@@ -4594,4 +4638,10 @@ button {
   grid-template-columns: repeat(3,1fr);
   margin-bottom: 16px;
   gap: 8px;
+}
+.edit-profile-main-flex .form-parrent {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
 }
