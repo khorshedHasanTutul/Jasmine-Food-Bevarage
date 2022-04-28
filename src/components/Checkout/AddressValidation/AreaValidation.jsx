@@ -1,60 +1,27 @@
 import React, { useContext, useEffect, useState } from "react";
 import { addressArea } from "../../../lib/endpoint";
 import Select from "../../../utilities/select/Select";
-import { getAreas, storeAddressObj } from "../../Services/AddressService";
 import { http } from "../../Services/httpService";
-import addressContext from "../../Store/address-context";
 
 const AreaValidation = ({
   clicked,
   districtId,
   getSelectAreaHandler,
   fixArea,
-  setAreaId
+  setAreaId,
 }) => {
-  const ctxAddress = useContext(addressContext);
   const [areaList, setAreaList] = useState([]);
   const [selectedArea, setSelectedArea] = useState();
-  const getAreaCtx = ctxAddress.getDistrict;
-  const [areas, setAreas] = useState([]);
-  const [areaIsTouched, setAreaIsTouched] = useState(false);
-  const [areaValid, setAreaIsValid] = useState(false);
   const [selectedValue, setSelectedValue] = useState("");
-
-  const getCtxStoreAddress = ctxAddress?.getStoreAddressCtx;
-  const getIfFindActiveType = getCtxStoreAddress?.find(
-    (item) => item.type === ctxAddress.getActiveType
-  );
-
-  // const areaChangeHandler=({target})=>{
-  //     setArea(target.value)
-  // }
-  const areaIsTouchedHandler = () => {
-    setAreaIsTouched(true);
-  };
-  const getAreaHandler = () => {
-    setAreas(getAreas(getAreaCtx.districtId));
-  };
-  const selectAreaHandler = (item) => {
-    ctxAddress.storeArea(item);
-    storeAddressObj.area.name = item.name;
-    storeAddressObj.area.id = item.id;
-  };
-
-  useEffect(() => {
-    if (clicked) {
-      if (
-        (areaIsTouched && areas.length === 0) ||
-        (!areaIsTouched && areas.length === 0)
-      ) {
-        setAreaIsValid(true);
-      } else setAreaIsValid(false);
-    }
-  }, [areas.length, areaIsTouched, clicked]);
+  const [upazilaIsTouched, setUpazilaIsTouched] = useState(false);
+  const [isUpazilaValid, setIsUpazilaValid] = useState(false);
 
   const areaSelectHandler = (areaList) => {
     setSelectedArea(areaList);
     getSelectAreaHandler(areaList.id);
+  };
+  const upzilaBlurHandler = () => {
+    setUpazilaIsTouched(true);
   };
 
   const getAreaHttp = (districtId) => {
@@ -71,6 +38,7 @@ const AreaValidation = ({
       always: () => {},
     });
   };
+
   useEffect(() => {
     getAreaHttp(districtId);
   }, [districtId]);
@@ -81,7 +49,21 @@ const AreaValidation = ({
       setSelectedArea(fixArea);
       setAreaId(fixArea.id);
     }
-  }, [fixArea,setAreaId]);
+  }, [fixArea, setAreaId]);
+
+  useEffect(() => {
+    if (clicked) {
+      if (
+        (upazilaIsTouched && !selectedArea?.name) ||
+        (!upazilaIsTouched && !selectedArea?.name)
+      ) {
+        setIsUpazilaValid(true);
+      } else {
+        setIsUpazilaValid(false);
+      }
+    }
+  }, [clicked, upazilaIsTouched, selectedArea?.name]);
+
   return (
     <Select
       label="Select Area"
@@ -90,8 +72,14 @@ const AreaValidation = ({
       onSelect={areaSelectHandler}
       config={{ searchPath: "name", keyPath: "id", textPath: "name" }}
       selectedOption={selectedArea}
-      // onBlur={upzilaBlurHandler}
-      // error={upzilaInputIsInvalid && "Area is required"}
+      onBlur={upzilaBlurHandler}
+      error={
+        isUpazilaValid
+          ? "Area is required"
+          : upazilaIsTouched && !selectedArea?.name && !isUpazilaValid
+          ? "Area is required"
+          : ""
+      }
       // previewText={
       //   upzilaStatus === "pending"
       //     ? "Loading data..."

@@ -6,7 +6,6 @@ import Suspense from "../../Suspense/Suspense";
 
 const UpdateProfile = ({ getProfileInformation }) => {
   const [clicked, setClicked] = useState(false);
-
   //name state
   const [name, setName] = useState("");
   const [nameIsTouched, setNameIsTouched] = useState(false);
@@ -20,7 +19,7 @@ const UpdateProfile = ({ getProfileInformation }) => {
   //image preview
   const [selectedFile, setSelectedFile] = useState();
   const [preview, setPreview] = useState();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const nameChangeHandler = ({ target }) => {
     setName(target.value);
@@ -97,11 +96,12 @@ const UpdateProfile = ({ getProfileInformation }) => {
       },
     });
   };
-
+  //api call function useEffect
   useEffect(() => {
     getProfileInfoHttp();
   }, []);
 
+  //validation controller useEffect
   useEffect(() => {
     if (clicked) {
       if (
@@ -119,10 +119,8 @@ const UpdateProfile = ({ getProfileInformation }) => {
       setPreview(undefined);
       return;
     }
-
     const objectUrl = URL.createObjectURL(selectedFile);
     setPreview(objectUrl);
-
     return () => URL.revokeObjectURL(objectUrl);
   }, [selectedFile]);
 

@@ -29,7 +29,7 @@ const EmailValidation = ({setEmailP,fixEmail}) => {
     <div class="custom-input">
       <label for="email">Email</label>
       <input
-        type="text"
+        type="email"
         name=""
         id="email"
         required=""

@@ -17,11 +17,10 @@ const CheckoutBody = () => {
   const [alert, setAlert] = useState(false);
   const [qtyAlert, setQtyAlert] = useState(false);
 
-
   const getStoreCtxAddress = ctxAddress.getStoreAddressCtx;
   const getActiveTypeAddress = ctxAddress.getActiveType;
-  const findActiveAddress = getStoreCtxAddress.find(
-    (item) => item.type === getActiveTypeAddress
+  const findActiveAddress = addresses.find(
+    (item) => item.type === getActiveTypeAddress.type
   );
 
   const ProSummaryRef = useRef(null);
@@ -56,7 +55,7 @@ const CheckoutBody = () => {
 
   const okToProceed = () => {
     if (
-      findActiveAddress?.name !== null ||
+      (findActiveAddress !== undefined && findActiveAddress?.name !== null) ||
       (storeAddressObj.name.length > 0 &&
         storeAddressObj.mobile.length > 0 &&
         storeAddressObj.division.length > 0 &&
@@ -69,7 +68,7 @@ const CheckoutBody = () => {
   };
 
   const proceedToAddressHandler = () => {
-    if (getStoreCtxAddress.length > 0 && findActiveAddress) {
+    if (findActiveAddress!==undefined) {
       paymentActiveHandler();
     } else AddressActiveHandler();
   };
@@ -77,7 +76,6 @@ const CheckoutBody = () => {
   const ProceedToOrderHandler = () => {
     if (okToProceed()) {
       paymentActiveHandler();
-     
     } else {
       setAlert(true);
       //   alert("Please Enter Valid Address!");
@@ -91,7 +89,6 @@ const CheckoutBody = () => {
   const qtyAlertStatusChangeHandler = () => {
     setQtyAlert((prevState) => !prevState);
   };
-
 
   const getAddressHttp = () => {
     http.get({

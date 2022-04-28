@@ -3,21 +3,14 @@ import appData from "../DataSource/appData";
 import addressContext from "../Store/address-context";
 
 const AddressList = ({ addresses }) => {
-  console.log({ addresses });
   const getBottomActiveAddress = appData.BottomActiveAddress;
   const ctxAddress = useContext(addressContext);
-  const getCtxStoreAddress = ctxAddress.getStoreAddressCtx;
-  // const getIfFindActiveType = getCtxStoreAddress?.find(
-  //   (item) => item.type === ctxAddress.getActiveType
-  // );
   const [activeAddress, setActiveAddress] = useState(
     ctxAddress.getActiveType.type
   );
-
   const addressActiveHandler = (item) => {
     ctxAddress.setActiveType(item);
   };
-
   useEffect(() => {
     if (activeAddress !== ctxAddress.getActiveType.type) {
       setActiveAddress(ctxAddress.getActiveType.type);
@@ -32,10 +25,9 @@ const AddressList = ({ addresses }) => {
         const findCtxStoreItem = addresses?.find(
           (item2) => item2.typeOfAddress === item.id
         );
-        console.log({ findCtxStoreItem });
         return (
           <>
-            {findCtxStoreItem?.name !== null && (
+            {findCtxStoreItem !== undefined && findCtxStoreItem?.name !== null && (
               <div
                 class={
                   item.type === activeAddress
@@ -65,7 +57,7 @@ const AddressList = ({ addresses }) => {
                 <p>{findCtxStoreItem?.remarks}</p>
               </div>
             )}
-            {findCtxStoreItem?.name === null && (
+            {findCtxStoreItem !== undefined && findCtxStoreItem?.name === null && (
               <div class="address-home-default-single">
                 <h3>{item.type}</h3>
                 <p>No Address Saved In {item.type} Slot</p>

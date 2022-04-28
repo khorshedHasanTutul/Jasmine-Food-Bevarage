@@ -1,8 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { addressDistrict, GET_ADDRESS, postAddress } from "../../lib/endpoint";
-import Select from "../../utilities/select/Select";
+import { GET_ADDRESS, postAddress } from "../../lib/endpoint";
 import { storeAddressObj } from "../Services/AddressService";
 import { http } from "../Services/httpService";
 import {
@@ -11,6 +10,7 @@ import {
   urlProfileRoute,
 } from "../Services/UrlService";
 import addressContext from "../Store/address-context";
+import Suspense from "../Suspense/Suspense";
 import AddressList from "./AddressList";
 import AddressValidation from "./AddressValidation/AddressValidation";
 import AreaValidation from "./AddressValidation/AreaValidation";
@@ -23,9 +23,14 @@ import BottomActiveAddress from "./BottomActiveAddress";
 
 const Address = ({ ProceedToOrderHandler }) => {
   const { pathname } = useLocation();
+  //address context
   const ctxAddress = useContext(addressContext);
+  //get active type
   const [activeType, setactiveType] = useState(ctxAddress.getActiveType);
+  //get addresses from api set state
   const [addresses, setAddresses] = useState([]);
+
+  //set address after updating from database state
   const [name, setNameP] = useState("");
   const [phone, setPhoneP] = useState("");
   const [email, setEmailP] = useState("");
@@ -33,46 +38,63 @@ const Address = ({ ProceedToOrderHandler }) => {
   const [divisionID, setDivisionId] = useState();
   const [districtId, setDistrictId] = useState();
   const [areaId, setAreaId] = useState();
+  //end
   const [clicked, setClicked] = useState(false);
+  //set active type of Address
   const [activeTypeAddress, setActiveTypeAddress] = useState({});
+  //loading state
+  const [isLoading, setIsLoading] = useState(true);
+  //asign obj without saving data
   let addressObj = Object.assign({}, storeAddressObj);
+
   const saveAddresshandler = () => {
     addressObj = Object.assign({}, storeAddressObj);
     setClicked(true);
+    // if (
+    //   addressObj.name.length !== 0 &&
+    //   addressObj.mobile.length !== 0 &&
+    //   addressObj.division.name.length !== 0 &&
+    //   addressObj.district.name.length !== 0 &&
+    //   addressObj.area.name.length !== 0 &&
+    //   addressObj.address.length !== 0
+    // ) {
+    //   ctxAddress.storeAddressCtx(addressObj);
+    // }
     if (
-      addressObj.name.length !== 0 &&
-      addressObj.mobile.length !== 0 &&
-      addressObj.division.name.length !== 0 &&
-      addressObj.district.name.length !== 0 &&
-      addressObj.area.name.length !== 0 &&
-      addressObj.address.length !== 0
+      name.length > 0 &&
+      phone.length > 0 &&
+      divisionID &&
+      districtId &&
+      areaId &&
+      address
     ) {
-      ctxAddress.storeAddressCtx(addressObj);
+      http.PUT({
+        url: postAddress,
+        payload: {
+          id: activeTypeAddress?.id,
+          phone: phone,
+          email: email,
+          name: name,
+          provinceId: divisionID,
+          districtId: districtId,
+          upazilaId: areaId,
+          remarks: address,
+          isPrimary: true,
+        },
+        before: () => {
+          setIsLoading(true);
+        },
+        successed: (res) => {
+          getAddressHttp();
+        },
+        failed: () => {
+          console.log("failed");
+        },
+        always: () => {
+          setIsLoading(false);
+        },
+      });
     }
-
-    http.PUT({
-      url: postAddress,
-      payload: {
-        id: activeTypeAddress?.id,
-        phone: phone,
-        email: email,
-        name: name,
-        provinceId: divisionID,
-        districtId: districtId,
-        upazilaId: areaId,
-        remarks: address,
-        isPrimary: true,
-      },
-      before: () => {},
-      successed: (res) => {
-        console.log(res.data);
-        getAddressHttp();
-      },
-      failed: () => {
-        console.log("failed");
-      },
-      always: () => {},
-    });
   };
 
   const getDistrictHandler = (divisionId) => {
@@ -87,7 +109,9 @@ const Address = ({ ProceedToOrderHandler }) => {
   const getAddressHttp = () => {
     http.get({
       url: GET_ADDRESS,
-      before: () => {},
+      before: () => {
+        setIsLoading(true);
+      },
       successed: (res) => {
         setAddresses(res.data);
         setActiveTypeAddress(
@@ -95,7 +119,9 @@ const Address = ({ ProceedToOrderHandler }) => {
         );
       },
       failed: () => {},
-      always: () => {},
+      always: () => {
+        setIsLoading(false);
+      },
     });
   };
 
@@ -116,94 +142,102 @@ const Address = ({ ProceedToOrderHandler }) => {
   }, [activeType, ctxAddress.getActiveType, addresses]);
 
   return (
-    <div
-      id="Tab4"
-      class={
-        pathname === urlProfileRoute() + urlProfileAddressRoute()
-          ? "tab-content checkout-main-tab-content"
-          : "tabcontent tab-content checkout-main-tab-content"
-      }
-    >
-      <div class="cart-add-tab-content">
-        <div class="checkout-address-information-main">
-          <div class="inner-shop-add-flex d-flexx">
-            <span>Your contact information</span>
-          </div>
-          <div class="address-info-inner-flex">
-            <div class="address-info-from">
-              <form>
-                <div class="address-info-inner-content">
-                  <NameValidation
-                    clicked={clicked}
-                    setNameP={setNameP}
-                    fixName={activeTypeAddress?.name}
-                  />
-                  <MobileValidation
-                    clicked={clicked}
-                    setPhoneP={setPhoneP}
-                    fixPhone={activeTypeAddress?.phone}
-                  />
-                  <EmailValidation
-                    setEmailP={setEmailP}
-                    fixEmail={activeTypeAddress?.email}
-                  />
+    <>
+      {!isLoading && (
+        <div
+          id="Tab4"
+          class={
+            pathname === urlProfileRoute() + urlProfileAddressRoute()
+              ? "tab-content checkout-main-tab-content"
+              : "tabcontent tab-content checkout-main-tab-content"
+          }
+        >
+          <div class="cart-add-tab-content">
+            <div class="checkout-address-information-main">
+              <div class="inner-shop-add-flex d-flexx">
+                <span>Your contact information</span>
+              </div>
+              <div class="address-info-inner-flex">
+                <div class="address-info-from">
+                  <form>
+                    <div class="address-info-inner-content">
+                      <NameValidation
+                        clicked={clicked}
+                        setNameP={setNameP}
+                        fixName={activeTypeAddress?.name}
+                      />
+                      <MobileValidation
+                        clicked={clicked}
+                        setPhoneP={setPhoneP}
+                        fixPhone={activeTypeAddress?.phone}
+                      />
+                      <EmailValidation
+                        setEmailP={setEmailP}
+                        fixEmail={activeTypeAddress?.email}
+                      />
 
-                  <div className="grid-3 mb-16 g-8">
-                    <Divisionvalidation
-                      clicked={clicked}
-                      getDistrictHandler={getDistrictHandler}
-                      fixDivision={activeTypeAddress?.province}
-                      setDivisionId={setDivisionId}
-                    />
-                    <DistrictValidation
-                      clicked={clicked}
-                      divisionID={divisionID}
-                      getAreaHandler={getAreaHandler}
-                      fixDistrict={activeTypeAddress?.district}
-                      setDistrictId={setDistrictId}
-                    />
-                    <AreaValidation
-                      clicked={clicked}
-                      districtId={districtId}
-                      getSelectAreaHandler={getSelectAreaHandler}
-                      fixArea={activeTypeAddress?.upazila}
-                      setAreaId={setAreaId}
-                    />
-                  </div>
-                  <AddressValidation
-                    clicked={clicked}
-                    setAddressP={setAddressP}
-                    activeTypeAddress={activeTypeAddress}
-                    fixArea={activeTypeAddress?.remarks}
-                  />
-                  <BottomActiveAddress
-                    saveAddresshandler={saveAddresshandler}
-                  />
+                      <div className="grid-3 mb-16 g-8">
+                        <Divisionvalidation
+                          clicked={clicked}
+                          getDistrictHandler={getDistrictHandler}
+                          fixDivision={activeTypeAddress?.province}
+                          setDivisionId={setDivisionId}
+                        />
+                        <DistrictValidation
+                          clicked={clicked}
+                          divisionID={divisionID}
+                          getAreaHandler={getAreaHandler}
+                          fixDistrict={activeTypeAddress?.district}
+                          setDistrictId={setDistrictId}
+                        />
+                        <AreaValidation
+                          clicked={clicked}
+                          districtId={districtId}
+                          getSelectAreaHandler={getSelectAreaHandler}
+                          fixArea={activeTypeAddress?.upazila}
+                          setAreaId={setAreaId}
+                        />
+                      </div>
+                      <AddressValidation
+                        clicked={clicked}
+                        setAddressP={setAddressP}
+                        activeTypeAddress={activeTypeAddress}
+                        fixArea={activeTypeAddress?.remarks}
+                      />
+                      <BottomActiveAddress
+                        saveAddresshandler={saveAddresshandler}
+                      />
+                    </div>
+                  </form>
                 </div>
-              </form>
-            </div>
 
-            <AddressList addresses={addresses} />
+                <AddressList addresses={addresses} />
+              </div>
+            </div>
+            {pathname === urlCheckoutRoute() && (
+              <div class="cart_navigation">
+                <Link class="prev-btn" to="/">
+                  <i
+                    class="fa fa-angle-left check-ang-left"
+                    aria-hidden="true"
+                  ></i>{" "}
+                  Continue shopping
+                </Link>
+                <a href class="next-btn" onClick={ProceedToOrderHandler}>
+                  {" "}
+                  Proceed to order{" "}
+                  <i
+                    class="fa fa-angle-right check-ang-right"
+                    aria-hidden="true"
+                  ></i>
+                </a>
+              </div>
+            )}
           </div>
         </div>
-        {pathname === urlCheckoutRoute() && (
-          <div class="cart_navigation">
-            <Link class="prev-btn" to="/">
-              <i class="fa fa-angle-left check-ang-left" aria-hidden="true"></i>{" "}
-              Continue shopping
-            </Link>
-            <a href class="next-btn" onClick={ProceedToOrderHandler}>
-              {" "}
-              Proceed to order{" "}
-              <i
-                class="fa fa-angle-right check-ang-right"
-                aria-hidden="true"
-              ></i>
-            </a>
-          </div>
-        )}
-      </div>
-    </div>
+      )}
+      {isLoading && <Suspense />}
+    </>
   );
 };
 
