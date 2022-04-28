@@ -2,7 +2,7 @@ import getToken from "../../lib/token";
 import { put } from "./form";
 
 // import { baseUrl as BASE_URL } from "./ImgService";
-export const BASE_URL = "https://localhost:5001";
+export const BASE_URL = "https://jasmine.boniksoftware.com";
 
 export const post = async ({
   url,
@@ -46,13 +46,6 @@ export const post = async ({
     failed(data);
     throw new Error(`${data.message || "Error Occured"}`);
   }
-
-  //   if (data.IsError) {
-  //     always(data);
-  //     failed(data, data.Msg);
-  //     throw new Error(`${data.Msg || "Login failed"}`);
-  //   }
-
   always(data);
   return data;
 };
@@ -100,16 +93,9 @@ export const PUT = async ({
     throw new Error(`${data.message || "Error Occured"}`);
   }
 
-  //   if (data.IsError) {
-  //     always(data);
-  //     failed(data, data.Msg);
-  //     throw new Error(`${data.Msg || "Login failed"}`);
-  //   }
-
   always(data);
   return data;
 };
-
 
 export const get = async ({
   url,
@@ -150,12 +136,6 @@ export const get = async ({
     failed(data);
     throw new Error(`${data.message || "Error Occured"}`);
   }
-
-  //   if (data.IsError) {
-  //     always(data);
-  //     failed(data, data.Msg);
-  //     throw new Error(`${data.Msg || "Login failed"}`);
-  //   }
   always(data);
   return data;
 };
@@ -216,4 +196,4 @@ export const file = async ({
   return data;
 };
 
-export const http = { post, get, file,put,PUT };
+export const http = { post, get, file, put, PUT };

@@ -13,6 +13,7 @@ import {
   urlOrderCancelingRoute,
   urlOrderDetailsRoute,
 } from "../../Services/UrlService";
+import Suspense from "../../Suspense/Suspense";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import OrderList from "../OrderList/OrderList";
 
@@ -22,19 +23,36 @@ const OrderHistoryBody = () => {
   const [processingOrders, setProcessingOrders] = useState([]);
   const [delivaringOrders, setDelivaringdOrders] = useState([]);
   const [cancellingOrders, setCancellingdOrders] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const getAllOrdersHttp = () => {
     http.get({
       url: GET_ORDERS,
-      before: () => {},
-      successed: (res) => {
-        setOrdersArray(res.data);
-        setConfirmOrders(res.data.filter(item=>item.orderStatus === OrderStatus.Confirmed));
-        setProcessingOrders(res.data.filter(item=>item.orderStatus === OrderStatus.Processing));
-        setDelivaringdOrders(res.data.filter(item=>item.orderStatus === OrderStatus.Delivering));
-        setCancellingdOrders(res.data.filter(item=>item.orderStatus === OrderStatus.Cancelled));
+      before: () => {
+        setIsLoading(true);
       },
-      failed: () => {},
-      always: () => {},
+      successed: (res) => {
+        console.log('false');
+        setOrdersArray(res.data);
+        setConfirmOrders(
+          res.data.filter((item) => item?.orderStatus === OrderStatus.Confirmed)
+        );
+        setProcessingOrders(
+          res.data.filter((item) => item?.orderStatus === OrderStatus.Processing)
+        );
+        setDelivaringdOrders(
+          res.data.filter((item) => item?.orderStatus === OrderStatus.Delivering)
+        );
+        setCancellingdOrders(
+          res.data.filter((item) => item?.orderStatus === OrderStatus.Cancelled)
+        );
+        setIsLoading(false);
+      },
+      failed: () => {
+        console.log("failed");
+      },
+      always: () => {
+        setIsLoading(false);
+      },
     });
   };
 
@@ -43,35 +61,43 @@ const OrderHistoryBody = () => {
   }, []);
 
   return (
-    <div>
-      <Route path={urlProfileRoute() + urlOrderRoute()} exact>
-        <Redirect to={urlProfileRoute() + urlAllOrderRoutes()} />
-      </Route>
+    <>
+      {!isLoading && (
+        <div>
+          <Route path={urlProfileRoute() + urlOrderRoute()} exact>
+            <Redirect to={urlProfileRoute() + urlAllOrderRoutes()} />
+          </Route>
 
-      <Route path={urlProfileRoute() + urlAllOrderRoutes()} exact>
-        <OrderList ordersArray={ordersArray} />
-      </Route>
+          <Route path={urlProfileRoute() + urlAllOrderRoutes()} exact>
+            <OrderList ordersArray={ordersArray} />
+          </Route>
 
-      <Route path={urlProfileRoute() + urlConfirmedRoutes()} exact>
-        <OrderList ordersArray={confirmedOrders} />
-      </Route>
+          <Route path={urlProfileRoute() + urlConfirmedRoutes()} exact>
+            <OrderList ordersArray={confirmedOrders} />
+          </Route>
 
-      <Route path={urlProfileRoute() + urlOrderProcessing()} exact>
-        <OrderList ordersArray={processingOrders} />
-      </Route>
+          <Route path={urlProfileRoute() + urlOrderProcessing()} exact>
+            <OrderList ordersArray={processingOrders} />
+          </Route>
 
-      <Route path={urlProfileRoute() + urlOrderDelivaringRoute()} exact>
-        <OrderList ordersArray={delivaringOrders} />
-      </Route>
+          <Route path={urlProfileRoute() + urlOrderDelivaringRoute()} exact>
+            <OrderList ordersArray={delivaringOrders} />
+          </Route>
 
-      <Route path={urlProfileRoute() + urlOrderCancelingRoute()} exact>
-        <OrderList ordersArray={cancellingOrders} />
-      </Route>
+          <Route path={urlProfileRoute() + urlOrderCancelingRoute()} exact>
+            <OrderList ordersArray={cancellingOrders} />
+          </Route>
 
-      <Route path={urlProfileRoute() + urlOrderDetailsRoute() + ":id"} exact>
-        <OrderDetails />
-      </Route>
-    </div>
+          <Route
+            path={urlProfileRoute() + urlOrderDetailsRoute() + ":id"}
+            exact
+          >
+            <OrderDetails />
+          </Route>
+        </div>
+      )}
+      {isLoading && <Suspense />}
+    </>
   );
 };
 

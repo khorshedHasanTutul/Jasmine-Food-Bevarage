@@ -153,7 +153,15 @@ const Complain = () => {
               options={complainList || []}
               onSelect={complainSelectHandler}
               config={{ searchPath: "name", keyPath: "id", textPath: "name" }}
-              error={complainIsInvalid && "Complain Type is required."}
+              error={
+                complainIsInvalid
+                  ? "Complain Type is required."
+                  : complainIsTouched &&
+                    !selectedComplain.name &&
+                    !complainIsInvalid
+                  ? "Complain Type is required."
+                  : ""
+              }
               onBlur={complainBlurHandler}
               selectedOption={selectedComplain}
             />

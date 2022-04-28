@@ -24,6 +24,7 @@ const ProductSummary = ({
   const findActiveAddress = addresses.find(
     (item) => item.typeOfAddress === getCtxAddressActiveType.id
   );
+  console.log({ findActiveAddress });
 
   const qtyDecHandler = (findItem, e) => {
     e.preventDefault();
@@ -174,49 +175,54 @@ const ProductSummary = ({
           </table>
 
           <div class="row-custom">
-            {findActiveAddress?.name !== null && (
-              <div class="shaping-address-saveing-row">
-                <div class="shapping-address-inner-content">
-                  <div class="location-ad-icon">
-                    <i class="fa fa-map-marker" aria-hidden="true"></i>
+            {findActiveAddress !== undefined &&
+              findActiveAddress?.name !== null && (
+                <div class="shaping-address-saveing-row">
+                  <div class="shapping-address-inner-content">
+                    <div class="location-ad-icon">
+                      <i class="fa fa-map-marker" aria-hidden="true"></i>
+                    </div>
+                    <div class="saving-address-content">
+                      <small>
+                        {findActiveAddress && findActiveAddress.name}
+                      </small>
+                      <small>
+                        {findActiveAddress && findActiveAddress.phone}
+                      </small>
+                      <span>
+                        <aside>
+                          {findActiveAddress &&
+                            findActiveAddress.typeOfAddress === 0 &&
+                            "Home"}
+                          {findActiveAddress &&
+                            findActiveAddress.typeOfAddress === 1 &&
+                            "Office"}
+                          {findActiveAddress &&
+                            findActiveAddress.typeOfAddress === 2 &&
+                            "Home Town"}
+                        </aside>
+                      </span>
+                      <span>
+                        {findActiveAddress && findActiveAddress.email}
+                      </span>
+                      &nbsp;
+                      <span>
+                        {findActiveAddress &&
+                          findActiveAddress.province.name +
+                            "-" +
+                            findActiveAddress.district.name +
+                            "-" +
+                            findActiveAddress.upazila.name +
+                            "-" +
+                            findActiveAddress.remarks}
+                      </span>
+                    </div>
                   </div>
-                  <div class="saving-address-content">
-                    <small>{findActiveAddress && findActiveAddress.name}</small>
-                    <small>
-                      {findActiveAddress && findActiveAddress.phone}
-                    </small>
-                    <span>
-                      <aside>
-                        {findActiveAddress &&
-                          findActiveAddress.typeOfAddress === 0 &&
-                          "Home"}
-                        {findActiveAddress &&
-                          findActiveAddress.typeOfAddress === 1 &&
-                          "Office"}
-                        {findActiveAddress &&
-                          findActiveAddress.typeOfAddress === 2 &&
-                          "Home Town"}
-                      </aside>
-                    </span>
-                    <span>{findActiveAddress && findActiveAddress.email}</span>
-                    &nbsp;
-                    <span>
-                      {findActiveAddress &&
-                        findActiveAddress.province.name +
-                          "-" +
-                          findActiveAddress.district.name +
-                          "-" +
-                          findActiveAddress.upazila.name +
-                          "-" +
-                          findActiveAddress.remarks}
-                    </span>
+                  <div class="saving-ad-btn" onClick={AddressActiveHandler}>
+                    <button>Change</button>
                   </div>
                 </div>
-                <div class="saving-ad-btn" onClick={AddressActiveHandler}>
-                  <button>Change</button>
-                </div>
-              </div>
-            )}
+              )}
 
             <div class="cart_navigation">
               <Link class="prev-btn" to="/">

@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Fragment } from "react/cjs/react.production.min";
 
@@ -13,6 +14,7 @@ const ContentCart = ({
   closeAuthModalHandler,
   setIsOrderNowPressed,
 }) => {
+  let history = useHistory();
   const authCtx = useContext(authContext);
   const getCartContext = useContext(cartContext);
   const [qty, setQty] = useState("");
@@ -37,7 +39,9 @@ const ContentCart = ({
       setIsOrderNowPressed(true);
       return false;
     }
-
+    if (getCartContextModel.Items.length > 0 && authCtx.isLoggedIn === true) {
+      history.push(urlCheckoutRoute());
+    }
     openCart();
   };
 
@@ -223,14 +227,18 @@ const ContentCart = ({
             </a> */}
 
             <div className="cart-footer__orderNow" onClick={orderNowHandler}>
-              <Link to={urlCheckoutRoute()}>
+              <a href>
                 <p>
-                  <span >Order Now</span>
+                  <span>Order Now</span>
                 </p>
-              </Link>
+              </a>
             </div>
-            <div className="cart-footer__orderNow" style={{background:"#4FA961"}} onClick={clearCartHandler}>
-              <p >Clear Cart</p>
+            <div
+              className="cart-footer__orderNow"
+              style={{ background: "#4FA961" }}
+              onClick={clearCartHandler}
+            >
+              <p>Clear Cart</p>
             </div>
           </div>
         </div>

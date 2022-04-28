@@ -54,7 +54,7 @@ const Payment = ({ addresses, AddressActiveHandler }) => {
       http.post({
         url: POST_ORDER,
         payload: {
-          addressId: getSelectedAddress.id,
+          addressId: getSelectedAddress?.id,
           couponCode: cupon,
           products: products,
           payment: paymentData,
@@ -80,7 +80,7 @@ const Payment = ({ addresses, AddressActiveHandler }) => {
     http.post({
       url: POST_ORDER_PAYMENT,
       payload: {
-        addressId: getSelectedAddress.id,
+        addressId: getSelectedAddress?.id,
         products: products,
         couponCode: cupon,
       },

@@ -1,9 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { addressDivisions } from "../../../lib/endpoint";
 import Select from "../../../utilities/select/Select";
-import { getDivision, storeAddressObj } from "../../Services/AddressService";
 import { http } from "../../Services/httpService";
-import addressContext from "../../Store/address-context";
 
 const Divisionvalidation = ({
   clicked,
@@ -11,32 +9,21 @@ const Divisionvalidation = ({
   fixDivision,
   setDivisionId,
 }) => {
-  const addressCtx = useContext(addressContext);
   const [divisionList, setDivisionList] = useState([]);
   const [selectedDivision, setSelectedDivision] = useState({});
-  const [divisionIsTouched, setDivisionIsTouched] = useState(false);
-  const [divisionValid, setDivisionIsValid] = useState(false);
-  const getCtxStoreAddress = addressCtx?.getStoreAddressCtx;
-  const getIfFindActiveType = getCtxStoreAddress?.find(
-    (item) => item.type === addressCtx.getActiveType
-  );
-
   const [selectedValue, setSelectedValue] = useState("");
-  // const divisionChangeHandler=({target})=>{
-  //     setDivision(target.value)
-  // }
-  const divisionIsTouchedHandler = () => {
+  const [divisionIsTouched, setDivisionIsTouched] = useState(false);
+  const [divisionIsValid, setDivisionIsValid] = useState(false);
+
+  const divisionSelectHandler = (divisionList) => {
+    setSelectedDivision(divisionList);
+    getDistrictHandler(divisionList.id);
+  };
+  const divisionBlurHandler = () => {
     setDivisionIsTouched(true);
   };
-  // const getDivisionHandler = () => {
-  //   setDivisions(getDivision);
-  // };
-  const selectDivisionHandler = (item) => {
-    addressCtx.storeDivision(item);
-    storeAddressObj.division.name = item.name;
-    storeAddressObj.division.id = item.id;
-  };
 
+  //api request for get divisions
   const getDivisionsHttp = () => {
     http.get({
       url: addressDivisions,
@@ -50,15 +37,12 @@ const Divisionvalidation = ({
       always: () => {},
     });
   };
-  const divisionSelectHandler = (divisionList) => {
-    setSelectedDivision(divisionList);
-    getDistrictHandler(divisionList.id);
-  };
 
+  //effect for get divisions function call
   useEffect(() => {
     getDivisionsHttp();
   }, []);
-
+  //effect for  set database division value
   useEffect(() => {
     if (fixDivision) {
       setSelectedValue(fixDivision);
@@ -67,18 +51,17 @@ const Divisionvalidation = ({
     }
   }, [fixDivision, setDivisionId]);
 
-  console.log({ selectedValue });
-
-  // useEffect(() => {
-  //   if (clicked) {
-  //     if (
-  //       (divisionIsTouched && divisions.length === 0) ||
-  //       (!divisionIsTouched && divisions.length === 0)
-  //     ) {
-  //       setDivisionIsValid(true);
-  //     } else setDivisionIsValid(false);
-  //   }
-  // }, [divisions.length, divisionIsTouched, clicked]);
+  //effect for validation rules
+  useEffect(() => {
+    if (clicked) {
+      if (
+        (divisionIsTouched && !selectedDivision?.name) ||
+        (!divisionIsTouched && !selectedDivision?.name)
+      ) {
+        setDivisionIsValid(true);
+      } else setDivisionIsValid(false);
+    }
+  }, [divisionIsTouched, selectedDivision?.name, clicked]);
 
   return (
     <Select
@@ -91,8 +74,14 @@ const Divisionvalidation = ({
       // previewText={
       //   districtStatus === "pending" ? "Loading data..." : ""
       // }
-      // error={divisionInputIsInvalid && "Region is required"}
-      // onBlur={divisionBlurHandler}
+      error={
+        divisionIsValid
+          ? "Region is required"
+          : divisionIsTouched && !selectedDivision?.name && !divisionIsValid
+          ? "Region is required"
+          : ""
+      }
+      onBlur={divisionBlurHandler}
     />
   );
 };
