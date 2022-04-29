@@ -32,20 +32,21 @@ const OrderHistoryBody = () => {
       },
       successed: (res) => {
         console.log('false');
+        setIsLoading(false);
         setOrdersArray(res.data);
         setConfirmOrders(
-          res.data.filter((item) => item?.orderStatus === OrderStatus.Confirmed)
+          res?.data.filter((item) => item?.orderStatus === OrderStatus.Confirmed)
         );
         setProcessingOrders(
-          res.data.filter((item) => item?.orderStatus === OrderStatus.Processing)
+          res?.data.filter((item) => item?.orderStatus === OrderStatus.Processing)
         );
         setDelivaringdOrders(
-          res.data.filter((item) => item?.orderStatus === OrderStatus.Delivering)
+          res?.data.filter((item) => item?.orderStatus === OrderStatus.Delivering)
         );
         setCancellingdOrders(
-          res.data.filter((item) => item?.orderStatus === OrderStatus.Cancelled)
+          res?.data.filter((item) => item?.orderStatus === OrderStatus.Cancelled)
         );
-        setIsLoading(false);
+        
       },
       failed: () => {
         console.log("failed");

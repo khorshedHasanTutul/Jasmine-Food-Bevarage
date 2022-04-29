@@ -15,6 +15,9 @@ body {
   --roboto: "Roboto", sans-serif;
   --green-color: #4fa961;
 }
+main {
+  min-height: 110vh;
+}
 .no-product-container img {
   min-width: 200px;
   max-width: 50%;
@@ -813,7 +816,7 @@ p {
   padding: 10px;
   max-width: 230px;
   min-width: 100px;
-  width: max-content;
+  /* width: max-content; */
 }
 .group-complain_type .complain_button button {
   width: 100%;
@@ -1866,7 +1869,7 @@ label .token {
   padding: 1em 1em;
   z-index: 99999;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
-  margin-top: 50px;
+  margin-top: 100px;
   padding-top: 0px;
 }
 
@@ -2972,7 +2975,7 @@ textarea:focus {
 }
 
 #discount_codeSubmit {
-  margin-bottom: 30px;
+  /* margin-bottom: 30px; */
   max-width: 330px;
   width: 100%;
   display: flex;
@@ -3871,10 +3874,11 @@ textarea:focus {
 } */
 
 .profile-main {
-  display: grid;
-  height: 100%;
-  grid-template-columns: 2.5fr 9.5fr;
-  grid-gap: 30px;
+	display: grid;
+	height: 100%;
+	grid-template-columns: 2.5fr 9.5fr;
+	grid-gap: 30px;
+	min-height: 110vh;
 }
 
 .profile-body-inner-content .product-desc-review-information-main {
@@ -4122,16 +4126,16 @@ textarea:focus {
   overflow: hidden;
 }
 .without-special-offer {
-  display: flex;
-  justify-content: center;
-  border: 2px solid #82be99;
-  padding: 20px;
-  flex-wrap: wrap;
+	display: flex;
+	justify-content: center;
+	border: 1px solid #F00;
+	padding: 20px;
+	flex-wrap: wrap;
 }
 .without-special-offer .zero-special-offers {
-  font-weight: bold;
-  color: #ff0000;
-  font-size: 1.5rem;
+	font-weight: 400;
+	color: Black;
+	font-size: 1.05rem;
 }
 .image_preview img {
   width: 100%;

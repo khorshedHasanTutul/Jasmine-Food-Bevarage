@@ -14,17 +14,15 @@ const ProductSummary = ({
   addresses,
 }) => {
   let history = useHistory();
-
+  //context
   const getCartContext = useContext(cartContext);
   const ctxAddress = useContext(addressContext);
   const [qty, setQty] = useState("");
-  const getCtxStoreAddress = ctxAddress.getStoreAddressCtx;
   const getCtxAddressActiveType = ctxAddress.getActiveType;
   const getCartModal = getCartContext.getCartModel;
   const findActiveAddress = addresses.find(
     (item) => item.typeOfAddress === getCtxAddressActiveType.id
   );
-  console.log({ findActiveAddress });
 
   const qtyDecHandler = (findItem, e) => {
     e.preventDefault();
@@ -58,6 +56,7 @@ const ProductSummary = ({
     }
   };
 
+  //if empty in cart then go to homepage
   useEffect(() => {
     if (getCartModal.Items.length === 0) {
       history.push("/");

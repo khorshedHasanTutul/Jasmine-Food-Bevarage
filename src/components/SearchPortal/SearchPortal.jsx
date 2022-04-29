@@ -7,7 +7,7 @@ const SearchPortal = ({data,closeSearchHandler,lowerSearchvalue}) => {
             {
                 (data.length===0)&& 
                 <div class="search-result__no-product-message">
-                    <strong>No Product Found!</strong>
+                    <strong>No Product Found! 😞</strong>
                 </div>
             }
             {

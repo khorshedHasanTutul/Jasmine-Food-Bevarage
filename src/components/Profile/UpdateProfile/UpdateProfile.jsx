@@ -152,7 +152,7 @@ const UpdateProfile = ({ getProfileInformation }) => {
               <div class="custom-input">
                 <label for="name">Email</label>
                 <input
-                  type="text"
+                  type="email"
                   name=""
                   id="name"
                   required=""
