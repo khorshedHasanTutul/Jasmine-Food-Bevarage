@@ -10,12 +10,13 @@ import {
   urlProfileRoute,
   urlSpecialOfferRoute,
 } from "../../Services/UrlService";
+import AddressContextProvider from "../../Store/AddressContextProvider";
 import Complain from "../Complain/Complain";
 import OrderHistory from "../OrderHistory/OrderHistory";
 import SpecialOffer from "../Special Offer/SpecialOffer";
 import UpdateProfile from "../UpdateProfile/UpdateProfile";
 
-const ProfileBody = ({getProfileInfoHttp}) => {
+const ProfileBody = ({ getProfileInfoHttp }) => {
   return (
     <div class="profile-body">
       <div class="profile-body-inner-content">
@@ -30,17 +31,21 @@ const ProfileBody = ({getProfileInfoHttp}) => {
             <Route path={urlProfileRoute() + urlOrderRoute()}>
               <OrderHistory />
             </Route>
+
             <Route path={urlProfileRoute() + urlProfileAddressRoute()} exact>
+              <AddressContextProvider>
                 <Address />
+              </AddressContextProvider>
             </Route>
+
             <Route path={urlProfileRoute() + urlSpecialOfferRoute()} exact>
-                <SpecialOffer/>
+              <SpecialOffer />
             </Route>
-            <Route path={urlProfileRoute()+urlProfileEditRoute()} exact>
-                <UpdateProfile getProfileInformation={getProfileInfoHttp}/>
+            <Route path={urlProfileRoute() + urlProfileEditRoute()} exact>
+              <UpdateProfile getProfileInformation={getProfileInfoHttp} />
             </Route>
-            <Route path={urlProfileRoute()+urlProfileComplain()} exact>
-                <Complain />
+            <Route path={urlProfileRoute() + urlProfileComplain()} exact>
+              <Complain />
             </Route>
           </Switch>
         </div>

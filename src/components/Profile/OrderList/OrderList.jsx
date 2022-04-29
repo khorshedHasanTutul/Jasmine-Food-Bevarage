@@ -4,9 +4,7 @@ import { http } from "../../Services/httpService";
 import OrderCard from "../OrderCard/OrderCard";
 
 const OrderList = ({ ordersArray }) => {
-
-
-  if (ordersArray?.data === undefined) {
+  if (ordersArray.data === undefined || ordersArray?.data.length === 0) {
     return (
       <div className="brick label info" style={{ marginTop: "10px" }}>
         <p className="t-14 t-bold t-center">No Order Found!</p>

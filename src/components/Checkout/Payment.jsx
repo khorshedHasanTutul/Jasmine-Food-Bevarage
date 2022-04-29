@@ -1,32 +1,44 @@
 import React, { Fragment, useContext, useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import { POST_ORDER, POST_ORDER_PAYMENT } from "../../lib/endpoint";
 import PopAlert from "../../utilities/alert/PopAlert";
 import { storeAddressObj } from "../Services/AddressService";
 import { http } from "../Services/httpService";
-import { UrlHomeRoute } from "../Services/UrlService";
 import addressContext from "../Store/address-context";
 import cartContext from "../Store/cart-context";
+import Suspense from "../Suspense/Suspense";
 import OrderAlert from "./OrderAlert/OrderAlert";
 
 const Payment = ({ addresses, AddressActiveHandler }) => {
-  let history = useHistory();
+  //context
   const ctxAddress = useContext(addressContext);
   const ctxCart = useContext(cartContext);
+  //get cart model
   const getCtxCartItems = ctxCart.getCartModel;
   const [orderData, setOrderData] = useState();
   const [clickedRadio, setClickedRadio] = useState(false);
+  //alert status
   const [alert, setAlert] = useState(false);
   const [alertPayment, setAlertPayment] = useState(false);
-  const getStoreCartCtx = ctxCart.getCartModel;
+  //get active type address
   const getActiveAddressType = ctxAddress.getActiveType;
+  //payment state
   const [paymentData, setPaymentData] = useState();
+  //coupon validation state
   const [cupon, setCupon] = useState("");
+  const [isCouponTouched, setIsCouponTouched] = useState(false);
   const [isInvalidCupon, setIsInvalidCupon] = useState(false);
+  const [isEmptyCoupon, setIsEmptyCoupon] = useState(false);
+  const [isClickedCoupon, setIsClickedCoupon] = useState(false);
+  //get selected Address from Database
   const getSelectedAddress = addresses.find(
     (item) => item.typeOfAddress === getActiveAddressType.id
   );
+  //loading
+  const [isLoading, setIsLoading] = useState(true);
+  //coupon validation
+
   const products = [];
+  //context items push in products array
   getCtxCartItems.Items.map((item) =>
     products.push({ id: item.Id, quantity: item.quantity })
   );
@@ -36,21 +48,28 @@ const Payment = ({ addresses, AddressActiveHandler }) => {
   };
   const alertStateChangedHandler = () => {
     setAlert((prevState) => !prevState);
-    // history.push(UrlHomeRoute());
   };
   const alertPaymentRadioStateChangeHandler = () => {
     setAlertPayment((prevState) => !prevState);
   };
+
   const cuponSubmitHandler = (evt) => {
     evt.preventDefault();
-    postOrderHttp();
+    setIsClickedCoupon(true);
+    if (cupon.length > 0) {
+      postOrderHttp();
+    }
   };
+
   const cuponChangeHandler = ({ target }) => {
     setCupon(target.value);
   };
+  const cuponTouchedHandler = () => {
+    setIsCouponTouched(true);
+  };
+
   const proceedOrderHandler = () => {
     if (clickedRadio) {
-      
       http.post({
         url: POST_ORDER,
         payload: {
@@ -61,14 +80,18 @@ const Payment = ({ addresses, AddressActiveHandler }) => {
           activityId: "00000000-0000-0000-0000-000000000000",
           remarks: "",
         },
-        before: () => {},
+        before: () => {
+          setIsLoading(true);
+        },
         successed: (res) => {
-          console.log(res.data);
           setOrderData(res.data);
           alertStateChangedHandler();
+          setIsLoading(false);
         },
         failed: () => {},
-        always: () => {},
+        always: () => {
+          setIsLoading(false);
+        },
       });
       ctxCart.clearCart();
     } else {
@@ -84,34 +107,39 @@ const Payment = ({ addresses, AddressActiveHandler }) => {
         products: products,
         couponCode: cupon,
       },
-      before: () => {},
+      before: () => {
+        setIsLoading(true);
+      },
       successed: (res) => {
-        console.log(res.data);
         setPaymentData(res.data);
-        if (
-          res.data.coupon.isLegit === false &&
-          res.data.coupon.code !== null
-        ) {
+        if (res.data.couponDiscount <= 0 && cupon.length > 0) {
           setIsInvalidCupon(true);
         } else {
           setIsInvalidCupon(false);
         }
+        setIsLoading(false);
       },
       failed: () => {},
-      always: () => {},
+      always: () => {
+        setIsLoading(false);
+      },
     });
   };
-
-  console.log({ paymentData });
   useEffect(() => {
     postOrderHttp();
   }, []);
 
-  // useEffect(() => {
-  //   if (getCtxCartItems.Items.length === 0) {
-  //     history.push("/");
-  //   }
-  // }, [getCtxCartItems.Items.length, history]);
+  useEffect(() => {
+    if (isClickedCoupon) {
+      if (
+        (isCouponTouched && cupon.length === 0) ||
+        (!isCouponTouched && cupon.length === 0)
+      ) {
+        setIsEmptyCoupon(true);
+        setIsInvalidCupon(false);
+      } else setIsEmptyCoupon(false);
+    }
+  }, [isClickedCoupon, isCouponTouched, cupon.length]);
 
   return (
     <div id="Tab5" class="tabcontent tab-content checkout-main-tab-content">
@@ -123,13 +151,18 @@ const Payment = ({ addresses, AddressActiveHandler }) => {
             id="discount_code"
             placeholder="Discount Code..."
             onChange={cuponChangeHandler}
+            onBlur={cuponTouchedHandler}
           />
 
           <button type="submit" onClick={cuponSubmitHandler}>
             Apply
           </button>
         </form>
-        {isInvalidCupon && <div class="alert alert-error">Invalid Cupon.</div>}
+        {isInvalidCupon && <div class="alert alert-error">Invalid Coupon.</div>}
+        {isEmptyCoupon && <div class="alert alert-error">Coupon is empty.</div>}
+        {isCouponTouched && cupon.length === 0 && !isEmptyCoupon && (
+          <div class="alert alert-error">Coupon is empty.</div>
+        )}
       </div>
       {(getSelectedAddress || storeAddressObj.name.length !== 0) && (
         <Fragment>
@@ -293,7 +326,11 @@ const Payment = ({ addresses, AddressActiveHandler }) => {
         </div>
       </div>
       {alert && (
-        <PopAlert Template={OrderAlert} closeModal={alertStateChangedHandler} orderData={orderData}/>
+        <PopAlert
+          Template={OrderAlert}
+          closeModal={alertStateChangedHandler}
+          orderData={orderData}
+        />
       )}
       {alertPayment && (
         <PopAlert

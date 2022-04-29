@@ -15,11 +15,9 @@ ReactDOM.render(
     <BrowserRouter>
       <ScroltoTop />
       <AuthContextProvider>
-        <AddressContextProvider>
-          <CartContextProvider>
-            <App />
-          </CartContextProvider>
-        </AddressContextProvider>
+        <CartContextProvider>
+          <App />
+        </CartContextProvider>
       </AuthContextProvider>
     </BrowserRouter>
   </React.StrictMode>,

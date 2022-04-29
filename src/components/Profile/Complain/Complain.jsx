@@ -89,6 +89,7 @@ const Complain = () => {
           setRemarkIsTouched(false);
           setSelectedComplain({});
           setIsFailedRes(false);
+          setComplainIsTouched(false);
         },
         failed: () => {
           setIsFailedRes(true);

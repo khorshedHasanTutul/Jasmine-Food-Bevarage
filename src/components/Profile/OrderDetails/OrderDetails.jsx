@@ -1,13 +1,44 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { GET_ORDER_DETAILS } from "../../../lib/endpoint";
-import { addressType } from "../../../utilities/dictionaries";
+import { humanizeShortDateTime } from "../../helpers/utilities";
 import { http } from "../../Services/httpService";
+import authContext from "../../Store/auth-context";
 
 const OrderDetails = () => {
+  const authCtx = useContext(authContext);
   let { id } = useParams();
   const [orderDetails, setOrderDetails] = useState();
   let getDate = new Date(orderDetails?.createdAt);
+  console.log({ orderDetails });
+
+  const printInvoiceHandler = () => {
+    localStorage.setItem(
+      "Invoice",
+      JSON.stringify({
+        orderNo: orderDetails?.orderNumber,
+        userName: authCtx.user.name,
+        phone: authCtx.user.phone,
+        orderDate: `${getDate.toLocaleDateString()} ${getDate.toLocaleTimeString()}`,
+        today: humanizeShortDateTime(`/Date(${new Date().getTime()})/`),
+        products: orderDetails?.products,
+        subTotal: orderDetails?.orderValue,
+        payable: orderDetails?.payableAmount,
+        couponDiscount: orderDetails?.coupon,
+        deliveryChange: orderDetails?.shippingCharge,
+        address: {
+          contactName: orderDetails?.name,
+          phone: orderDetails?.phone,
+          email: orderDetails?.email,
+          text: orderDetails?.remarks,
+          upazila: orderDetails?.address.upazila.name,
+          district: orderDetails?.address.district.name,
+          division: orderDetails?.address.province.name,
+        },
+      })
+    );
+    window.open("/invoice.html", "_blank");
+  };
 
   const getOrderDetailsHttp = () => {
     http.get({
@@ -24,7 +55,7 @@ const OrderDetails = () => {
   useEffect(() => {
     getOrderDetailsHttp();
   }, []);
-  console.log({ orderDetails });
+
   return (
     <div>
       {/* <!-- Tab links -->
@@ -99,7 +130,12 @@ const OrderDetails = () => {
 
         <div class="inv-flex-content d-flex js-center al-center">
           <h4>Order Invoice</h4>
-          <button type="button" onclick="printDiv('page')" value="print a div!">
+          <button
+            type="button"
+            onclick="printDiv('page')"
+            value="print a div!"
+            onClick={printInvoiceHandler}
+          >
             <span class="monami-button__text">Print Invoice</span>
           </button>
         </div>
@@ -233,7 +269,10 @@ const OrderDetails = () => {
               </div>
               <div class="footer-row">
                 <div class="cask-rewarded">
-                  <span>0 Taka Cashback Rewarded For This Order</span>
+                  <span>
+                    {orderDetails?.cashback} Taka Cashback Rewarded For This
+                    Order
+                  </span>
                   <p>
                     *** N.B: This cashback will be applicable at your next Order
                   </p>

@@ -73,15 +73,14 @@ const LoginModal = ({ closeModal, isOrderNowPressed }) => {
           authCtx.login(loginInfo);
           isOrderNowPressed
             ? history.push(urlCheckoutRoute())
-            : //   : consultancyPressed
-              //   ? history.push("/consultancy")
-              //   : history.push("/");
-              history.push(UrlHomeRoute());
+            : history.push(UrlHomeRoute());
           closeModal();
+          setIsLoading(false);
         },
         failed: () => {
           console.log("failed");
           setIsLoginFailed(true);
+          setIsLoading(false);
         },
         always: () => {
           setIsLoading(false);
