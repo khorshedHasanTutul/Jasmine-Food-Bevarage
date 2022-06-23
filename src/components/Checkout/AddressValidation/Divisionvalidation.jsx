@@ -19,6 +19,7 @@ const Divisionvalidation = ({
     setSelectedDivision(divisionList);
     getDistrictHandler(divisionList.id);
   };
+
   const divisionBlurHandler = () => {
     setDivisionIsTouched(true);
   };

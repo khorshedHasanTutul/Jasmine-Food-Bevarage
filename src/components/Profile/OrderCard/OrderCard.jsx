@@ -31,7 +31,10 @@ const OrderCard = ({ order, key }) => {
           </div>
           <div class="order-dsc d-flex js-center">
             <span>Shipping Address</span>
-            <aside style={{fontWeight:"500"}} >{order?.address.province.name}-{order?.address.district.name}-{order?.address.upazila.name}-{order?.address.remarks}</aside>
+            <aside style={{ fontWeight: "500" }}>
+              {order?.address.province.name}-{order?.address.district.name}-
+              {order?.address.upazila.name}-{order?.address.remarks}
+            </aside>
           </div>
           {/* <p>
             Lorem ipsum dolor sit amet consectetur , adipisicing elit.

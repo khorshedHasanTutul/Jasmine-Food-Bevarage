@@ -1,10 +1,10 @@
-import React, {useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { SplideSlide, Splide } from "@splidejs/react-splide";
 import "@splidejs/splide/dist/css/splide.min.css";
-import { AutoScroll } from '@splidejs/splide-extension-auto-scroll';
+import { AutoScroll } from "@splidejs/splide-extension-auto-scroll";
 
-const Slider = ({ options, data, Template, imageChangedHandler }) => {
-  const ref=useRef(null)
+const Slider = ({ options, data, Template, imageChangedHandler, from }) => {
+  const ref = useRef(null);
   // useEffect(()=>{
   //   if(ref.current){
   //     ref.current.splide.mount(AutoScroll)
@@ -19,7 +19,7 @@ const Slider = ({ options, data, Template, imageChangedHandler }) => {
           {imageChangedHandler ? (
             <Template item={item} imageChangedHandler={imageChangedHandler} />
           ) : (
-            <Template item={item} />
+            <Template item={item} from={from} />
           )}
         </SplideSlide>
       ))}

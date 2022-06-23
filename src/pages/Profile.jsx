@@ -23,12 +23,13 @@ const Profile = () => {
   useEffect(() => {
     getProfileInfoHttp();
   }, []);
+  
   return (
     <section class="profile-area">
       <div class="container">
         <div class="profile-main">
-          <ProfileSidebar profileInfo={profileInfo}/>
-          <ProfileBody getProfileInfoHttp={getProfileInfoHttp}/>
+          <ProfileSidebar profileInfo={profileInfo} />
+          <ProfileBody getProfileInfoHttp={getProfileInfoHttp} />
         </div>
       </div>
     </section>

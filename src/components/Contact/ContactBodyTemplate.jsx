@@ -14,8 +14,8 @@ const ContactBodyTemplate = () => {
 
   //emailValidation
   const [email, setEmail] = useState("");
-  const [emailIsTouched, setEmailIsTouched] = useState(false);
-  const [emailIsValid, setEmailIsValid] = useState(false);
+  // const [emailIsTouched, setEmailIsTouched] = useState(false);
+  // const [emailIsValid, setEmailIsValid] = useState(false);
 
   //Mobilevalidation
   const [mobile, setMobile] = useState("");
@@ -32,8 +32,8 @@ const ContactBodyTemplate = () => {
     clicked,
     name.length,
     nameIsTouched,
-    email.length,
-    emailIsTouched,
+    // email.length,
+    // emailIsTouched,
     mobile.length,
     mobileIsTouched,
     message.length,
@@ -49,9 +49,9 @@ const ContactBodyTemplate = () => {
   const emailChangeHandler = ({ target }) => {
     setEmail(target.value);
   };
-  const emailIsTouchedHandler = () => {
-    setEmailIsTouched(true);
-  };
+  // const emailIsTouchedHandler = () => {
+  //   setEmailIsTouched(true);
+  // };
   const mobileChangeHandler = ({ target }) => {
     setMobile(target.value);
   };
@@ -75,10 +75,10 @@ const ContactBodyTemplate = () => {
       (!nameIsTouched && name.length === 0)
         ? setNameIsValid(true)
         : setNameIsValid(false);
-      (emailIsTouched && email.length === 0) ||
-      (!emailIsTouched && email.length === 0)
-        ? setEmailIsValid(true)
-        : setEmailIsValid(false);
+      // (emailIsTouched && email.length === 0) ||
+      // (!emailIsTouched && email.length === 0)
+      //   ? setEmailIsValid(true)
+      //   : setEmailIsValid(false);
       (mobileIsTouched && mobile.length === 0) ||
       (!mobileIsTouched && mobile.length === 0)
         ? setMobileIsValid(true)
@@ -155,15 +155,15 @@ const ContactBodyTemplate = () => {
                       placeholder="E.g Iqrasysinfo@gmail.com"
                       required=""
                       onChange={emailChangeHandler}
-                      onBlur={emailIsTouchedHandler}
+                      // onBlur={emailIsTouchedHandler}
                       value={email}
                     />
-                    {emailIsValid && (
+                    {/* {emailIsValid && (
                       <div class="alert alert-error">Email is required.</div>
                     )}
                     {emailIsTouched && email.length === 0 && !emailIsValid && (
                       <div class="alert alert-error">Email is required.</div>
-                    )}
+                    )} */}
                   </div>
                 </div>
                 <div class="custom-input">

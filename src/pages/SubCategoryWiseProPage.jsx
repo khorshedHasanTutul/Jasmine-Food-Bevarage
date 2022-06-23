@@ -1,10 +1,8 @@
-import React from 'react'
-import SubCategoryWiseProParent from '../components/SubCategoryWiseProduct/SubCategoryWiseProParent'
+import React from "react";
+import SubCategoryWiseProParent from "../components/SubCategoryWiseProduct/SubCategoryWiseProParent";
 
 const SubCategoryWiseProPage = () => {
-  return (
-      <SubCategoryWiseProParent />
-  )
-}
+  return <SubCategoryWiseProParent />;
+};
 
-export default SubCategoryWiseProPage
+export default SubCategoryWiseProPage;

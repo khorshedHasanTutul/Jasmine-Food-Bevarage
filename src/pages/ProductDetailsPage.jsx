@@ -1,10 +1,8 @@
-import React from 'react'
-import ProductDetailsParent from '../components/ProductDetails/ProductDetailsParent'
+import React from "react";
+import ProductDetailsParent from "../components/ProductDetails/ProductDetailsParent";
 
 const ProductDetailsPage = () => {
-  return (
-    <ProductDetailsParent />
-  )
-}
+  return <ProductDetailsParent />;
+};
 
-export default ProductDetailsPage
+export default ProductDetailsPage;

@@ -102,30 +102,27 @@ const ContentCart = ({
                   {getCartContextModel.Items.map((item) => (
                     <tr class="close">
                       <td className="mimicart-img">
-                        <img src={item.image} alt="img" />
+                        <img src={item.imageURL} alt="img" />
                       </td>
                       <td class="card-title-heading">
-                        <Link to={urlProductDetails() + item.Id}>
+                        <Link to={urlProductDetails() + item.id}>
                           <span class="SearchProductName SearchFont">
-                            {item.Nm}
+                            {item.displayName}
                           </span>
                         </Link>
                         <br />
-                        {item.Ds === 0 && (
+                        {item.discountedPrice <= 0 && (
                           <strong class="SearchPrice SearchDelPriceDel2">
-                            ৳{item.MRP}
+                            ৳{item.currentPrice}
                           </strong>
                         )}
-                        {item.Ds > 0 && (
+                        {item.discountedPrice > 0 && (
                           <Fragment>
                             <del class="SearchDelPrice SearchDelPriceDel1">
-                              ৳{item.MRP}
+                              ৳{item.originalPrice}
                             </del>
                             <strong class="SearchPrice SearchDelPriceDel2">
-                              ৳
-                              {(item.MRP - (item.MRP * item.Ds) / 100).toFixed(
-                                2
-                              )}
+                              ৳{item.currentPrice.toFixed(2)}
                             </strong>
                           </Fragment>
                         )}
@@ -164,22 +161,21 @@ const ContentCart = ({
                       <td class="amount-for-popup">
                         <span class="SearchFont SearchDelPrice">
                           <aside>৳ </aside>
-                          {item.Ds === 0 && (
+                          {item.discountedPrice <= 0 && (
                             <span class="SearchFont SearchPrice">
-                              {(item.MRP * item.quantity).toFixed(2)}
+                              {(item.currentPrice * item.quantity).toFixed(2)}
                             </span>
                           )}
-                          {item.Ds > 0 && (
+                          {item.discountedPrice > 0 && (
                             <Fragment>
                               <del class="add-postion">
-                                {(item.MRP * item.quantity).toFixed(2)}
+                                {(item.originalPrice * item.quantity).toFixed(
+                                  2
+                                )}
                               </del>
                               <br />
                               <span class="SearchFont SearchPrice">
-                                {(
-                                  (item.MRP - (item.MRP * item.Ds) / 100) *
-                                  item.quantity
-                                ).toFixed(2)}
+                                {(item.currentPrice * item.quantity).toFixed(2)}
                               </span>
                             </Fragment>
                           )}
@@ -210,22 +206,6 @@ const ContentCart = ({
             </div>
           </div>
           <div class="cart-footer">
-            {/* <div class="card-footer-inner">
-              <Link to={urlCheckoutRoute()}>
-                <button class="cart-cmn-btn" onClick={orderNowHandler}>
-                  Order Now
-                </button>
-              </Link>
-
-              <span class="cart-cmn-btn cart-cmn-btn2">
-                ৳ <span>{getCartContextModel.TotalAmmount.toFixed(2)}</span>
-              </span>
-            </div>
-
-            <a href class="block-btn-card" onClick={clearCartHandler}>
-              <button class="cart-cmn-btn">Clear Cart</button>
-            </a> */}
-
             <div className="cart-footer__orderNow" onClick={orderNowHandler}>
               <a href>
                 <p>

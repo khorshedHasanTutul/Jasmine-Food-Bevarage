@@ -63,12 +63,12 @@ const Address = ({ ProceedToOrderHandler }) => {
     if (
       name.length > 0 &&
       phone.length > 0 &&
-      divisionID &&
-      districtId &&
-      areaId &&
+      divisionID !== "00000000-0000-0000-0000-000000000000" &&
+      districtId !== "00000000-0000-0000-0000-000000000000" &&
+      areaId !== "00000000-0000-0000-0000-000000000000" &&
       address
     ) {
-      http.PUT({
+      http.post({
         url: postAddress,
         payload: {
           id: activeTypeAddress?.id,

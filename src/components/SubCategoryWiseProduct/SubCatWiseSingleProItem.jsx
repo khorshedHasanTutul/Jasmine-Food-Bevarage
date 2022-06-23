@@ -1,20 +1,14 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import appData from "../DataSource/appData";
-import { urlProductDetails } from "../Services/UrlService";
-import SubCatWiseSingleItem from "./SubCatWiseSingleItem";
+import ProductInfoModel from "../Product/ProductInfoModel";
 
 const SubCatWiseSingleProItem = ({ categoryParam, subCategoryParam }) => {
-  const getSubCategoryProducts = appData.categoryProducts.filter(
-    (item) =>
-      item.category_id === categoryParam &&
-      item.subCategory_id === subCategoryParam
-  );
+  const getSubCategoryProducts = appData.demoProducts;
 
   return (
     <>
       {getSubCategoryProducts.map((item) => (
-        <SubCatWiseSingleItem item={item}/>
+        <ProductInfoModel item={item} />
       ))}
     </>
   );

@@ -1,10 +1,8 @@
-import React from 'react'
-import CheckoutParent from '../components/Checkout/CheckoutParent'
+import React from "react";
+import CheckoutParent from "../components/Checkout/CheckoutParent";
 
 const CheckoutPage = () => {
-  return (
-      <CheckoutParent />
-  )
-}
+  return <CheckoutParent />;
+};
 
-export default CheckoutPage
+export default CheckoutPage;

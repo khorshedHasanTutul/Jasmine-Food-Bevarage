@@ -83,27 +83,27 @@ const ProductSummary = ({
                 <tr>
                   <td class="cart_product">
                     <Link href="#">
-                      <img src={item.image} alt="img" />
+                      <img src={item.imageURL} alt="img" />
                     </Link>
                   </td>
                   <td class="cart_description">
                     <p class="product-name">
-                      <Link to={urlProductDetails() + item.Id}>{item.Nm}</Link>
+                      <Link to={urlProductDetails() + item.id}>
+                        {item.displayName}
+                      </Link>
                     </p>
                     <small class="cart_ref">Type : XYZ</small>
                     <br />
                     <small>Company: LPC </small>
                   </td>
-                  {item.Ds === 0 && (
+                  {item.discountedPrice <= 0 && (
                     <td class="price">
-                      <span>৳ {item.MRP}</span>
+                      <span>৳ {item.currentPrice}</span>
                     </td>
                   )}
-                  {item.Ds > 0 && (
+                  {item.discountedPrice > 0 && (
                     <td class="price">
-                      <span>
-                        ৳ {(item.MRP - (item.MRP * item.Ds) / 100).toFixed(2)}
-                      </span>
+                      <span>৳ {item.currentPrice.toFixed(2)}</span>
                     </td>
                   )}
 
@@ -135,21 +135,21 @@ const ProductSummary = ({
                       </span>
                     </div>
                   </td>
-                  {item.Ds === 0 && (
-                    <td class="price">
-                      <span>{item.MRP * item.quantity}</span>
-                    </td>
-                  )}
-                  {item.Ds > 0 && (
+
+                  <td class="price">
+                    <span>{item.currentPrice * item.quantity}</span>
+                  </td>
+
+                  {/* {item.discountedPrice > 0 && (
                     <td class="price">
                       <span>
                         {(
-                          (item.MRP - (item.MRP * item.Ds) / 100) *
+                          (item.currentPrice ) *
                           item.quantity
                         ).toFixed(2)}
                       </span>
                     </td>
-                  )}
+                  )} */}
                   <td
                     onClick={cartItemRemoverHandler.bind(null, item)}
                     class="action"

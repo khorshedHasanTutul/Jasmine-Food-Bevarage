@@ -1,6 +1,6 @@
 import React from "react";
 import Slider from "../../utilities/slider/Slider";
-import SingleItemProduct from "../Product/HomeProduct/SingleItemProduct";
+import ProductInfoModel from "../Product/ProductInfoModel";
 
 const CategoryWiseProductBody = ({ childWithProducts }) => {
   const getProductNumber = childWithProducts.filter(
@@ -41,8 +41,12 @@ const CategoryWiseProductBody = ({ childWithProducts }) => {
       <div class="container">
         {getProductNumber.length <= 0 && (
           <div className="no-product-container">
-            <img src="/contents/assets/images/empty.png" alt="img" srcset="" />
-            <p style={{fontWeight:"bold",textAlign:"center"}} >Sorry No Products Found!</p>
+            <img
+              src="/contents/assets/images/no_productimg.jpg"
+              alt="img"
+              srcset=""
+            />
+            <p>Sorry No Products Found! 😥</p>
           </div>
         )}
 
@@ -59,13 +63,14 @@ const CategoryWiseProductBody = ({ childWithProducts }) => {
                       {item.products.length > 5 && (
                         <Slider
                           options={options}
-                          Template={SingleItemProduct}
+                          Template={ProductInfoModel}
                           data={item.products}
+                          from={"api"}
                         />
                       )}
                       {item.products.length <= 5 &&
                         item.products.map((data) => (
-                          <SingleItemProduct item={data} />
+                          <ProductInfoModel item={data} from={"api"} />
                         ))}
                     </div>
                   </div>

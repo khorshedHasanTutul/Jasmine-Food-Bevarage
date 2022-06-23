@@ -25,7 +25,7 @@ const ProductDetailsBody = () => {
     (item2) => item2.Id === productItemDetails?.id
   );
   const objectFormItem = {
-    Id:productItemDetails?.id,
+    Id: productItemDetails?.id,
     MRP: productItemDetails?.originalPrice,
     Ds: productItemDetails?.discountedPercentage,
   };

@@ -44,17 +44,15 @@ export const getTrandingDisplayProducts = data[4];
 //Product Information
 export const returnDataAsObjectProperties = (item) => {
   const productInfo = {
-    Id: item[0],
-    // CategoryName: item[1],
-    Nm: item[1],
-    PackSize: item[3],
-    image: item[4],
-    MRP: item[5],
-    Ds: item[8],
-    Stock: item[9],
-    // Rank: item[10],
-    // Brand_id: item[11],
-    Unit_id: item[10],
+    id: item[0],
+    displayName: item[1],
+    packSize: item[2],
+    imageURL: item[3],
+    currentPrice: item[4],
+    originalPrice: item[5],
+    discountedPrice: item[6],
+    discountedPercentage: item[7],
+    stockUnit: item[8],
   };
   return productInfo;
 };
