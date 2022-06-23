@@ -2,7 +2,7 @@ import React from "react";
 import appData from "../DataSource/appData";
 import ProductInfoModel from "../Product/ProductInfoModel";
 
-const SubCatWiseSingleProItem = ({ categoryParam, subCategoryParam }) => {
+const SubCatWiseSingleProItem = () => {
   const getSubCategoryProducts = appData.demoProducts;
 
   return (

@@ -1,9 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import appData from "../DataSource/appData";
-import { urlCategoryRoute, UrlHomeRoute } from "../Services/UrlService";
+import {
+  getDropDownMainCategories,
+  getObjectFormatofData,
+} from "../Services/DataService";
+import { UrlHomeRoute } from "../Services/UrlService";
 
-const SubCategoryWiseProHeader = ({ categoryParam, subCategoryParam }) => {
+const SubCategoryWiseProHeader = ({ detailsAboutChild }) => {
+
   return (
     <section class="breadcrumb-main-area">
       <div class="container">
@@ -12,11 +16,11 @@ const SubCategoryWiseProHeader = ({ categoryParam, subCategoryParam }) => {
             <li class="breadcrumb-item">
               <Link to={UrlHomeRoute()}>Home</Link>
             </li>
-            <li class="breadcrumb-item">
+            {/* <li class="breadcrumb-item">
               <Link to={urlCategoryRoute() + "/hello"}>Radhuni</Link>
-            </li>
+            </li> */}
             <li class="breadcrumb-item active" aria-current="page">
-              Moshla
+              {detailsAboutChild.categoryName}
             </li>
           </ul>
         </nav>

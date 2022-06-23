@@ -58,6 +58,7 @@ const UpdateProfile = ({ getProfileInformation }) => {
         },
         successed: (data) => {
           getProfileInformation();
+          setIsLoading(false);
         },
         failed: () => {
           console.log("failed");
@@ -77,16 +78,19 @@ const UpdateProfile = ({ getProfileInformation }) => {
         setIsLoading(true);
       },
       successed: (data) => {
-        if (data.data.name !== null) {
-          setName(data.data.name);
+        if (data.data !== null) {
+          if (data.data.name !== null) {
+            setName(data.data.name);
+          }
+          setPhone(data.data.phone);
+          if (data.data.email !== null) {
+            setEmail(data.data.email);
+          }
+          if (data.data.imageURL !== null) {
+            setPreview(BASE_URL + data.data.imageURL);
+          }
         }
-        setPhone(data.data.phone);
-        if (data.data.email !== null) {
-          setEmail(data.data.email);
-        }
-        if (data.data.imageURL !== null) {
-          setPreview(BASE_URL + data.data.imageURL);
-        }
+        setIsLoading(false);
       },
       failed: () => {
         console.log("failed");

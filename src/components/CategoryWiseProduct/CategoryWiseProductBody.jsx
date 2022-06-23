@@ -39,7 +39,7 @@ const CategoryWiseProductBody = ({ childWithProducts }) => {
   return (
     <section class="product-main-area spices-categories-area">
       <div class="container">
-        {getProductNumber.length <= 0 && (
+        {getProductNumber.length === 0 && (
           <div className="no-product-container">
             <img
               src="/contents/assets/images/no_productimg.jpg"

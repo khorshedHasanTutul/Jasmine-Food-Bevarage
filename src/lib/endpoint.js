@@ -19,3 +19,5 @@ export const GET_ORDER_DETAILS = "/api/v1/Orders/";
 export const GET_SUBCATEGORY_PRODUCTS =
   "/api/v1/Categories/ChildrenWithProducts/";
 export const GET_PRODUCT_DETAILS = "/api/v1/Products/";
+
+export const POST_CONTACT = "/api/v1/Contacts";

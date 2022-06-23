@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { GET_SUBCATEGORY_PRODUCTS } from "../../lib/endpoint";
+import { getMainCategories } from "../Services/DataService";
 import { http } from "../Services/httpService";
 import Suspense from "../Suspense/Suspense";
 import CategoryWiseProductBody from "./CategoryWiseProductBody";
@@ -12,6 +13,7 @@ const CategoryWiseProductParent = () => {
   const location = useLocation();
   const [categoriesWithPro, setCategoriesWithPro] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const findMainCategory = getMainCategories.find((item) => item[0] === id);
 
   //api request to get category wise Data
   const getSubCategoryWithPro = () => {
@@ -40,7 +42,7 @@ const CategoryWiseProductParent = () => {
     <>
       {!isLoading && (
         <>
-          <CategoryWiseProductHeader categoryName={"Mosolla"} />
+          <CategoryWiseProductHeader categoryName={findMainCategory[1]} />
           <CategoryWiseProductBody childWithProducts={categoriesWithPro} />
         </>
       )}
