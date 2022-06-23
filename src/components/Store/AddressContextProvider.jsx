@@ -7,7 +7,7 @@ const initialState = () => {
     division: [],
     district: [],
     area: [],
-    activeType: {id:addressType.Home,type:"Home"},
+    activeType: { id: addressType.Home, type: "Home" },
     storeAddress: [],
   };
   return {

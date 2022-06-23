@@ -1,17 +1,22 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { returnDataAsObjectProperties } from "../../Services/DataService";
-import { urlProductDetails } from "../../Services/UrlService";
-import cartContext from "../../Store/cart-context";
+import { returnDataAsObjectProperties } from "../Services/DataService";
+import { BASE_URL } from "../Services/httpService";
+import { urlProductDetails } from "../Services/UrlService";
+import cartContext from "../Store/cart-context";
 
-const SingleItemProduct = ({ item }) => {
-  const getReturnObjectData = returnDataAsObjectProperties(item);
-  console.log({getReturnObjectData})
+const ProductInfoModel = ({ item, from }) => {
   const getCartContext = useContext(cartContext);
   const [visibleCartBox, setVisibleCartBox] = useState(false);
   const getCartCtxItems = getCartContext.getCartModel.Items;
+  let getReturnObjectData;
+  if (from === "api") {
+    getReturnObjectData = item;
+  } else {
+    getReturnObjectData = returnDataAsObjectProperties(item);
+  }
   const findItem = getCartCtxItems.find(
-    (item2) => item2.Id === getReturnObjectData.Id
+    (item2) => item2.id === getReturnObjectData.id
   );
 
   const storeCartHandler = (item, e) => {
@@ -44,41 +49,47 @@ const SingleItemProduct = ({ item }) => {
 
   return (
     <div class="inner-product-main-flex slide-single splide__slide">
-      <Link to={urlProductDetails() + getReturnObjectData.Id}>
-        {getReturnObjectData.Ds > 0 && (
+      <Link to={urlProductDetails() + getReturnObjectData.id}>
+        {getReturnObjectData.discountedPrice > 0 && (
           <div class="group-price-drag">
             <span class="product-new-drag">
-              {getReturnObjectData.Ds > 0 ? getReturnObjectData.Ds : ""}
-              {getReturnObjectData.Ds > 0 ? "%" : null}
+              {getReturnObjectData.discountedPrice > 0
+                ? getReturnObjectData.discountedPercentage
+                : ""}
+              {getReturnObjectData.discountedPrice > 0 ? "%" : null}
             </span>
           </div>
         )}
 
         <div class="product-top-area">
           <div class="product-img">
-            <img src="/contents/assets/images/product/p4.jpg" alt="product" />
+            {getReturnObjectData.imageURL === null && (
+              <img src="/contents/assets/images/no_productimg.jpg" alt="img" />
+            )}
+            {getReturnObjectData.imageURL !== null && (
+              <img src={BASE_URL + getReturnObjectData.imageURL} alt="img" />
+            )}
           </div>
           <div class="product-content">
-            <h3>{getReturnObjectData.Nm}</h3>
-            <span>{getReturnObjectData.St}</span>
+            <h3>{getReturnObjectData.displayName}</h3>
+            <span>{getReturnObjectData.packSize}</span>
             <div class="basket-add">
-              {getReturnObjectData.Ds === 0 && (
+              {getReturnObjectData.discountedPrice <= 0 && (
                 <span class="item__price item__price--now">
-                  ৳{getReturnObjectData.MRP}
+                  ৳{getReturnObjectData.currentPrice}
                 </span>
               )}
 
-              {getReturnObjectData.Ds > 0 && (
+              {getReturnObjectData.discountedPrice > 0 && (
                 <>
                   <span class="item__price item__price--now">
-                    ৳
-                    {(
-                      getReturnObjectData.MRP -
-                      (getReturnObjectData.MRP * getReturnObjectData.Ds) / 100
-                    ).toFixed(2)}
+                    ৳{getReturnObjectData.currentPrice.toFixed(2)}
                   </span>
                   <span class="price product-price">
-                    <del class="cross_price"> ৳{getReturnObjectData.MRP}</del>
+                    <del class="cross_price">
+                      {" "}
+                      ৳{getReturnObjectData.originalPrice}
+                    </del>
                   </span>
                 </>
               )}
@@ -131,4 +142,4 @@ const SingleItemProduct = ({ item }) => {
   );
 };
 
-export default SingleItemProduct;
+export default ProductInfoModel;

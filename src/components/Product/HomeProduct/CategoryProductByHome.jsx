@@ -1,11 +1,10 @@
 import React from "react";
 import Slider from "../../../utilities/slider/Slider";
-import appData from "../../DataSource/appData";
 import {
   getDisplayCategories,
   getObjectFormatofData,
 } from "../../Services/DataService";
-import SingleItemProduct from "./SingleItemProduct";
+import ProductInfoModel from "../ProductInfoModel";
 
 const CategoryProductByHome = () => {
   const options = {
@@ -42,20 +41,11 @@ const CategoryProductByHome = () => {
       speed: 1,
     },
   };
-  console.log({ getDisplayCategories });
-  const getCategory = appData.BottomHeader;
-  const findOnlyVisibleProduct = getCategory[1].dropDownCategoryItem.filter(
-    (item) => item.visible === true
-  );
   return (
     <section class="product-main-area">
       <div class="container">
         {getDisplayCategories.map((item) => {
-          // const getProduct = appData.categoryProducts.filter(
-          //   (item2) => item2.category_id === item.categoryId
-          // );
           const getDisplayCategory = getObjectFormatofData(item);
-          console.log(getDisplayCategory.products);
           return (
             <>
               <div class="common-heading">
@@ -67,13 +57,13 @@ const CategoryProductByHome = () => {
                     {getDisplayCategory.products.length > 5 && (
                       <Slider
                         options={options}
-                        Template={SingleItemProduct}
+                        Template={ProductInfoModel}
                         data={getDisplayCategory.products}
                       />
                     )}
                     {getDisplayCategory.products.length <= 5 &&
                       getDisplayCategory.products.map((item) => (
-                        <SingleItemProduct item={item} />
+                        <ProductInfoModel item={item} />
                       ))}
                   </ul>
                 </div>

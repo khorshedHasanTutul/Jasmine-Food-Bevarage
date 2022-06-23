@@ -65,7 +65,7 @@ function App() {
           <Route path={urlCategoryRoute() + ":id"}>
             <CategoryWiseProductPage />
           </Route>
-          <Route path={urlSubCategoryRoute() + ":id/:subid"}>
+          <Route path={urlSubCategoryRoute() + ":id"}>
             <SubCategoryWiseProPage />
           </Route>
           <Route path={urlProductDetails() + ":id"}>

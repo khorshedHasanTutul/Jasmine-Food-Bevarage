@@ -67,12 +67,7 @@ const BottomHeader = () => {
                         return (
                           <li>
                             <Link
-                              to={
-                                urlSubCategoryRoute() +
-                                getObjectForm.category_id +
-                                "/" +
-                                getObject.category_id
-                              }
+                              to={urlSubCategoryRoute() + getObject.category_id}
                             >
                               {getObject.categoryName}
                             </Link>

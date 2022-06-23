@@ -1,13 +1,13 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { specialOfferImage } from '../Services/imageService';
+import React from "react";
+import { Link } from "react-router-dom";
 
-const SpecialOfferSliderItem = ({item}) => {
+const SpecialOfferSliderItem = ({ item }) => {
   return (
-      <div className="slide">
-          <Link to="#"><img src={item.image} alt="sph1.jpg" /></Link>
-      </div>
-    
+    <div className="slide">
+      <Link to="#">
+        <img src={item.image} alt="sph1.jpg" />
+      </Link>
+    </div>
   );
 };
 

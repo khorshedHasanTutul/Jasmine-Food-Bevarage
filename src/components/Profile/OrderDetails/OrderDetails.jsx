@@ -131,8 +131,10 @@ const OrderDetails = () => {
                 </span>
                 <span>{orderDetails?.address.email}&nbsp;</span>
                 <span>
-                  {orderDetails?.address.province.name}-{orderDetails?.address.district.name}-
-                  {orderDetails?.address.upazila.name}-{orderDetails?.address.remarks}
+                  {orderDetails?.address.province.name}-
+                  {orderDetails?.address.district.name}-
+                  {orderDetails?.address.upazila.name}-
+                  {orderDetails?.address.remarks}
                 </span>
               </div>
             </div>
